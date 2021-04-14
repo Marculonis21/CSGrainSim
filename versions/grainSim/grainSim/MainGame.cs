@@ -16,11 +16,6 @@ namespace grainSim
         GameScreen screen;
         Vector2 mousePosition;
 
-        int cursorSize;
-
-        /* public static Shapes shapes; // Shape drawing class */
-        public static Dictionary<ElementID, Element> elements; // All elements
-
         public static ElementID[,] particleMap;
         public static float[,] tempMap;
         List<Particle> particleList;
@@ -29,6 +24,10 @@ namespace grainSim
 
         const int windowSize = 800;
         const int particleSize = 10;
+
+        int cursorSize;
+
+        ElementID selectedParticle;
 
         public MainGame()
         {
@@ -65,11 +64,7 @@ namespace grainSim
             particleList = new List<Particle>();
 
             // ELEMENTS
-            elements = new Dictionary<ElementID, Element>();
-            elements.Add(ElementID.AIR, new Air());
-            elements.Add(ElementID.ICE, new Ice());
-            elements.Add(ElementID.SAND, new Sand());
-            elements.Add(ElementID.WATER, new Water());
+            Element.SetupElements();
 
             /* foreach (var item in elements) */
             /* { */
@@ -77,6 +72,7 @@ namespace grainSim
             /* } */
 
             cursorSize = 1;
+            selectedParticle = 0;
 
             base.Initialize();
         }
@@ -88,6 +84,8 @@ namespace grainSim
 
         protected override void Update(GameTime gameTime)
         {
+            /* Console.Clear(); */
+
             // Escape
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -98,7 +96,17 @@ namespace grainSim
             if(Keyboard.GetState().IsKeyDown(Keys.O))
                 if(cursorSize > 0)
                     cursorSize -= 1;
-        
+
+
+            if(Keyboard.GetState().IsKeyDown(Keys.D0))
+                selectedParticle = ElementID.WALL;
+            if(Keyboard.GetState().IsKeyDown(Keys.D1))
+                selectedParticle = ElementID.SAND;
+            if(Keyboard.GetState().IsKeyDown(Keys.D2))
+                selectedParticle = ElementID.WATER;
+
+            Element selected = Element.elements[selectedParticle];
+            /* Console.WriteLine(selected.Name + ":" + selected.Short); */
 
             // MouseClick
             MouseState state = Mouse.GetState();
@@ -110,22 +118,23 @@ namespace grainSim
                 Vector2 pos = screen.CursorGridPosition(mousePosition);
 
                 if(Element.Type((int)pos.X, (int)pos.Y) == ElementID.AIR)
-                    particleList.Add(new Particle(ElementID.SAND, (int)pos.X, (int)pos.Y));
+                    particleList.Add(new Particle(selected.id, (int)pos.X, (int)pos.Y));
             }
             else
             {
                 mousePosition = new Vector2(-1,-1);
             }
 
-            for (int y = 0; y < windowSize/particleSize; y++)
-            {
-                for (int x = 0; x < windowSize/particleSize; x++)
-                {
-                    particleMap[x,y] = ElementID.AIR;
-                }
-            }
+            //CLEAR OUT PARTICLE MAP - CLEAR EACH AFTER PARTICLE MOVEMENT
+            /* for (int y = 0; y < windowSize/particleSize; y++) */ 
+            /* { */
+            /*     for (int x = 0; x < windowSize/particleSize; x++) */
+            /*     { */
+            /*         particleMap[x,y] = ElementID.AIR; */
+            /*     } */
+            /* } */
 
-            Console.Write(particleList.Count + ", ");
+            /* Console.Write(particleList.Count + ", "); */
 
             foreach (Particle particle in particleList) 
                 particle.Update();
@@ -141,8 +150,7 @@ namespace grainSim
                 screen.DrawCursor(mousePosition, cursorSize, Color.Red);
             screen.DrawParticles(particleList);
 
-            /* Console.WriteLine("TotalTime {0}; lastElapse {1}", gameTime.TotalGameTime.ToString(), gameTime.ElapsedGameTime.ToString()); */
-            Console.Write((1.0f/gameTime.ElapsedGameTime.Milliseconds)*1000 + "\n");
+            /* Console.Write((1.0f/gameTime.ElapsedGameTime.Milliseconds)*1000 + "\n"); */
             base.Draw(gameTime);
         }
     }

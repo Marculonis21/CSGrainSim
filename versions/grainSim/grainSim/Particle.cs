@@ -5,29 +5,37 @@ namespace grainSim
     public class Particle
     {
         ElementID ID;
-        Vector2 position;
+        /* Vector2 position; */
+        int posX;
+        int posY;
 
         public Particle(ElementID ID, int x, int y)
         {
             this.ID = ID;
-            this.position = new Vector2(x,y);
+            this.posX = x;
+            this.posY = y;
         }
 
         public void Update()
         {
             // Update - move position 
-            this.position = MainGame.elements[ID].Update(this.position);
+            Vector2 posNext = Element.elements[ID].PositionUpdate(posX, posY);
 
-            // Write into current particleMap
-            MainGame.particleMap[(int)this.position.X,(int)this.position.Y] = this.ID;
+            // Write into current particleMap + clear last position
+            
+            /* MainGame.particleMap[posX, posY] = MainGame.particleMap[(int)posNext.X,(int)posNext.Y]; */
+            MainGame.particleMap[posX, posY] = ElementID.AIR;
+            posX = (int)posNext.X;
+            posY = (int)posNext.Y;
+            MainGame.particleMap[posX, posY] = this.ID;
         }
 
         public void Draw(Shapes shapes, int particleSize)
         {
-            shapes.DrawRectangle((int)position.X*particleSize,
-                                 (int)position.Y*particleSize,
+            shapes.DrawRectangle(posX*particleSize,
+                                 posY*particleSize,
                                  particleSize,particleSize, 
-                                 MainGame.elements[ID].Color);
+                                 Element.elements[ID].Color);
         }
     }
 }

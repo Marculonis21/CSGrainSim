@@ -14,17 +14,18 @@ namespace grainSim
         SAND,
         SMOKE,
         VOID,
+        WALL,
         WATER,
         WATERVAPOR,
     }
 
-    public class Element
+    public partial class Element
     {
         /// <summary>
         /// Element class is the basic template for all elements added down the
         /// line.
         /// </summary>
-        
+
         protected ElementID ID;
 
         protected string name;            // full name
@@ -33,6 +34,7 @@ namespace grainSim
 
         protected int state;              // 0 - solid, particles; 1 - liquids; 2 - gasses
         protected float weight;           // relative weight - heavier sinks
+        protected bool move;              // if it should be stationary
         protected float spawnTemperature; // start(spawn) temperature
 
         protected float flameable;        // burn 0 no / else how fast
@@ -60,27 +62,26 @@ namespace grainSim
             }
             catch(System.IndexOutOfRangeException e) 
             {
-                Console.WriteLine("Out of bounds test");
+                /* Console.WriteLine("Out of bounds test"); */
                 return ElementID.VOID;
             }
         }
 
-        public Vector2 Update(Vector2 position)
+        public Vector2 PositionUpdate(int x, int y)
         {
-            int x = (int)position.X;
-            int y = (int)position.Y;
-            List<Vector2> possiblePos;
-            Random random;
+            Vector2 currentPos = new Vector2(x,y);
 
+            if(!this.move) return currentPos;
+
+            List<Vector2> possiblePos = new List<Vector2>();
             int bounds = MainGame.particleMap.GetLength(0);
 
             if(state == 0) // solids
             {
-                if(y+1 < bounds && Element.Type(x,y+1) == ElementID.AIR)
+                if((y+1 < bounds && Element.Type(x,y+1) == ElementID.AIR) ||
+                   (y+1 < bounds && Element.elements[Element.Type(x,y+1)].weight < this.weight)) // heavier sinks
                     return new Vector2(x,y+1);
 
-                possiblePos = new List<Vector2>();
-                random = new Random();
                 for (int _y = 1; _y < 2; _y++)
                     for (int _x = -1; _x < 2; _x++)
                     {
@@ -91,21 +92,13 @@ namespace grainSim
                                 possiblePos.Add(new Vector2(x+_x,y+_y));
                         }
                     }
-
-                if(possiblePos.Count != 0)
-                    return possiblePos[random.Next(0,possiblePos.Count)];
-                else
-                    return position;
             }
-            else if(state == 1) // liquids
+            else if(state == 1) // LIQUID
             {
-                if(y+1 < bounds && Element.Type(x,y+1) == ElementID.AIR)
-                {
+                if((y+1 < bounds && Element.Type(x,y+1) == ElementID.AIR) ||
+                   (y+1 < bounds && Element.elements[Element.Type(x,y+1)].weight < this.weight)) // heavier sinks
                     return new Vector2(x,y+1);
-                }
 
-                possiblePos = new List<Vector2>();
-                random = new Random();
                 for (int _y = 0; _y < 2; _y++)
                     for (int _x = -1; _x < 2; _x++)
                     {
@@ -116,18 +109,13 @@ namespace grainSim
                                 possiblePos.Add(new Vector2(x+_x,y+_y));
                         }
                     }
-
-                return possiblePos[random.Next(0,possiblePos.Count)];
             }
-            else if(state == 2) // gas
+            else if(state == 2) // GAS
             {
-                if(y-1 >= 0 && Element.Type(x,y-1) == ElementID.AIR)
-                {
-                    return new Vector2(x,y+1);
-                }
+                if((y-1 < bounds && Element.Type(x,y-1) == ElementID.AIR) ||
+                   (y-1 < bounds && Element.elements[Element.Type(x,y-1)].weight > this.weight)) // lighter sinks
+                    return new Vector2(x,y-1);
 
-                possiblePos = new List<Vector2>();
-                random = new Random();
                 for (int _y = 0; _y > -2; _y--)
                     for (int _x = -1; _x < 2; _x++)
                     {
@@ -138,19 +126,22 @@ namespace grainSim
                                 possiblePos.Add(new Vector2(x+_x,y+_y));
                         }
                     }
-
-                return possiblePos[random.Next(0,possiblePos.Count)];
             }
 
-            return new Vector2();
+            if(possiblePos.Count != 0)
+                return possiblePos[MainGame.random.Next(0,possiblePos.Count)];
+            else
+                return currentPos;
         }
 
         // Vars
-        public string Name  { get{ return this.name; }      }
-        public string Short { get{ return this.nameShort; } }
-        public Color Color  { get{ return this.color; }     }
+        public ElementID id    { get{ return this.ID; } }
 
-        public int State     { get{ return this.state; }   }
+        public string Name  { get{ return this.name;      } }
+        public string Short { get{ return this.nameShort; } }
+        public Color Color  { get{ return this.color;     } }
+
+        public int State     { get{ return this.state;  }  }
         public float Weight  { get{ return this.weight; }  }
         public float STemp   { get{ return this.spawnTemperature; }  }
 

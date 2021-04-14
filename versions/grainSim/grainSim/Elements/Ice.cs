@@ -15,7 +15,8 @@ namespace grainSim
             this.color = Color.LightBlue;
 
             this.state = 0;           
-            this.weight = 100;         
+            this.weight = 999;         
+            this.move = false;
             this.spawnTemperature = -10;
 
             this.flameable = 0;

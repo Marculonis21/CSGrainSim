@@ -24,10 +24,6 @@ namespace grainSim
 
         public Reaction(ElementID FROM, ElementID TO, float probability) : this(FROM, TO, ElementID.VOID, 0, probability)
         {
-            /* this.FROM = FROM; */
-            /* this.TO = TO; */
-            /* this.probability = probability; */
-            /* this.random = random; */
         }
 
         public Reaction(ElementID FROM, ElementID TO, ElementID NEED, int minNEEDAmount, float probability)

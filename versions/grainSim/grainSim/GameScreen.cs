@@ -70,7 +70,7 @@ namespace grainSim
                 else 
                     divisions = 360;
 
-                Console.Write("Div: " + divisions + ", ");
+                /* Console.Write("Div: " + divisions + ", "); */
                 double angle = (2*Math.PI)/divisions;
 
                 shapes.Begin();
