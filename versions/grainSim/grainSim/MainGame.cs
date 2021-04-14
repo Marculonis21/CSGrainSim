@@ -8,6 +8,8 @@ namespace grainSim
 {
     public class MainGame : Game
     {
+        public static Random random = new Random();
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 

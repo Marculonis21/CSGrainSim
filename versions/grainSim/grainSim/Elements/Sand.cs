@@ -15,7 +15,6 @@ namespace grainSim
             this.color = Color.Yellow;
 
             this.state = 0;           
-            this.gravity = 0.05f;        
             this.weight = 10;         
             this.spawnTemperature = 30;
 
@@ -23,11 +22,6 @@ namespace grainSim
             this.explosive = 0;   
 
             this.heatTransfer = 10;
-
-            /* float LowLevelTemp; */
-            /* Element LowLevelTempTransition; */
-            /* float HighLevelTemp; */
-            /* Element HighLevelTempTransition; */
         }
     }
 }

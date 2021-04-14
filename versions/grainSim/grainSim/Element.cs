@@ -7,13 +7,15 @@ namespace grainSim
     public enum ElementID
     {
         AIR,
-        WATER,
-        WATERVAPOR,
+        DUST,
+        FIRE,
+        ICE,
         OIL,
         SAND,
-        DUST,
-        ICE,
-        VOID
+        SMOKE,
+        VOID,
+        WATER,
+        WATERVAPOR,
     }
 
     public class Element
@@ -30,7 +32,6 @@ namespace grainSim
         protected Color color;            // element color
 
         protected int state;              // 0 - solid, particles; 1 - liquids; 2 - gasses
-        protected float gravity;          // speed of fall/rise
         protected float weight;           // relative weight - heavier sinks
         protected float spawnTemperature; // start(spawn) temperature
 
@@ -40,10 +41,16 @@ namespace grainSim
         protected float heatTransfer;     // heat transfer speed
 
         // TRANSITIONS
-        protected float LowLevelTemp;
-        protected ElementID LowLevelTempTransition;
-        protected float HighLevelTemp;
-        protected ElementID HighLevelTempTransition;
+        protected List<Reaction> reactions = new List<Reaction>();  
+        
+        protected float lowLevelTemp;
+        protected Reaction lowLevelTempTransition;
+        protected float highLevelTemp;
+        protected Reaction highLevelTempTransition;
+
+        protected int maxLifeTime;
+        protected int lifeTime;
+        protected Reaction EndOfLifeTransition;
 
         public static ElementID Type(int x, int y)
         {
@@ -56,7 +63,6 @@ namespace grainSim
                 Console.WriteLine("Out of bounds test");
                 return ElementID.VOID;
             }
-
         }
 
         public Vector2 Update(Vector2 position)
@@ -145,7 +151,6 @@ namespace grainSim
         public Color Color  { get{ return this.color; }     }
 
         public int State     { get{ return this.state; }   }
-        public float Gravity { get{ return this.gravity; } }
         public float Weight  { get{ return this.weight; }  }
         public float STemp   { get{ return this.spawnTemperature; }  }
 

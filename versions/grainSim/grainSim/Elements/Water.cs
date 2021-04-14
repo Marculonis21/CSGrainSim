@@ -15,7 +15,6 @@ namespace grainSim
             this.color = Color.Cyan;
 
             this.state = 1;           
-            this.gravity = 2;        
             this.weight = 1;         
             this.spawnTemperature = 15;
 
@@ -24,10 +23,14 @@ namespace grainSim
 
             this.heatTransfer = 5;
 
-            this.LowLevelTemp = 0;
-            this.LowLevelTempTransition = ElementID.ICE;
-            this.HighLevelTemp = 100;
-            this.HighLevelTempTransition = ElementID.WATERVAPOR;
+            this.lowLevelTemp = 0;
+            this.lowLevelTempTransition = new Reaction(this.ID,
+                                                       ElementID.ICE,
+                                                       1); 
+            this.highLevelTemp = 100;
+            this.highLevelTempTransition = new Reaction(this.ID,
+                                                        ElementID.WATERVAPOR,
+                                                        1); 
         }
     }
 }

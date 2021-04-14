@@ -15,7 +15,6 @@ namespace grainSim
             /* this.color = null; */
 
             this.state = 2;           
-            this.gravity = 0;        
             this.weight = 0;         
             this.spawnTemperature = 0;
 
