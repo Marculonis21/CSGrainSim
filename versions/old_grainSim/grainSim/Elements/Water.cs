@@ -12,7 +12,7 @@ namespace grainSim
 
             this.name = "Water";      
             this.nameShort = "Watr";
-            this.color = Color.Cyan;
+            this.color = Color.DeepSkyBlue;
 
             this.state = 1;           
             this.weight = 1;         

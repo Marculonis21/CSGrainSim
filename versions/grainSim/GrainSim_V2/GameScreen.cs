@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace grainSim
+namespace GrainSim_v2
 {
-    public class GameScreen
+    class GameScreen
     {
         int particleSize;
         int windowSize;
@@ -26,11 +26,11 @@ namespace grainSim
             {
                 shapes.DrawLine(new Vector2(this.particleSize*x,0), 
                                 new Vector2(this.particleSize*x,this.windowSize),
-                                1,Color.DarkGray);
+                                1,Color.DimGray);
 
                 shapes.DrawLine(new Vector2(0,this.particleSize*x), 
                                 new Vector2(this.windowSize,this.particleSize*x),
-                                1,Color.DarkGray);
+                                1,Color.DimGray);
             }
             shapes.End();
         }
@@ -87,8 +87,6 @@ namespace grainSim
                 }
                 shapes.End();
             }
-
-
         }
 
         public Vector2 CursorGridPosition(Vector2 position)

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace grainSim
+namespace GrainSim_v2
 {
     public enum ElementID
     {
@@ -51,30 +51,17 @@ namespace grainSim
         protected Reaction highLevelTempTransition;
 
         protected int maxLifeTime;
-        protected int lifeTime;
         protected Reaction EndOfLifeTransition;
 
-        public static ElementID Type(int x, int y)
-        {
-            try 
-            {
-                return MainGame.particleMap[x,y];
-            }
-            catch(System.IndexOutOfRangeException e) 
-            {
-                /* Console.WriteLine("Out of bounds test"); */
-                return ElementID.VOID;
-            }
-        }
 
-        public Vector2 PositionUpdate(int x, int y)
+        public Vector2 UpdatePosition(Vector2 position, ParticleMap partMap)
         {
-            Vector2 currentPos = new Vector2(x,y);
+            Vector2 currentPos = position;
 
             if(!this.move) return currentPos;
 
             List<Vector2> possiblePos = new List<Vector2>();
-            int bounds = MainGame.particleMap.GetLength(0);
+            int bounds = MainGame.bounds;
 
             if(state == 0) // solids
             {
@@ -88,7 +75,8 @@ namespace grainSim
                         if(x+_x >= 0 && x+_x < bounds &&
                            y+_y >= 0 && y+_y < bounds)
                         {
-                            if(Element.Type(x+_x,y+_y) == ElementID.AIR) 
+                            if((Element.Type(x+_x,y+_y) == ElementID.AIR) || 
+                               (Element.elements[Element.Type(x+_x,y+_y)].weight < this.weight))
                                 possiblePos.Add(new Vector2(x+_x,y+_y));
                         }
                     }
@@ -105,7 +93,8 @@ namespace grainSim
                         if(x+_x >= 0 && x+_x < bounds &&
                            y+_y >= 0 && y+_y < bounds)
                         {
-                            if(Element.Type(x+_x,y+_y) == ElementID.AIR) 
+                            if((Element.Type(x+_x,y+_y) == ElementID.AIR) || 
+                               (Element.elements[Element.Type(x+_x,y+_y)].weight < this.weight))
                                 possiblePos.Add(new Vector2(x+_x,y+_y));
                         }
                     }
@@ -122,7 +111,8 @@ namespace grainSim
                         if(x+_x >= 0 && x+_x < bounds &&
                            y+_y >= 0 && y+_y < bounds)
                         {
-                            if(Element.Type(x+_x,y+_y) == ElementID.AIR) 
+                            if((Element.Type(x+_x,y+_y) == ElementID.AIR) || 
+                               (Element.elements[Element.Type(x+_x,y+_y)].weight > this.weight))
                                 possiblePos.Add(new Vector2(x+_x,y+_y));
                         }
                     }
@@ -132,6 +122,36 @@ namespace grainSim
                 return possiblePos[MainGame.random.Next(0,possiblePos.Count)];
             else
                 return currentPos;
+        }
+
+        public ElementID ReactionUpdate(int x, int y, int lifeTime)
+        {
+            foreach (Reaction r in this.reactions)
+            {
+                if(r.Eval(x,y, out ElementID result))
+                {
+                    return result;
+                }
+            }
+
+            /* if(this.temp <= lowLevelTemp) */
+            /* { */
+            /*     lowLevelTempTransition.Eval(x,y, out ElementID result); */
+            /*     return result; */
+            /* } */
+            /* if(this.temp >= highLevelTemp) */
+            /* { */
+            /*     highLevelTempTransition.Eval(x,y, out ElementID result); */
+            /*     return result; */
+            /* } */
+
+            if(lifeTime > this.maxLifeTime)
+            {
+                EndOfLifeTransition.Eval(x,y, out ElementID result);
+                return result;
+            }
+
+            return this.ID;
         }
 
         // Vars
@@ -148,5 +168,7 @@ namespace grainSim
         public float Flamable  { get{ return this.flameable;    } }
         public float Explosive { get{ return this.explosive;    } }
         public float HeatTrans { get{ return this.heatTransfer; } }
+
+        public int MaxLifeTime { get{ return this.maxLifeTime; } }
     }
 }

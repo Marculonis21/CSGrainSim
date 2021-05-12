@@ -17,17 +17,20 @@ namespace grainSim
         Vector2 mousePosition;
 
         public static ElementID[,] particleMap;
+        public static int bounds;
+
         public static float[,] tempMap;
         List<Particle> particleList;
 
         const float startTemp = 20;
 
         const int windowSize = 800;
-        const int particleSize = 10;
+        const int particleSize = 20;
 
         int cursorSize;
 
         ElementID selectedParticle;
+
 
         public MainGame()
         {
@@ -59,6 +62,7 @@ namespace grainSim
                     tempMap[x,y] = startTemp;
                 }
             }
+            bounds = MainGame.particleMap.GetLength(0);
 
             // List of live blocks
             particleList = new List<Particle>();
@@ -72,7 +76,6 @@ namespace grainSim
             /* } */
 
             cursorSize = 1;
-            selectedParticle = 0;
 
             base.Initialize();
         }
@@ -84,8 +87,6 @@ namespace grainSim
 
         protected override void Update(GameTime gameTime)
         {
-            /* Console.Clear(); */
-
             // Escape
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -106,7 +107,6 @@ namespace grainSim
                 selectedParticle = ElementID.WATER;
 
             Element selected = Element.elements[selectedParticle];
-            /* Console.WriteLine(selected.Name + ":" + selected.Short); */
 
             // MouseClick
             MouseState state = Mouse.GetState();
@@ -134,23 +134,32 @@ namespace grainSim
             /*     } */
             /* } */
 
-            /* Console.Write(particleList.Count + ", "); */
-
             foreach (Particle particle in particleList) 
-                particle.Update();
+                particle.Update(particleList);
+
+            for (int p = particleList.Count - 1; p >= 0; p--)
+            {
+                if(particleList[p].id == ElementID.AIR) 
+                    particleList.RemoveAt(p);
+            }
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            /* Console.Clear(); */
             GraphicsDevice.Clear(Color.Black);
-            screen.DrawBoard();
+
+            /* screen.DrawBoard(); */
             if(mousePosition.X != -1) 
                 screen.DrawCursor(mousePosition, cursorSize, Color.Red);
             screen.DrawParticles(particleList);
 
-            /* Console.Write((1.0f/gameTime.ElapsedGameTime.Milliseconds)*1000 + "\n"); */
+            Console.Write((1.0f/gameTime.ElapsedGameTime.Milliseconds)*1000 + "\n");
+            Console.Write(particleList.Count + "\n");
+            Element selected = Element.elements[selectedParticle];
+            Console.Write(selected.Name + ":" + selected.Short + "\n");
             base.Draw(gameTime);
         }
     }

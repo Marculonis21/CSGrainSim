@@ -23,6 +23,8 @@ namespace grainSim
             this.explosive = 0;   
 
             this.heatTransfer = 10;
+
+            reactions.Add(new Reaction(this.ID, ElementID.WATER, ElementID.WATER, 1, 0.001f));
         }
     }
 }

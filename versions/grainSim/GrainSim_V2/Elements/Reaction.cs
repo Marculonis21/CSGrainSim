@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace grainSim
+namespace GrainSim_v2
 {
     public class Reaction
     {
@@ -36,32 +36,37 @@ namespace grainSim
             this.random = MainGame.random;
         }
 
-        public ElementID Eval(int x, int y)
+        public bool Eval(int x, int y, out ElementID result) // true if reaction occured and out is the result element
         {
+            result = FROM;
+
             if(NEED == ElementID.VOID)
             {
                 if(random.NextDouble() <= probability)
-                    return TO;
+                    result = TO;
+                    return true;
             }
             else
             {
+                int bounds = MainGame.bounds;
                 int occurence = 0;
 
                 for (int _y = -1; _y < 3; _y++)
                     for (int _x = -1; _x < 3; _x++)
-                        if(MainGame.particleMap[x+_x,y+_y] == NEED)
-                            occurence++;
-
+                        if(x+_x >= 0 && x+_x < bounds &&
+                           y+_y >= 0 && y+_y < bounds)
+                            if(MainGame.particleMap[x+_x,y+_y] == NEED)
+                                occurence++;
 
                 if(occurence >= minNEEDAmount)
                 {
                     if(random.NextDouble() <= probability)
-                        return TO;
-                    else
-                        return FROM;
+                        result = TO;
+                        return true;
                 }
             }
-            return FROM;
+
+            return false;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace grainSim
 
             this.state = 2;           
             this.weight = 0;         
-            this.spawnTemperature = 0;
+            this.spawnTemperature = 20;
 
             this.flameable = 0;
             this.explosive = 0;   

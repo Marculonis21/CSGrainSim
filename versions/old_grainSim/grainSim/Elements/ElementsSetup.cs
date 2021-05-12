@@ -10,23 +10,13 @@ namespace grainSim
 
         public static void SetupElements()
         {
-            elements = new Dictionary<ElementID, Element>();
+            elements = new Dictionary<ElementID, Element>(); // MAYBE CHANGE TO SINGLETON
 
             Air air = new Air();
             Ice ice = new Ice();
             Sand sand = new Sand();
             Wall wall = new Wall();
             Water water = new Water();
-            water.reactions.Add(new Reaction(ElementID.WATER,
-                                             ElementID.ICE,
-                                             ElementID.ICE,
-                                             1,
-                                             0.8f));
-            water.reactions.Add(new Reaction(ElementID.WATER,
-                                             ElementID.FIRE,
-                                             ElementID.WATERVAPOR,
-                                             1,
-                                             0.8f));
 
             elements.Add(ElementID.AIR, air);
             elements.Add(ElementID.ICE, ice);
