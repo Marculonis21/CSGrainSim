@@ -8,7 +8,7 @@ namespace GrainSim_v2
     {
         Game game;
 
-        Vector2 origin;
+        Point origin;
 
         BasicEffect effect;
         bool isDisposed;
@@ -22,7 +22,7 @@ namespace GrainSim_v2
 
         bool isStarted;
 
-        public Shapes(Game game, Vector2 originTranslate)
+        public Shapes(Game game, Point originTranslate)
         {
             this.game = game;
             this.origin = originTranslate;
@@ -129,24 +129,27 @@ namespace GrainSim_v2
 
         }
 
-        public void DrawRectangle(int x, int y, int width, int height, Color color)
+        public void DrawRectangle(Point position, int width, int height, Color color)
         {
             this.TestStarted();
             const int shapeVertexCount = 4;
             const int shapeIndexCount = 6;
             this.TestSpace(shapeVertexCount, shapeIndexCount);
 
+            int x = position.X;
+            int y = position.Y;
+
             y = (int)origin.Y - y;
 
-            float left = x;
-            float right = x + width;
-            float bottom = y-height;
-            float top = y;
+            int left = x;
+            int right = x + width;
+            int bottom = y-height;
+            int top = y;
 
-            Vector2 a = new Vector2(left,top);
-            Vector2 b = new Vector2(right,top);
-            Vector2 c = new Vector2(right,bottom);
-            Vector2 d = new Vector2(left,bottom);
+            Point a = new Point(left,top);
+            Point b = new Point(right,top);
+            Point c = new Point(right,bottom);
+            Point d = new Point(left,bottom);
 
             this.indeces[this.indexCount++] = 0 + this.vertexCount;
             this.indeces[this.indexCount++] = 1 + this.vertexCount;
@@ -156,19 +159,22 @@ namespace GrainSim_v2
             this.indeces[this.indexCount++] = 2 + this.vertexCount;
             this.indeces[this.indexCount++] = 3 + this.vertexCount;
 
-            this.vertices[this.vertexCount++] = new VertexPositionColor(new Vector3(a, 0f), color);
-            this.vertices[this.vertexCount++] = new VertexPositionColor(new Vector3(b, 0f), color);
-            this.vertices[this.vertexCount++] = new VertexPositionColor(new Vector3(c, 0f), color);
-            this.vertices[this.vertexCount++] = new VertexPositionColor(new Vector3(d, 0f), color);
+            this.vertices[this.vertexCount++] = new VertexPositionColor(new Vector3(a.ToVector2(), 0f), color);
+            this.vertices[this.vertexCount++] = new VertexPositionColor(new Vector3(b.ToVector2(), 0f), color);
+            this.vertices[this.vertexCount++] = new VertexPositionColor(new Vector3(c.ToVector2(), 0f), color);
+            this.vertices[this.vertexCount++] = new VertexPositionColor(new Vector3(d.ToVector2(), 0f), color);
             this.shapeCount++;
         }
 
-        public void DrawLine(Vector2 a, Vector2 b, float thickness, Color color)
+        public void DrawLine(Point from, Point to, float thickness, Color color)
         {
             this.TestStarted();
             const int shapeVertexCount = 4;
             const int shapeIndexCount = 6;
             this.TestSpace(shapeVertexCount, shapeIndexCount);
+
+            Vector2 a = from.ToVector2();
+            Vector2 b = to.ToVector2();
 
             float halfThickness = thickness/2;
 

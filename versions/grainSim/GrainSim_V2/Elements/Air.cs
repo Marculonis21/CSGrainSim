@@ -21,7 +21,7 @@ namespace GrainSim_v2
             this.flameable = 0;
             this.explosive = 0;   
 
-            this.heatTransfer = 10;
+            this.heatTransfer = 1f;
         }
     }
 }

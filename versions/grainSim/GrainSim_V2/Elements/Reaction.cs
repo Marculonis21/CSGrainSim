@@ -36,37 +36,37 @@ namespace GrainSim_v2
             this.random = MainGame.random;
         }
 
-        public bool Eval(int x, int y, out ElementID result) // true if reaction occured and out is the result element
-        {
-            result = FROM;
+        /* public bool Eval(Point position, out ElementID result) // true if reaction occured and out is the result element */
+        /* { */
+        /*     result = FROM; */
 
-            if(NEED == ElementID.VOID)
-            {
-                if(random.NextDouble() <= probability)
-                    result = TO;
-                    return true;
-            }
-            else
-            {
-                int bounds = MainGame.bounds;
-                int occurence = 0;
+        /*     if(NEED == ElementID.VOID) */
+        /*     { */
+        /*         if(random.NextDouble() <= probability) */
+        /*             result = TO; */
+        /*             return true; */
+        /*     } */
+        /*     else */
+        /*     { */
+        /*         int bounds = MainGame.bounds; */
+        /*         int occurence = 0; */
 
-                for (int _y = -1; _y < 3; _y++)
-                    for (int _x = -1; _x < 3; _x++)
-                        if(x+_x >= 0 && x+_x < bounds &&
-                           y+_y >= 0 && y+_y < bounds)
-                            if(MainGame.particleMap[x+_x,y+_y] == NEED)
-                                occurence++;
+        /*         for (int _y = -1; _y < 3; _y++) */
+        /*             for (int _x = -1; _x < 3; _x++) */
+        /*                 if(position.X+_x >= 0 && position.X+_x < bounds && */
+        /*                    position.Y+_y >= 0 && position.Y+_y < bounds) */
+        /*                     if(MainGame.particleMap[position.X+_x,position.Y+_y] == NEED) */
+        /*                         occurence++; */
 
-                if(occurence >= minNEEDAmount)
-                {
-                    if(random.NextDouble() <= probability)
-                        result = TO;
-                        return true;
-                }
-            }
+        /*         if(occurence >= minNEEDAmount) */
+        /*         { */
+        /*             if(random.NextDouble() <= probability) */
+        /*                 result = TO; */
+        /*                 return true; */
+        /*         } */
+        /*     } */
 
-            return false;
-        }
+        /*     return false; */
+        /* } */
     }
 }

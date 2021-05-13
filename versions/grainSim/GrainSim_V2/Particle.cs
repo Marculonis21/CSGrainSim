@@ -3,15 +3,13 @@ using System.Collections.Generic;
 
 namespace GrainSim_v2
 {
-    public class Particle
+    class Particle
     {
         ElementID ID;
-
-        Vector2 pos;
-
+        Point pos;
         int lifeTime;
 
-        public Particle(ElementID ID, Vector2 position)
+        public Particle(ElementID ID, Point position)
         {
             this.ID = ID;
             this.pos = position;
@@ -29,22 +27,27 @@ namespace GrainSim_v2
 
         void UpdatePosition(ParticleMap partMap)
         {
-            Element.elements[ID].UpdatePosition(pos, partMap);
+            /* Element.elements[ID].UpdatePosition(pos, partMap); */
         }
 
         void UpdateReaction()
         {
-            ElementID result = Element.elements[ID].UpdateReaction(pos, lifeTime);
-            this.ID = result;
-            this.lifeTime = 0;
+            /* ElementID result = Element.elements[ID].UpdateReaction(pos, lifeTime); */
+            /* this.ID = result; */
+            /* this.lifeTime = 0; */
         }
 
-        /* public void Draw(Shapes shapes, int particleSize) */
-        /* { */
-        /*     shapes.DrawRectangle(x*particleSize, */
-        /*                          y*particleSize, */
-        /*                          particleSize,particleSize, */ 
-        /*                          Element.elements[ID].Color); */
-        /* } */
+        public ElementID Type()
+        {
+            return this.ID;
+        }
+
+        public void Draw(Shapes shapes, int particleSize)
+        {
+            shapes.DrawRectangle(new Point(pos.X*particleSize,
+                                           pos.Y*particleSize),
+                                 particleSize,particleSize, 
+                                 Element.elements[ID].Color);
+        }
     }
 }

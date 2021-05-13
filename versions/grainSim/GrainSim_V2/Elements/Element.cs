@@ -53,106 +53,105 @@ namespace GrainSim_v2
         protected int maxLifeTime;
         protected Reaction EndOfLifeTransition;
 
+        /* public Point UpdatePosition(Point position, ParticleMap partMap) */
+        /* { */
+        /*     Point currentPos = position; */
 
-        public Vector2 UpdatePosition(Vector2 position, ParticleMap partMap)
-        {
-            Vector2 currentPos = position;
+        /*     if(!this.move) return currentPos; */
 
-            if(!this.move) return currentPos;
+        /*     List<Point> possiblePos = new List<Point>(); */
+        /*     int bounds = MainGame.bounds; */
 
-            List<Vector2> possiblePos = new List<Vector2>();
-            int bounds = MainGame.bounds;
+        /*     if(state == 0) // solids */
+        /*     { */
+        /*         if((y+1 < bounds && Element.Type(x,y+1) == ElementID.AIR) || */
+        /*            (y+1 < bounds && Element.elements[Element.Type(x,y+1)].weight < this.weight)) // heavier sinks */
+        /*             return new Point(x,y+1); */
 
-            if(state == 0) // solids
-            {
-                if((y+1 < bounds && Element.Type(x,y+1) == ElementID.AIR) ||
-                   (y+1 < bounds && Element.elements[Element.Type(x,y+1)].weight < this.weight)) // heavier sinks
-                    return new Vector2(x,y+1);
+        /*         for (int _y = 1; _y < 2; _y++) */
+        /*             for (int _x = -1; _x < 2; _x++) */
+        /*             { */
+        /*                 if(x+_x >= 0 && x+_x < bounds && */
+        /*                    y+_y >= 0 && y+_y < bounds) */
+        /*                 { */
+        /*                     if((Element.Type(x+_x,y+_y) == ElementID.AIR) || */ 
+        /*                        (Element.elements[Element.Type(x+_x,y+_y)].weight < this.weight)) */
+        /*                         possiblePos.Add(new Point(x+_x,y+_y)); */
+        /*                 } */
+        /*             } */
+        /*     } */
+        /*     else if(state == 1) // LIQUID */
+        /*     { */
+        /*         if((y+1 < bounds && Element.Type(x,y+1) == ElementID.AIR) || */
+        /*            (y+1 < bounds && Element.elements[Element.Type(x,y+1)].weight < this.weight)) // heavier sinks */
+        /*             return new Point(x,y+1); */
 
-                for (int _y = 1; _y < 2; _y++)
-                    for (int _x = -1; _x < 2; _x++)
-                    {
-                        if(x+_x >= 0 && x+_x < bounds &&
-                           y+_y >= 0 && y+_y < bounds)
-                        {
-                            if((Element.Type(x+_x,y+_y) == ElementID.AIR) || 
-                               (Element.elements[Element.Type(x+_x,y+_y)].weight < this.weight))
-                                possiblePos.Add(new Vector2(x+_x,y+_y));
-                        }
-                    }
-            }
-            else if(state == 1) // LIQUID
-            {
-                if((y+1 < bounds && Element.Type(x,y+1) == ElementID.AIR) ||
-                   (y+1 < bounds && Element.elements[Element.Type(x,y+1)].weight < this.weight)) // heavier sinks
-                    return new Vector2(x,y+1);
+        /*         for (int _y = 0; _y < 2; _y++) */
+        /*             for (int _x = -1; _x < 2; _x++) */
+        /*             { */
+        /*                 if(x+_x >= 0 && x+_x < bounds && */
+        /*                    y+_y >= 0 && y+_y < bounds) */
+        /*                 { */
+        /*                     if((Element.Type(x+_x,y+_y) == ElementID.AIR) || */ 
+        /*                        (Element.elements[Element.Type(x+_x,y+_y)].weight < this.weight)) */
+        /*                         possiblePos.Add(new Point(x+_x,y+_y)); */
+        /*                 } */
+        /*             } */
+        /*     } */
+        /*     else if(state == 2) // GAS */
+        /*     { */
+        /*         if((y-1 < bounds && Element.Type(x,y-1) == ElementID.AIR) || */
+        /*            (y-1 < bounds && Element.elements[Element.Type(x,y-1)].weight > this.weight)) // lighter sinks */
+        /*             return new Point(x,y-1); */
 
-                for (int _y = 0; _y < 2; _y++)
-                    for (int _x = -1; _x < 2; _x++)
-                    {
-                        if(x+_x >= 0 && x+_x < bounds &&
-                           y+_y >= 0 && y+_y < bounds)
-                        {
-                            if((Element.Type(x+_x,y+_y) == ElementID.AIR) || 
-                               (Element.elements[Element.Type(x+_x,y+_y)].weight < this.weight))
-                                possiblePos.Add(new Vector2(x+_x,y+_y));
-                        }
-                    }
-            }
-            else if(state == 2) // GAS
-            {
-                if((y-1 < bounds && Element.Type(x,y-1) == ElementID.AIR) ||
-                   (y-1 < bounds && Element.elements[Element.Type(x,y-1)].weight > this.weight)) // lighter sinks
-                    return new Vector2(x,y-1);
+        /*         for (int _y = 0; _y > -2; _y--) */
+        /*             for (int _x = -1; _x < 2; _x++) */
+        /*             { */
+        /*                 if(x+_x >= 0 && x+_x < bounds && */
+        /*                    y+_y >= 0 && y+_y < bounds) */
+        /*                 { */
+        /*                     if((Element.Type(x+_x,y+_y) == ElementID.AIR) || */ 
+        /*                        (Element.elements[Element.Type(x+_x,y+_y)].weight > this.weight)) */
+        /*                         possiblePos.Add(new Point(x+_x,y+_y)); */
+        /*                 } */
+        /*             } */
+        /*     } */
 
-                for (int _y = 0; _y > -2; _y--)
-                    for (int _x = -1; _x < 2; _x++)
-                    {
-                        if(x+_x >= 0 && x+_x < bounds &&
-                           y+_y >= 0 && y+_y < bounds)
-                        {
-                            if((Element.Type(x+_x,y+_y) == ElementID.AIR) || 
-                               (Element.elements[Element.Type(x+_x,y+_y)].weight > this.weight))
-                                possiblePos.Add(new Vector2(x+_x,y+_y));
-                        }
-                    }
-            }
+        /*     if(possiblePos.Count != 0) */
+        /*         return possiblePos[MainGame.random.Next(0,possiblePos.Count)]; */
+        /*     else */
+        /*         return currentPos; */
+        /* } */
 
-            if(possiblePos.Count != 0)
-                return possiblePos[MainGame.random.Next(0,possiblePos.Count)];
-            else
-                return currentPos;
-        }
+        /* public ElementID UpdateReaction(Point position, int lifeTime) */
+        /* { */
+        /*     foreach (Reaction r in this.reactions) */
+        /*     { */
+        /*         if(r.Eval(position, out ElementID result)) */
+        /*         { */
+        /*             return result; */
+        /*         } */
+        /*     } */
 
-        public ElementID ReactionUpdate(int x, int y, int lifeTime)
-        {
-            foreach (Reaction r in this.reactions)
-            {
-                if(r.Eval(x,y, out ElementID result))
-                {
-                    return result;
-                }
-            }
+        /*     /1* if(this.temp <= lowLevelTemp) *1/ */
+        /*     /1* { *1/ */
+        /*     /1*     lowLevelTempTransition.Eval(x,y, out ElementID result); *1/ */
+        /*     /1*     return result; *1/ */
+        /*     /1* } *1/ */
+        /*     /1* if(this.temp >= highLevelTemp) *1/ */
+        /*     /1* { *1/ */
+        /*     /1*     highLevelTempTransition.Eval(x,y, out ElementID result); *1/ */
+        /*     /1*     return result; *1/ */
+        /*     /1* } *1/ */
 
-            /* if(this.temp <= lowLevelTemp) */
-            /* { */
-            /*     lowLevelTempTransition.Eval(x,y, out ElementID result); */
-            /*     return result; */
-            /* } */
-            /* if(this.temp >= highLevelTemp) */
-            /* { */
-            /*     highLevelTempTransition.Eval(x,y, out ElementID result); */
-            /*     return result; */
-            /* } */
+        /*     if(lifeTime > this.maxLifeTime) */
+        /*     { */
+        /*         EndOfLifeTransition.Eval(position, out ElementID result); */
+        /*         return result; */
+        /*     } */
 
-            if(lifeTime > this.maxLifeTime)
-            {
-                EndOfLifeTransition.Eval(x,y, out ElementID result);
-                return result;
-            }
-
-            return this.ID;
-        }
+        /*     return this.ID; */
+        /* } */
 
         // Vars
         public ElementID id    { get{ return this.ID; } }
@@ -170,5 +169,6 @@ namespace GrainSim_v2
         public float HeatTrans { get{ return this.heatTransfer; } }
 
         public int MaxLifeTime { get{ return this.maxLifeTime; } }
+        
     }
 }

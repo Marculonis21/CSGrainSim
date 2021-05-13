@@ -1,33 +1,51 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
 {
     class ParticleMap
     {
-        ElementID[,] map;
+        GameMap gameMap;
+
+        Particle[,] map;
         List<Particle> particles = new List<Particle>();
 
         int width;
         int height;
 
-        public ParticleMap(int width, int height)
+        public ParticleMap(GameMap gameMap, int width, int height)
         {
+            this.gameMap = gameMap;
+
             this.width = width;
             this.height = height;
 
-            this.map = new ElementID[width,height];
+            this.map = new Particle[width,height];
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                    map[x,y] = new Particle(ElementID.AIR, new Point(x,y));
         }
 
-        public void Spawn(ElementID element, Vector2 position, int burst=1, float prob=1.0f)
+        public void Update()
         {
-            /* map[x,y] = element; */
-            /* particles.Add(new Particle(element, x, y)); */
+            foreach(Particle p in particles)
+                p.Update(this.gameMap.GetParticleMap(), this.gameMap.GetTemperatureMap());
+        }
+
+        public void Spawn(ElementID element, Point position, int burst=1, float prob=1.0f)
+        {
+            if (!InBounds(position)) return;
+
+            if (Type(position) == ElementID.AIR)
+            {
+                Particle p = new Particle(element, position);
+                particles.Add(p);
+                map[position.X,position.Y] = p;
+            }
         }
         
-        void Swap(Vector2 position1, Vector2 position2)
+        void Swap(Point position1, Point position2)
         {
             /* // swap particles */
             /* Particle p1 = particles.Where(p => p.x == x1 && p.y == y1).First(); */
@@ -39,21 +57,25 @@ namespace GrainSim_v2
             /* map[x2,y2] = swap; */
         }
 
-        public ElementID Type(Vector2 position)
+        public ElementID Type(Point position)
         {
-            if(InBounds(position.ToPoint))
-            {
-                int x = (int)position.X;
-                int y = (int)position.X;
-                return map[(int)position.X, (int)position.Y];
-            }
+            if(InBounds(position))
+                return map[position.X, position.Y].Type();
             else
                 return ElementID.WALL;
         }
 
-        bool InBounds(Vector2 position)
+        public Particle GetParticle(Point position)
         {
-            return (x >= 0 && x < width) && (y >= 0 && y < height);
+            if(InBounds(position))
+                return map[position.X, position.Y];
+
+            return null;
+        }
+
+        bool InBounds(Point position)
+        {
+            return (position.X >= 0 && position.X < width) && (position.Y >= 0 && position.Y < height);
         }
     }
 }
