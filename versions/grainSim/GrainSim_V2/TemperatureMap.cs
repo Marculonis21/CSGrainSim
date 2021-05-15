@@ -6,6 +6,9 @@ namespace GrainSim_v2
 {
     class TemperatureMap
     {
+        const float flowConstant = 0.1f;
+        const float diffuseRate = 0.01f;
+
         GameMap gameMap;
 
         float[,] map;
@@ -13,6 +16,8 @@ namespace GrainSim_v2
 
         int width;
         int height;
+
+        int simDir = -1; //switch directions each turn - TL X TR X BL X BR
 
         public TemperatureMap(GameMap gameMap, int width, int height)
         {
@@ -22,6 +27,7 @@ namespace GrainSim_v2
             this.height = height;
 
             this.map = new float[width,height];
+            this.newMap = new float[width,height];
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
                     map[x,y] = Element.elements[ElementID.AIR].STemp;
@@ -52,37 +58,89 @@ namespace GrainSim_v2
                 new Exception("Out of bounds exception - tempMap - set");
         }
 
+        public void Render(Shapes shapes, int particleSize)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    Point pos = new Point(x,y);
+                    float temp = map[x,y];
+                    if(temp > 0) 
+                    {
+                        shapes.DrawRectangle(new Point(pos.X*particleSize,
+                                                       pos.Y*particleSize),
+                                             particleSize,particleSize,
+                                             new Color((int)(temp/2),0,0));
+                    }
+                    else
+                    {
+                        shapes.DrawRectangle(new Point(pos.X*particleSize,
+                                                       pos.Y*particleSize),
+                                             particleSize,particleSize,
+                                             new Color(0,0,(int)(-temp/2)));
+                    }
+                }
+            }
+        }
+
         public void Update()
         {
-            ZeroOutNext();
             Propagate();
             Diffuse();
-
-            this.map = this.newMap;
         }
 
         void Propagate()
         {
-            float constant = 0.1f;
             // propagate heat to neighbor squares
             
+            simDir = (simDir + 1) % 2;
+
             ParticleMap partMap = gameMap.GetParticleMap();
             
+            int _y;
+            int _x;
             for (int y = 0; y < height; y++) 
             {
                 for (int x = 0; x < width; x++)
                 {
-                    Point cellPos = new Point(x,y);
+                    if(simDir == 0) // dir switching
+                    {
+                        _x = x;
+                        _y = y;
+                    }
+                    else
+                    {
+                        _x = (width-1)  - x;
+                        _y = y;
+                    }
+                    /* else if(simDir == 2) */
+                    /* { */
+                    /*     _x = x; */
+                    /*     _y = (height-1) - y; */
+                    /* } */
+                    /* else */
+                    /* { */
+                    /*     _x = (width-1)  - x; */
+                    /*     _y = (height-1) - y; */
+                    /* } */
+
+                    // Get positions of neighbor cells
+                    Point cellPos = new Point(_x,_y);
+                    Point neighPos;
                     Point[] neighborPoints = FindNeighbor(cellPos);
                     
-                    // cell/neighbor HT = heatTransfer amount (float)
-                    float cellHT = Element.elements[partMap.Type(cellPos)].HeatTrans;
+                    // cell/neighbor HT = heatTransfer amount 
                     float neighHT;
-                    foreach (Point neighPos in neighborPoints)
+                    float cellHT = Element.elements[partMap.Type(cellPos)].HeatTrans;
+
+                    for (int i = 0; i < 4; i++)
                     {
-                        if(neighPos.X == -1) continue;
+                        neighPos = neighborPoints[i];
+                        if(neighPos.X == -1) continue; // Out of bounds
 
                         neighHT = Element.elements[partMap.Type(neighPos)].HeatTrans;
+                        if(cellHT == 0 || neighHT == 0) continue; // WALL
 
                         float flow = map[neighPos.X, neighPos.Y] - map[cellPos.X, cellPos.Y];
                         if(flow > 0.0f)
@@ -90,21 +148,32 @@ namespace GrainSim_v2
                         else
                             flow *= cellHT;
 
-                        flow *= constant;
+                        if(i == 0 && flow < 0) // favors upward hot air motion
+                            flow *= flowConstant*50;
+                        else
+                            flow *= flowConstant;
 
-                        newMap[neighPos.X, neighPos.Y] -= flow/neighHT;
-                        newMap[cellPos.X, cellPos.Y]   += flow/cellHT;
+                        map[neighPos.X, neighPos.Y] -= flow/neighHT;
+                        map[cellPos.X, cellPos.Y]   += flow/cellHT;
+
+                        // kill temperature oscilations (can be really confusing)
+                        if((flow > 0.0f && map[neighPos.X, neighPos.Y] < map[cellPos.X, cellPos.Y]) || (
+                           flow <= 0.0f && map[neighPos.X, neighPos.Y] > map[cellPos.X, cellPos.Y]))
+                        {
+                            float total = (cellHT * map[cellPos.X,cellPos.Y]) + (neighHT * map[neighPos.X,neighPos.Y]);
+                            float avg = total / (cellHT + neighHT);
+
+                            map[neighPos.X, neighPos.Y] = avg;
+                            map[cellPos.X, cellPos.Y]   = avg;
+                        }
                     }
-
-                    newMap[cellPos.X, cellPos.Y] += map[cellPos.X,cellPos.Y];
                 }
             }
         }
 
-        void Diffuse()
-        {
-            // make everything slowly go towards its Starting temp
-        }
+        /* void Diffuse() */
+        /* { */
+        /* } */
 
         bool InBounds(Point position)
         {
@@ -142,9 +211,14 @@ namespace GrainSim_v2
             return neighborPoints;
         }
 
-        void ZeroOutNext()
+        private void Diffuse()
         {
-            this.newMap = new float[width,height];
+            ParticleMap partMap = gameMap.GetParticleMap();
+
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                    if(partMap.Type(new Point(x,y)) == ElementID.AIR)
+                        map[x,y] -= (map[x,y] - Element.elements[ElementID.AIR].STemp)*diffuseRate;
         }
     }
 }

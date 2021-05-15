@@ -32,6 +32,11 @@ namespace GrainSim_v2
             foreach(Particle p in particles)
                 p.Update(this.gameMap.GetParticleMap(), this.gameMap.GetTemperatureMap());
         }
+        public void Render(Shapes shapes, int particleSize)
+        {
+            foreach(Particle p in particles)
+                p.Render(shapes, particleSize);
+        }
 
         public void Spawn(ElementID element, Point position, int burst=1, float prob=1.0f)
         {
@@ -39,22 +44,35 @@ namespace GrainSim_v2
 
             if (Type(position) == ElementID.AIR)
             {
+                if(!Element.elements.ContainsKey(element))
+                    throw new Exception("Element: " + element + " not introduced in the elements dictionary yet.\nTry adding to ElementsSetup first.\n");
+
+
                 Particle p = new Particle(element, position);
                 particles.Add(p);
                 map[position.X,position.Y] = p;
             }
         }
-        
-        void Swap(Point position1, Point position2)
-        {
-            /* // swap particles */
-            /* Particle p1 = particles.Where(p => p.x == x1 && p.y == y1).First(); */
-            /* Particle p2 = particles.Where(p => p.x == x2 && p.y == y2).First(); */
 
-            /* // swap in map */
-            /* ElementID swap = map[x1,y1]; */
-            /* map[x1,y1] = map[x2,y2]; */
-            /* map[x2,y2] = swap; */
+        public void Delete(Point position)
+        {
+            if (!InBounds(position)) return;
+
+            Particle p = GetParticle(position);
+            particles.Remove(p);
+            map[position.X,position.Y] = new Particle(ElementID.AIR, position);
+        }
+        
+        public void Swap(Point position1, Point position2)
+        {
+            Particle p1 = GetParticle(position1); 
+            Particle p2 = GetParticle(position2); 
+
+            p1.SetPosition(position2);
+            p2.SetPosition(position1);
+
+            map[position1.X,position1.Y] = p2;
+            map[position2.X,position2.Y] = p1;
         }
 
         public ElementID Type(Point position)
@@ -73,7 +91,7 @@ namespace GrainSim_v2
             return null;
         }
 
-        bool InBounds(Point position)
+        public bool InBounds(Point position)
         {
             return (position.X >= 0 && position.X < width) && (position.Y >= 0 && position.Y < height);
         }

@@ -3,7 +3,24 @@ using System.Collections.Generic;
 
 namespace GrainSim_v2
 {
-    public partial class Element
+    public enum ElementID
+    {
+        AIR,
+        COPPER,
+        COPPERMELT,
+        DUST,
+        FIRE,
+        ICE,
+        OIL,
+        SAND,
+        SMOKE,
+        VOID,
+        WALL,
+        WATER,
+        WATERVAPOR,
+    }
+
+    partial class Element
     {
         public static Dictionary<ElementID, Element> elements {get; private set;} // Dict of all elements
 
@@ -11,17 +28,12 @@ namespace GrainSim_v2
         {
             elements = new Dictionary<ElementID, Element>();
 
-            Air air = new Air();
-            Ice ice = new Ice();
-            Sand sand = new Sand();
-            Wall wall = new Wall();
-            Water water = new Water();
-
-            elements.Add(ElementID.AIR, air);
-            elements.Add(ElementID.ICE, ice);
-            elements.Add(ElementID.SAND, sand);
-            elements.Add(ElementID.WALL, wall);
-            elements.Add(ElementID.WATER, water);
+            elements.Add(ElementID.AIR, new Air());
+            elements.Add(ElementID.SAND, new Sand());
+            elements.Add(ElementID.WALL, new Wall());
+            elements.Add(ElementID.WATER, new Water());
+            elements.Add(ElementID.COPPER, new Copper());
+            elements.Add(ElementID.COPPERMELT, new CopperMelt());
         }
     }
 }

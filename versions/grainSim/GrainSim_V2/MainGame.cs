@@ -16,7 +16,7 @@ namespace GrainSim_v2
         public static Random random = new Random();
 
         const int windowSize = 800;
-        const int particleSize = 20;
+        const int particleSize = 5;
 
         GameMap gameMap;
         GameScreen screen;
@@ -53,10 +53,27 @@ namespace GrainSim_v2
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
+        int drawStyle = 0;
+        ElementID selected;
         protected override void Update(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape)) // ESCAPE - QUIT
                 Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.F1)) // Enter - change draw style
+                drawStyle = 0;
+            if (Keyboard.GetState().IsKeyDown(Keys.F2)) // Enter - change draw style
+                drawStyle = 1;
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D0)) // Enter - change draw style
+                selected = ElementID.WALL;
+            if (Keyboard.GetState().IsKeyDown(Keys.D1)) // Enter - change draw style
+                selected = ElementID.VOID;
+            if (Keyboard.GetState().IsKeyDown(Keys.D2)) // Enter - change draw style
+                selected = ElementID.SAND;
+            if (Keyboard.GetState().IsKeyDown(Keys.D3)) // Enter - change draw style
+                selected = ElementID.WATER;
+            if (Keyboard.GetState().IsKeyDown(Keys.D4)) // Enter - change draw style
+                selected = ElementID.COPPER;
 
             // MouseClick
             MouseState state = Mouse.GetState();
@@ -66,7 +83,10 @@ namespace GrainSim_v2
             {
                 mousePosition = new Vector2(state.X,state.Y);
                 mouseBoardPosition = screen.CursorGridPosition(mousePosition);
-                gameMap.GetTemperatureMap().Set(mouseBoardPosition, 500);
+                if(selected == ElementID.VOID)
+                    gameMap.GetTemperatureMap().Increment(mouseBoardPosition, 50);
+                else
+                    gameMap.GetParticleMap().Spawn(selected, mouseBoardPosition);
             }
             else if (state.RightButton == ButtonState.Pressed && 
                 state.X >= 0 && state.X <= windowSize &&
@@ -74,7 +94,7 @@ namespace GrainSim_v2
             {
                 mousePosition = new Vector2(state.X,state.Y);
                 mouseBoardPosition = screen.CursorGridPosition(mousePosition);
-                gameMap.GetTemperatureMap().Set(mouseBoardPosition, -500);
+                gameMap.GetParticleMap().Delete(mouseBoardPosition);
             }
             else if (state.X >= 0 && state.X <= windowSize &&
                      state.Y >= 0 && state.Y <= windowSize )
@@ -100,11 +120,19 @@ namespace GrainSim_v2
 
             TemperatureMap tempMap = gameMap.GetTemperatureMap();
             ParticleMap partMap = gameMap.GetParticleMap();
-            screen.DrawTemperature(tempMap);
-            screen.DrawBoard();
+
+            if(drawStyle == 0)
+            {
+                screen.DrawTemperature(tempMap);
+            }
+            else
+            {
+                screen.DrawParticles(partMap);
+            }
+            /* screen.DrawBoard(); */
 
             if(mouseBoardPosition.X != -1)
-                Console.WriteLine("Cell " +mouseBoardPosition.X+";"+mouseBoardPosition.Y+")\nParticle: "+partMap.Type(mouseBoardPosition)+"\nTemperature: "+tempMap.Get(mouseBoardPosition));
+                Console.WriteLine("Draw style: "+drawStyle+"\nSelected: "+ selected + "\nCell " +mouseBoardPosition.X+";"+mouseBoardPosition.Y+")\nParticle: "+partMap.Type(mouseBoardPosition)+"\nTemperature: "+tempMap.Get(mouseBoardPosition));
 
             base.Draw(gameTime);
         }

@@ -20,21 +20,9 @@ namespace GrainSim_v2
         public void Update(ParticleMap partMap, TemperatureMap tempMap)
         {
             UpdatePosition(partMap);
-            UpdateReaction();
+            UpdateReaction(partMap, tempMap);
 
             if(Element.elements[ID].MaxLifeTime > 0) lifeTime++;
-        }
-
-        void UpdatePosition(ParticleMap partMap)
-        {
-            /* Element.elements[ID].UpdatePosition(pos, partMap); */
-        }
-
-        void UpdateReaction()
-        {
-            /* ElementID result = Element.elements[ID].UpdateReaction(pos, lifeTime); */
-            /* this.ID = result; */
-            /* this.lifeTime = 0; */
         }
 
         public ElementID Type()
@@ -42,12 +30,35 @@ namespace GrainSim_v2
             return this.ID;
         }
 
-        public void Draw(Shapes shapes, int particleSize)
+        public void Render(Shapes shapes, int particleSize)
         {
             shapes.DrawRectangle(new Point(pos.X*particleSize,
                                            pos.Y*particleSize),
                                  particleSize,particleSize, 
                                  Element.elements[ID].Color);
+        }
+
+        public void SetPosition(Point position)
+        {
+            this.pos = position;
+        }
+
+        void UpdatePosition(ParticleMap partMap)
+        {
+            Point result = Element.elements[ID].UpdatePosition(pos, partMap);
+            if(result != this.pos)
+                partMap.Swap(this.pos, result);
+        }
+
+        void UpdateReaction(ParticleMap partMap, TemperatureMap tempMap)
+        {
+            ElementID result = Element.elements[ID].UpdateReaction(pos, lifeTime, partMap, tempMap);
+
+            if(result != this.ID)
+            {
+                this.ID = result;
+                this.lifeTime = 0;
+            }
         }
     }
 }

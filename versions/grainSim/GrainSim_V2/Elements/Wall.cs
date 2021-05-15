@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
 {
-    public class Wall : Element
+    class Wall : Element
     {
         public Wall ()
         {
@@ -21,6 +21,8 @@ namespace GrainSim_v2
 
             this.flameable = 0;
             this.explosive = 0;   
+            
+            this.heatTransfer = 0;
         }
     }
 }

@@ -1,10 +1,8 @@
 using Microsoft.Xna.Framework;
-/* using Microsoft.Xna.Framework.Graphics; */
-/* using Microsoft.Xna.Framework.Input; */
 
 namespace GrainSim_v2
 {
-    public class Sand : Element
+    class Sand : Element
     {
         public Sand()
         {
@@ -17,7 +15,7 @@ namespace GrainSim_v2
             this.state = 0;           
             this.weight = 10;         
             this.move = true;
-            this.spawnTemperature = 30;
+            /* this.spawnTemperature = 20; */
 
             this.flameable = 0;
             this.explosive = 0;   

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
 {
-    public class Water : Element
+    class Water : Element
     {
         public Water()
         {

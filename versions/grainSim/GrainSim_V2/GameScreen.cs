@@ -42,39 +42,15 @@ namespace GrainSim_v2
 
         public void DrawParticles(ParticleMap partMap)
         {
-            /* shapes.Begin(); */
-            /* foreach (Particle particle in particles) */
-            /* { */
-            /*     particle.Draw(shapes,this.particleSize); */
-            /* } */
-            /* shapes.End(); */
+            shapes.Begin();
+            partMap.Render(shapes,particleSize);
+            shapes.End();
         }
 
         public void DrawTemperature(TemperatureMap tempMap)
         {
             shapes.Begin();
-            for (int y = 0; y < winHeight/particleSize; y++)
-            {
-                for (int x = 0; x < winWidth/particleSize; x++)
-                {
-                    Point pos = new Point(x,y);
-                    float temp = tempMap.Get(pos);
-                    if(temp > 0) 
-                    {
-                        shapes.DrawRectangle(new Point(pos.X*particleSize,
-                                                       pos.Y*particleSize),
-                                             particleSize,particleSize,
-                                             new Color((int)((255/255)*temp),0,0));
-                    }
-                    else
-                    {
-                        shapes.DrawRectangle(new Point(pos.X*particleSize,
-                                                       pos.Y*particleSize),
-                                             particleSize,particleSize,
-                                             new Color(0,0,(int)((255/255)*-temp)));
-                    }
-                }
-            }
+            tempMap.Render(shapes, particleSize);
 
             shapes.End();
         }

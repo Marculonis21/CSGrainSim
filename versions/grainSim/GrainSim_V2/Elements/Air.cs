@@ -4,7 +4,7 @@
 
 namespace GrainSim_v2
 {
-    public class Air : Element
+    class Air : Element
     {
         public Air()
         {
@@ -21,7 +21,7 @@ namespace GrainSim_v2
             this.flameable = 0;
             this.explosive = 0;   
 
-            this.heatTransfer = 1f;
+            this.heatTransfer = 0.02f;
         }
     }
 }

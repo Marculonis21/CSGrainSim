@@ -23,7 +23,7 @@ namespace GrainSim_v2
 
         public void Update()
         {
-            /* partMap.Update(); */
+            partMap.Update();
             tempMap.Update();
         }
 

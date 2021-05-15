@@ -4,26 +4,14 @@ using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
 {
-    public enum ElementID
-    {
-        AIR,
-        DUST,
-        FIRE,
-        ICE,
-        OIL,
-        SAND,
-        SMOKE,
-        VOID,
-        WALL,
-        WATER,
-        WATERVAPOR,
-    }
-
-    public partial class Element
+    partial class Element
     {
         /// <summary>
         /// Element class is the basic template for all elements added down the
         /// line.
+        ///
+        /// Thermal Conductivity source:
+        /// https://www.engineeringtoolbox.com/thermal-conductivity-d_429.html
         /// </summary>
 
         protected ElementID ID;
@@ -51,107 +39,101 @@ namespace GrainSim_v2
         protected Reaction highLevelTempTransition;
 
         protected int maxLifeTime;
-        protected Reaction EndOfLifeTransition;
+        protected Reaction endOfLifeTransition;
 
-        /* public Point UpdatePosition(Point position, ParticleMap partMap) */
-        /* { */
-        /*     Point currentPos = position; */
+        public Point UpdatePosition(Point pos, ParticleMap partMap)
+        {
+            if(!this.move) return pos;
 
-        /*     if(!this.move) return currentPos; */
+            List<Point> possiblePos = new List<Point>();
 
-        /*     List<Point> possiblePos = new List<Point>(); */
-        /*     int bounds = MainGame.bounds; */
+            if(state == 0) // solids
+            {
+                if((partMap.InBounds(new Point(pos.X,pos.Y+1)) && partMap.Type(new Point(pos.X,pos.Y+1)) == ElementID.AIR) ||
+                   (partMap.InBounds(new Point(pos.X,pos.Y+1)) && Element.elements[partMap.Type(new Point(pos.X,pos.Y+1))].weight < this.weight)) // heavier sinks
+                    return new Point(pos.X,pos.Y+1);
 
-        /*     if(state == 0) // solids */
-        /*     { */
-        /*         if((y+1 < bounds && Element.Type(x,y+1) == ElementID.AIR) || */
-        /*            (y+1 < bounds && Element.elements[Element.Type(x,y+1)].weight < this.weight)) // heavier sinks */
-        /*             return new Point(x,y+1); */
+                for (int _y = 1; _y < 2; _y++)
+                    for (int _x = -1; _x < 2; _x++)
+                    {
+                        if(partMap.InBounds(new Point(pos.X+_x,pos.Y+_y)))
+                        {
+                            if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
+                               (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight < this.weight))
+                                possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
+                        }
+                    }
+            }
+            else if(state == 1) // LIQUID
+            {
+                if((partMap.InBounds(new Point(pos.X,pos.Y+1)) && partMap.Type(new Point(pos.X,pos.Y+1)) == ElementID.AIR) ||
+                   (partMap.InBounds(new Point(pos.X,pos.Y+1)) && Element.elements[partMap.Type(new Point(pos.X,pos.Y+1))].weight < this.weight)) // heavier sinks
+                    return new Point(pos.X,pos.Y+1);
 
-        /*         for (int _y = 1; _y < 2; _y++) */
-        /*             for (int _x = -1; _x < 2; _x++) */
-        /*             { */
-        /*                 if(x+_x >= 0 && x+_x < bounds && */
-        /*                    y+_y >= 0 && y+_y < bounds) */
-        /*                 { */
-        /*                     if((Element.Type(x+_x,y+_y) == ElementID.AIR) || */ 
-        /*                        (Element.elements[Element.Type(x+_x,y+_y)].weight < this.weight)) */
-        /*                         possiblePos.Add(new Point(x+_x,y+_y)); */
-        /*                 } */
-        /*             } */
-        /*     } */
-        /*     else if(state == 1) // LIQUID */
-        /*     { */
-        /*         if((y+1 < bounds && Element.Type(x,y+1) == ElementID.AIR) || */
-        /*            (y+1 < bounds && Element.elements[Element.Type(x,y+1)].weight < this.weight)) // heavier sinks */
-        /*             return new Point(x,y+1); */
+                for (int _y = 0; _y < 2; _y++)
+                    for (int _x = -1; _x < 2; _x++)
+                    {
+                        if(partMap.InBounds(new Point(pos.X+_x,pos.Y+_y)))
+                        {
+                            if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
+                               (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight < this.weight))
+                                possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
+                        }
+                    }
+            }
+            else if(state == 2) // GAS
+            {
+                if((partMap.InBounds(new Point(pos.X,pos.Y-1)) && partMap.Type(new Point(pos.X,pos.Y-1)) == ElementID.AIR) ||
+                   (partMap.InBounds(new Point(pos.X,pos.Y-1)) && Element.elements[partMap.Type(new Point(pos.X,pos.Y-1))].weight > this.weight)) // lighter sinks
+                    return new Point(pos.X,pos.Y-1);
 
-        /*         for (int _y = 0; _y < 2; _y++) */
-        /*             for (int _x = -1; _x < 2; _x++) */
-        /*             { */
-        /*                 if(x+_x >= 0 && x+_x < bounds && */
-        /*                    y+_y >= 0 && y+_y < bounds) */
-        /*                 { */
-        /*                     if((Element.Type(x+_x,y+_y) == ElementID.AIR) || */ 
-        /*                        (Element.elements[Element.Type(x+_x,y+_y)].weight < this.weight)) */
-        /*                         possiblePos.Add(new Point(x+_x,y+_y)); */
-        /*                 } */
-        /*             } */
-        /*     } */
-        /*     else if(state == 2) // GAS */
-        /*     { */
-        /*         if((y-1 < bounds && Element.Type(x,y-1) == ElementID.AIR) || */
-        /*            (y-1 < bounds && Element.elements[Element.Type(x,y-1)].weight > this.weight)) // lighter sinks */
-        /*             return new Point(x,y-1); */
+                for (int _y = 0; _y > -2; _y--)
+                    for (int _x = -1; _x < 2; _x++)
+                    {
+                        if(partMap.InBounds(new Point(pos.X+_x,pos.Y+_y)))
+                        {
+                            if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
+                               (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight > this.weight))
+                                possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
+                        }
+                    }
+            }
 
-        /*         for (int _y = 0; _y > -2; _y--) */
-        /*             for (int _x = -1; _x < 2; _x++) */
-        /*             { */
-        /*                 if(x+_x >= 0 && x+_x < bounds && */
-        /*                    y+_y >= 0 && y+_y < bounds) */
-        /*                 { */
-        /*                     if((Element.Type(x+_x,y+_y) == ElementID.AIR) || */ 
-        /*                        (Element.elements[Element.Type(x+_x,y+_y)].weight > this.weight)) */
-        /*                         possiblePos.Add(new Point(x+_x,y+_y)); */
-        /*                 } */
-        /*             } */
-        /*     } */
+            if(possiblePos.Count != 0)
+                return possiblePos[MainGame.random.Next(0,possiblePos.Count)];
+            else
+                return pos;
+        }
 
-        /*     if(possiblePos.Count != 0) */
-        /*         return possiblePos[MainGame.random.Next(0,possiblePos.Count)]; */
-        /*     else */
-        /*         return currentPos; */
-        /* } */
+        public ElementID UpdateReaction(Point pos, int lifeTime, ParticleMap partMap, TemperatureMap tempMap)
+        {
+            foreach (Reaction r in this.reactions)
+            {
+                if(r.Eval(pos, partMap, out ElementID result))
+                {
+                    return result;
+                }
+            }
 
-        /* public ElementID UpdateReaction(Point position, int lifeTime) */
-        /* { */
-        /*     foreach (Reaction r in this.reactions) */
-        /*     { */
-        /*         if(r.Eval(position, out ElementID result)) */
-        /*         { */
-        /*             return result; */
-        /*         } */
-        /*     } */
+            if(lowLevelTempTransition != null && tempMap.Get(pos) <= lowLevelTemp)
+            {
+                lowLevelTempTransition.Eval(pos, partMap, out ElementID result);
+                return result;
+            }
+            if(highLevelTempTransition != null && tempMap.Get(pos) >= highLevelTemp)
+            {
+                highLevelTempTransition.Eval(pos, partMap, out ElementID result);
+                return result;
+            }
 
-        /*     /1* if(this.temp <= lowLevelTemp) *1/ */
-        /*     /1* { *1/ */
-        /*     /1*     lowLevelTempTransition.Eval(x,y, out ElementID result); *1/ */
-        /*     /1*     return result; *1/ */
-        /*     /1* } *1/ */
-        /*     /1* if(this.temp >= highLevelTemp) *1/ */
-        /*     /1* { *1/ */
-        /*     /1*     highLevelTempTransition.Eval(x,y, out ElementID result); *1/ */
-        /*     /1*     return result; *1/ */
-        /*     /1* } *1/ */
+            if(endOfLifeTransition != null && lifeTime > this.maxLifeTime)
+            {
+                endOfLifeTransition.Eval(pos, partMap, out ElementID result);
+                return result;
+            }
 
-        /*     if(lifeTime > this.maxLifeTime) */
-        /*     { */
-        /*         EndOfLifeTransition.Eval(position, out ElementID result); */
-        /*         return result; */
-        /*     } */
-
-        /*     return this.ID; */
-        /* } */
+            return this.ID;
+        }
 
         // Vars
         public ElementID id    { get{ return this.ID; } }
