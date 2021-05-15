@@ -22,7 +22,7 @@ namespace GrainSim_v2
 
             this.heatTransfer = 400;
 
-            this.highLevelTemp = 1090f;
+            this.highLevelTemp = 1100f;
             this.highLevelTempTransition = new Reaction(this.ID, ElementID.COPPERMELT, 1);
             /* reactions.Add(new Reaction(this.ID, ElementID.WATER, ElementID.WATER, 1, 0.001f)); */
         }

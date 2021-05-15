@@ -87,7 +87,7 @@ namespace GrainSim_v2
         public void Update()
         {
             Propagate();
-            Diffuse();
+            /* Diffuse(); */
         }
 
         void Propagate()

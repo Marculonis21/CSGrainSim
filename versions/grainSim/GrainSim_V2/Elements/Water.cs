@@ -22,7 +22,7 @@ namespace GrainSim_v2
             this.flameable = 0;
             this.explosive = 0;   
 
-            this.heatTransfer = 5;
+            this.heatTransfer = 1;
 
             this.lowLevelTemp = 0;
             this.lowLevelTempTransition = new Reaction(this.ID,

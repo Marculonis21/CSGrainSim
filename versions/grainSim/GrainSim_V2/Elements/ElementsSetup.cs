@@ -32,6 +32,7 @@ namespace GrainSim_v2
             elements.Add(ElementID.SAND, new Sand());
             elements.Add(ElementID.WALL, new Wall());
             elements.Add(ElementID.WATER, new Water());
+            elements.Add(ElementID.WATERVAPOR, new WaterVapor());
             elements.Add(ElementID.COPPER, new Copper());
             elements.Add(ElementID.COPPERMELT, new CopperMelt());
         }
