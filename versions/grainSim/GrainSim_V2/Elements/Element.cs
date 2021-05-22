@@ -84,7 +84,7 @@ namespace GrainSim_v2
             else if(state == 2) // GAS
             {
                 if((partMap.InBounds(new Point(pos.X,pos.Y-1)) && partMap.Type(new Point(pos.X,pos.Y-1)) == ElementID.AIR) ||
-                   (partMap.InBounds(new Point(pos.X,pos.Y-1)) && Element.elements[partMap.Type(new Point(pos.X,pos.Y-1))].weight > this.weight)) // lighter sinks
+                   (partMap.InBounds(new Point(pos.X,pos.Y-1)) && Element.elements[partMap.Type(new Point(pos.X,pos.Y-1))].weight < this.weight)) // lighter sinks
                     return new Point(pos.X,pos.Y-1);
 
                 for (int _y = 0; _y > -2; _y--)
@@ -93,7 +93,7 @@ namespace GrainSim_v2
                         if(partMap.InBounds(new Point(pos.X+_x,pos.Y+_y)))
                         {
                             if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
-                               (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight > this.weight))
+                               (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight < this.weight))
                                 possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
                         }
                     }

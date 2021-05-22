@@ -71,7 +71,7 @@ namespace GrainSim_v2
                         shapes.DrawRectangle(new Point(pos.X*particleSize,
                                                        pos.Y*particleSize),
                                              particleSize,particleSize,
-                                             new Color((int)(temp/2),0,0));
+                                             new Color((int)(temp/4),0,0));
                     }
                     else
                     {
