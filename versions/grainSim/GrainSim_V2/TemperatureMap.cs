@@ -6,8 +6,8 @@ namespace GrainSim_v2
 {
     class TemperatureMap
     {
-        const float flowConstant = 0.1f;
-        const float diffuseRate = 0.01f;
+        const float flowConstant = 0.2f;
+        const float diffuseRate = 0.0005f;
 
         GameMap gameMap;
 
@@ -17,7 +17,7 @@ namespace GrainSim_v2
         int width;
         int height;
 
-        int simDir = -1; //switch directions each turn - TL X TR X BL X BR
+        int simDir = -1; //switch directions each turn - TL X BR
 
         public TemperatureMap(GameMap gameMap, int width, int height)
         {
@@ -87,7 +87,7 @@ namespace GrainSim_v2
         public void Update()
         {
             Propagate();
-            /* Diffuse(); */
+            Diffuse();
         }
 
         void Propagate()
@@ -114,33 +114,25 @@ namespace GrainSim_v2
                         _x = (width-1)  - x;
                         _y = y;
                     }
-                    /* else if(simDir == 2) */
-                    /* { */
-                    /*     _x = x; */
-                    /*     _y = (height-1) - y; */
-                    /* } */
-                    /* else */
-                    /* { */
-                    /*     _x = (width-1)  - x; */
-                    /*     _y = (height-1) - y; */
-                    /* } */
 
-                    // Get positions of neighbor cells
+                    // Get positions of current cell
                     Point cellPos = new Point(_x,_y);
+                    if (partMap.Type(cellPos) == ElementID.WALL) continue; // skip WALLS
+
+                    // Get positions of neigbor cells
                     Point neighPos;
                     Point[] neighborPoints = FindNeighbor(cellPos);
                     
                     // cell/neighbor HT = heatTransfer amount 
-                    float neighHT;
                     float cellHT = Element.elements[partMap.Type(cellPos)].HeatTrans;
+                    float neighHT;
 
                     for (int i = 0; i < 4; i++)
                     {
                         neighPos = neighborPoints[i];
-                        if(neighPos.X == -1) continue; // Out of bounds
+                        if(neighPos.X == -1 || partMap.Type(neighPos) == ElementID.WALL) continue; // Out of bounds / WALL
 
                         neighHT = Element.elements[partMap.Type(neighPos)].HeatTrans;
-                        if(cellHT == 0 || neighHT == 0) continue; // WALL
 
                         float flow = map[neighPos.X, neighPos.Y] - map[cellPos.X, cellPos.Y];
                         if(flow > 0.0f)
@@ -217,8 +209,8 @@ namespace GrainSim_v2
 
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
-                    if(partMap.Type(new Point(x,y)) == ElementID.AIR)
-                        map[x,y] -= (map[x,y] - Element.elements[ElementID.AIR].STemp)*diffuseRate;
+                    /* if(partMap.Type(new Point(x,y)) == ElementID.AIR) */
+                    map[x,y] -= (map[x,y] - Element.elements[ElementID.AIR].STemp)*diffuseRate;
         }
     }
 }
