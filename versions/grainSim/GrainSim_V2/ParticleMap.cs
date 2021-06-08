@@ -38,7 +38,7 @@ namespace GrainSim_v2
                 p.Render(shapes, particleSize);
         }
 
-        public void Spawn(ElementID element, Point position, int burst=1, float prob=1.0f)
+        public void Spawn(ElementID element, Point position, int size = 1)
         {
             if (!InBounds(position)) return;
 
@@ -54,7 +54,7 @@ namespace GrainSim_v2
             }
         }
 
-        public void Delete(Point position)
+        public void Delete(Point position, int size = 1)
         {
             if (!InBounds(position)) return;
 

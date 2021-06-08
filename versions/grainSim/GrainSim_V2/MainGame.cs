@@ -8,22 +8,16 @@ namespace GrainSim_v2
 {
     public class MainGame : Game
     {
-        // lets change all Vector2 to Points because of int!!!! 
-        
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
         public static Random random = new Random();
 
-        const int windowSize = 800;
-        const int particleSize = 5;
-
         GameMap gameMap;
-        /* GameScreen screen; */
-        Vector2 mousePosition;
-        Point mouseBoardPosition;
+        Graphics graphics;
 
-        int cursorSize;
+        GameState gameState = GameState.instance;
+        GraphicState graphicState = GraphicState.instance;
         
         public MainGame()
         {
@@ -34,18 +28,20 @@ namespace GrainSim_v2
 
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferWidth = windowSize;
-            _graphics.PreferredBackBufferHeight = windowSize;
+            _graphics.PreferredBackBufferWidth = graphicState.windowWidth;
+            _graphics.PreferredBackBufferHeight = graphicState.windowHeight;
             _graphics.ApplyChanges();
-
             base.Initialize();
 
             Element.SetupElements();
 
-            /* screen = new GameScreen(this, windowSize, windowSize, particleSize); */
-            gameMap = new GameMap(windowSize/particleSize,windowSize/particleSize);
-
-            cursorSize = 1;
+            gameMap = new GameMap(graphicState.windowWidth/graphicState.particleSize, 
+                                  graphicState.windowHeight/graphicState.particleSize);
+            graphics = new Graphics(this, 
+                                    gameMap, 
+                                    graphicState.windowWidth, 
+                                    graphicState.windowHeight, 
+                                    graphicState.particleSize);
         }
 
         protected override void LoadContent()
@@ -53,63 +49,53 @@ namespace GrainSim_v2
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
-        int drawStyle = 0;
-        ElementID selected;
         protected override void Update(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape)) // ESCAPE - QUIT
                 Exit();
-            if (Keyboard.GetState().IsKeyDown(Keys.F1)) // Enter - change draw style
-                drawStyle = 0;
-            if (Keyboard.GetState().IsKeyDown(Keys.F2)) // Enter - change draw style
-                drawStyle = 1;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.D0)) // Enter - change draw style
-                selected = ElementID.WALL;
-            if (Keyboard.GetState().IsKeyDown(Keys.D1)) // Enter - change draw style
-                selected = ElementID.VOID;
-            if (Keyboard.GetState().IsKeyDown(Keys.D2)) // Enter - change draw style
-                selected = ElementID.SAND;
-            if (Keyboard.GetState().IsKeyDown(Keys.D3)) // Enter - change draw style
-                selected = ElementID.WATER;
-            if (Keyboard.GetState().IsKeyDown(Keys.D4)) // Enter - change draw style
-                selected = ElementID.COPPER;
+            if (Keyboard.GetState().IsKeyDown(Keys.F1)) // F1 - change draw style
+                graphicState.SetDrawStyle(1);
+            if (Keyboard.GetState().IsKeyDown(Keys.F2)) // F2 - change draw style
+                graphicState.SetDrawStyle(1);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D0)) // 0 - change element
+                gameState.SelectElement(ElementID.WALL);
+            if (Keyboard.GetState().IsKeyDown(Keys.D1)) // 1
+                gameState.SelectElement(ElementID.VOID);
+            if (Keyboard.GetState().IsKeyDown(Keys.D2)) // 2
+                gameState.SelectElement(ElementID.SAND);
+            if (Keyboard.GetState().IsKeyDown(Keys.D3)) // 3
+                gameState.SelectElement(ElementID.WATER);
+            if (Keyboard.GetState().IsKeyDown(Keys.D4)) // 4
+                gameState.SelectElement(ElementID.COPPER);
 
             // MouseClick
             MouseState state = Mouse.GetState();
-            if (state.LeftButton == ButtonState.Pressed && 
-                state.X >= 0 && state.X <= windowSize &&
-                state.Y >= 0 && state.Y <= windowSize )
+
+            if(state.X >= 0 && state.X <= graphicState.windowWidth &&
+               state.Y >= 0 && state.Y <= graphicState.windowHeight)
             {
-                mousePosition = new Vector2(state.X,state.Y);
-                /* mouseBoardPosition = screen.CursorGridPosition(mousePosition); */
-                if(selected == ElementID.VOID)
-                    gameMap.GetTemperatureMap().Increment(mouseBoardPosition, 100);
-                else
-                    gameMap.GetParticleMap().Spawn(selected, mouseBoardPosition);
-            }
-            else if (state.RightButton == ButtonState.Pressed && 
-                state.X >= 0 && state.X <= windowSize &&
-                state.Y >= 0 && state.Y <= windowSize )
-            {
-                mousePosition = new Vector2(state.X,state.Y);
-                /* mouseBoardPosition = screen.CursorGridPosition(mousePosition); */
-                gameMap.GetParticleMap().Delete(mouseBoardPosition);
-            }
-            else if (state.X >= 0 && state.X <= windowSize &&
-                     state.Y >= 0 && state.Y <= windowSize )
-            {
-                mousePosition = new Vector2(state.X,state.Y);
-                /* mouseBoardPosition = screen.CursorGridPosition(mousePosition); */
+                gameState.SetCursorPosition(new Vector2(state.X, state.Y));
             }
             else
             {
-                mousePosition = new Vector2(-1,-1);
-                mouseBoardPosition = new Point(-1,-1);
+                gameState.SetCursorPosition(new Vector2(-1, -1));
+            }
+
+            if (state.LeftButton == ButtonState.Pressed) 
+            {
+                if(gameState.currElement == ElementID.VOID)
+                    gameMap.GetTemperatureMap().Increment(gameState.cursorBoardPosition, gameState.cursorSize, 100);
+                else
+                    gameMap.GetParticleMap().Spawn(gameState.currElement, gameState.cursorBoardPosition, gameState.cursorSize);
+            }
+            else if (state.RightButton == ButtonState.Pressed)
+            {
+                gameMap.GetParticleMap().Delete(gameState.cursorBoardPosition, gameState.cursorSize);
             }
 
             gameMap.Update();
-
             base.Update(gameTime);
         }
 

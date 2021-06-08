@@ -27,18 +27,17 @@ namespace GrainSim_v2
             this.boardGraphics = new BoardGraphics(shapes, winWidth, winHeight, particleSize);
         }
 
-        public void Render(Vector2 mousePosition)
+        public void Render()
         {
             DrawBoard();
-            DrawUI(mousePosition);
+            DrawUI();
         }
 
         void DrawBoard()
         {
-            
         }
 
-        void DrawUI(Vector2 mousePosition)
+        void DrawUI()
         {
         }
     }

@@ -42,7 +42,7 @@ namespace GrainSim_v2
                 return -1f;
         }
 
-        public void Set(Point position, float value)
+        public void Set(Point position, int size, float value)
         {
             if(InBounds(position))
                 map[position.X,position.Y] = value;
@@ -50,7 +50,7 @@ namespace GrainSim_v2
                 new Exception("Out of bounds exception - tempMap - set");
         }
 
-        public void Increment(Point position, float value)
+        public void Increment(Point position, int size, float value)
         {
             if(InBounds(position))
                 map[position.X,position.Y] += value;
