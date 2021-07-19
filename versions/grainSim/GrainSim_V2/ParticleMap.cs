@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
@@ -9,9 +8,9 @@ namespace GrainSim_v2
     {
         GameMap gameMap;
 
-        Particle[,] map;
-        List<Particle> particles = new List<Particle>();
-        List<Particle> toDelete = new List<Particle>();
+        /* Particle[,] map; */
+        /* List<Particle> particles = new List<Particle>(); */
+        /* List<Particle> toDelete = new List<Particle>(); */
 
         int PINDEX;
         int[,] _map;
@@ -19,6 +18,8 @@ namespace GrainSim_v2
         
         int width;
         int height;
+
+        const ElementID outOfBoundsElement = ElementID.WALL;
 
         public ParticleMap(GameMap gameMap, int width, int height)
         {
@@ -28,31 +29,33 @@ namespace GrainSim_v2
             this.height = height;
 
             PINDEX = 0;
-
-            this.map = new Particle[width,height];
+            this._map = new int[width,height];
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
-                    map[x,y] = new Particle(ElementID.AIR, new Point(x,y));
+                {
+                    _particles.Add(PINDEX, new Particle(ElementID.AIR, new Point(x,y)));
+                    _map[x,y] = PINDEX;
+                    PINDEX++;
+                }
+                    
         }
 
         public void Update()
         {
-            foreach(Particle d in toDelete)
-            {  
-                particles.Remove(d);
-            }
-            toDelete = new List<Particle>();
-
-            foreach(Particle p in particles)
+            foreach(Particle p in _particles.Values)
+            {
+                if(p.Type() == ElementID.AIR) continue;
                 p.Update(this.gameMap.GetParticleMap(), this.gameMap.GetTemperatureMap());
+            }
         }
 
         public void Render(Shapes shapes, int particleSize)
         {
-            foreach(Particle p in particles)
+            foreach(Particle p in _particles.Values)
+            {
+                if(p.Type() == ElementID.AIR) continue;
                 p.Render(shapes, particleSize);
-
-            Console.WriteLine(particles.Count);
+            }
         }
 
         public void Spawn(ElementID element, Point position, int size = 1)
@@ -67,8 +70,7 @@ namespace GrainSim_v2
                         throw new Exception("Element: " + element + " not introduced in the elements dictionary yet.\nTry adding to ElementsSetup first.\n");
 
                     Particle p = new Particle(element, position);
-                    particles.Add(p);
-                    map[position.X,position.Y] = p;
+                    _particles[GetParticleID(position)] = p;
                 }
             }
             else
@@ -99,8 +101,7 @@ namespace GrainSim_v2
                                     throw new Exception("Element: " + element + " not introduced in the elements dictionary yet.\nTry adding to ElementsSetup first.\n");
 
                                 Particle p = new Particle(element, _position);
-                                particles.Add(p);
-                                map[_position.X, _position.Y] = p;
+                                _particles[GetParticleID(_position)] = p;
                             }
                         }
                     }
@@ -114,9 +115,10 @@ namespace GrainSim_v2
             {
                 if (!InBounds(position)) return;
 
-                Particle p = GetParticle(position);
-                particles.Remove(p);
-                map[position.X,position.Y] = new Particle(ElementID.AIR, position);
+                int id = _map[position.X, position.Y];
+                _particles[id] = new Particle(ElementID.AIR, new Point(position.X, position.Y));
+
+                UnstableSurroundingParticles(position);
             }
             else
             {
@@ -140,9 +142,10 @@ namespace GrainSim_v2
 
                             if (!InBounds(_position)) continue;
 
-                            Particle p = GetParticle(_position);
-                            particles.Remove(p);
-                            map[_position.X,_position.Y] = new Particle(ElementID.AIR, _position);
+                            int id = _map[_position.X, _position.Y];
+                            _particles[id] = new Particle(ElementID.AIR, new Point(_position.X, _position.Y));
+                            
+                            UnstableSurroundingParticles(_position);
                         }
                     }
                 }
@@ -153,36 +156,43 @@ namespace GrainSim_v2
         {
             if (!InBounds(position)) return;
 
-            Particle p = GetParticle(position);
-            toDelete.Add(p); // deleting on the next update
-            map[position.X,position.Y] = new Particle(ElementID.AIR, position);
+            int id = _map[position.X, position.Y];
+            _particles[id] = new Particle(ElementID.AIR, new Point(position.X, position.Y));
         }
 
-        
         public void Swap(Point position1, Point position2)
         {
-            Particle p1 = GetParticle(position1); 
-            Particle p2 = GetParticle(position2); 
+            int p1 = GetParticleID(position1); 
+            int p2 = GetParticleID(position2); 
+            if(p1 == -1 || p2 == -1) return;
 
-            p1.SetPosition(position2);
-            p2.SetPosition(position1);
+            _particles[p1].SetPosition(position2);
+            _particles[p2].SetPosition(position1);
 
-            map[position1.X,position1.Y] = p2;
-            map[position2.X,position2.Y] = p1;
+            _map[position1.X, position1.Y] = p2;
+            _map[position2.X, position2.Y] = p1;
         }
 
         public ElementID Type(Point position)
         {
             if(InBounds(position))
-                return map[position.X, position.Y].Type();
+                return _particles[_map[position.X, position.Y]].Type();
             else
-                return ElementID.WALL;
+                return outOfBoundsElement;
+        }
+
+        public int GetParticleID(Point position)
+        {
+            if(InBounds(position))
+                return _map[position.X, position.Y];
+
+            return -1;
         }
 
         public Particle GetParticle(Point position)
         {
             if(InBounds(position))
-                return map[position.X, position.Y];
+                return _particles[_map[position.X, position.Y]];
 
             return null;
         }
@@ -190,6 +200,20 @@ namespace GrainSim_v2
         public bool InBounds(Point position)
         {
             return (position.X >= 0 && position.X < width) && (position.Y >= 0 && position.Y < height);
+        }
+
+        public void UnstableSurroundingParticles(Point position)
+        {
+            Point point;
+            for(int y = -1; y <= 1; y++)
+                for(int x = -1; x <= 1; x++)
+                {
+                    if(x == y && x == 0) continue;
+
+                    point = new Point(position.X + x, position.Y + y);
+                    if(!InBounds(point)) continue;
+                    GetParticle(point).SetStable(false);
+                }
         }
     }
 }

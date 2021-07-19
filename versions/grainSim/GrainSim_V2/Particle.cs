@@ -9,17 +9,22 @@ namespace GrainSim_v2
         Point pos;
         int lifeTime;
 
+        bool stable;
+
         public Particle(ElementID ID, Point position)
         {
             this.ID = ID;
             this.pos = position;
+            this.stable = false;
 
             this.lifeTime = 0;
         }
 
         public void Update(ParticleMap partMap, TemperatureMap tempMap)
         {
-            UpdatePosition(partMap);
+            if(!stable)
+                UpdatePosition(partMap);
+
             UpdateReaction(partMap, tempMap);
 
             if(Element.elements[ID].MaxLifeTime > 0) lifeTime++;
@@ -48,12 +53,24 @@ namespace GrainSim_v2
             this.pos = position;
         }
 
+        public void SetStable(bool state)
+        {
+            this.stable = state;
+        }
+
         void UpdatePosition(ParticleMap partMap)
         {
             Point result = Element.elements[ID].UpdatePosition(pos, partMap);
 
             if(result != this.pos)
+            {
+                partMap.UnstableSurroundingParticles(this.pos);
                 partMap.Swap(this.pos, result);
+            }
+            else
+            {
+                this.stable = true;
+            }
         }
 
         void UpdateReaction(ParticleMap partMap, TemperatureMap tempMap)
