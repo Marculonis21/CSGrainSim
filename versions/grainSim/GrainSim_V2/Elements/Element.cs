@@ -118,11 +118,14 @@ namespace GrainSim_v2
             if(lowLevelTempTransition != null && tempMap.Get(pos) <= lowLevelTemp)
             {
                 lowLevelTempTransition.Eval(pos, partMap, out ElementID result);
+                tempMap.Set(pos, 0 , tempMap.Get(pos)*1.01f);
+
                 return result;
             }
             if(highLevelTempTransition != null && tempMap.Get(pos) >= highLevelTemp)
             {
                 highLevelTempTransition.Eval(pos, partMap, out ElementID result);
+                tempMap.Set(pos, 0 , tempMap.Get(pos)*0.99f);
                 return result;
             }
 

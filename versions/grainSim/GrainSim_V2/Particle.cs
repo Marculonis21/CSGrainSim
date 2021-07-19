@@ -38,6 +38,11 @@ namespace GrainSim_v2
                                  Element.elements[ID].Color);
         }
 
+        public Point GetPosition()
+        {
+            return this.pos;
+        }
+
         public void SetPosition(Point position)
         {
             this.pos = position;
@@ -46,8 +51,17 @@ namespace GrainSim_v2
         void UpdatePosition(ParticleMap partMap)
         {
             Point result = Element.elements[ID].UpdatePosition(pos, partMap);
-            if(result != this.pos)
-                partMap.Swap(this.pos, result);
+
+            if(result.X >= GameState.instance.boardBounds.X || 
+               result.Y >= GameState.instance.boardBounds.Y)
+            {
+                partMap.Delete(this.pos, 0);
+            }
+            else
+            {
+                if(result != this.pos)
+                    partMap.Swap(this.pos, result);
+            }
         }
 
         void UpdateReaction(ParticleMap partMap, TemperatureMap tempMap)

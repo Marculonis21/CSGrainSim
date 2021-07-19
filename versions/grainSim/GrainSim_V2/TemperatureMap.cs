@@ -12,7 +12,6 @@ namespace GrainSim_v2
         GameMap gameMap;
 
         float[,] map;
-        float[,] newMap;
 
         int width;
         int height;
@@ -27,7 +26,6 @@ namespace GrainSim_v2
             this.height = height;
 
             this.map = new float[width,height];
-            this.newMap = new float[width,height];
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
                     map[x,y] = Element.elements[ElementID.AIR].STemp;
@@ -50,7 +48,7 @@ namespace GrainSim_v2
                 new Exception("Out of bounds exception - tempMap - set");
         }
 
-        public void Increment(Point position, int size, float value)
+        public void Change(Point position, int size, float value)
         {
             if(InBounds(position))
                 map[position.X,position.Y] += value;
@@ -87,7 +85,7 @@ namespace GrainSim_v2
         public void Update()
         {
             Propagate();
-            Diffuse();
+            /* Diffuse(); */
         }
 
         void Propagate()
@@ -162,10 +160,6 @@ namespace GrainSim_v2
                 }
             }
         }
-
-        /* void Diffuse() */
-        /* { */
-        /* } */
 
         bool InBounds(Point position)
         {

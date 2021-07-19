@@ -22,7 +22,7 @@ namespace GrainSim_v2
 
             this.heatTransfer = 10;
 
-            reactions.Add(new Reaction(this.ID, ElementID.WATER, ElementID.WATER, 1, 0.001f));
+            /* reactions.Add(new Reaction(this.ID, ElementID.WATER, ElementID.WATER, 1, 0.001f)); */
         }
     }
 }

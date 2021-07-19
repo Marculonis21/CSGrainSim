@@ -5,26 +5,22 @@ namespace GrainSim_v2
 {
     class Graphics
     {
+        GraphicState graphicState = GraphicState.instance;
+        GameState gameState = GameState.instance;
+
+        BoardGraphics boardGraphics;
+        UIGraphics ui;
+
         GameMap gameMap;
         Shapes shapes;
 
-        BoardGraphics boardGraphics;
-        UI ui;
-
-        int winWidth;
-        int winHeight;
-        int particleSize;
-
-        public Graphics(Game game, GameMap gameMap, int winWidth, int winHeight, int particleSize)
+        public Graphics(Game game, GameMap gameMap)
         {
             this.gameMap = gameMap;
-            this.winHeight = winWidth;
-            this.winHeight = winHeight;
-            this.particleSize = particleSize;
+            this.shapes = new Shapes(game, new Point(0, graphicState.windowHeight));
 
-            this.shapes = new Shapes(game, new Point(0, winHeight));
-
-            this.boardGraphics = new BoardGraphics(shapes, winWidth, winHeight, particleSize);
+            this.boardGraphics = new BoardGraphics(shapes);
+            this.ui = new UIGraphics(shapes);
         }
 
         public void Render()
@@ -35,10 +31,20 @@ namespace GrainSim_v2
 
         void DrawBoard()
         {
+            if(graphicState.drawBoard)
+                boardGraphics.DrawBoard();
+            if(graphicState.drawStyle == GraphicState.DRAWSTYLES.PARTICLE)
+            {
+                boardGraphics.DrawParticles(gameMap.GetParticleMap());
+                /* boardGraphics.DrawFluids(gameMap.GetFluidMap()); */
+            }
+            else if(graphicState.drawStyle == GraphicState.DRAWSTYLES.TEMPERATURE)
+                boardGraphics.DrawTemperature(gameMap.GetTemperatureMap());
         }
 
         void DrawUI()
         {
+            ui.DrawCursor();
         }
     }
 }

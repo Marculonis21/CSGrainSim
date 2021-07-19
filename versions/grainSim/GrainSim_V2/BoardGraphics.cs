@@ -5,17 +5,21 @@ namespace GrainSim_v2
 {
     class BoardGraphics
     {
+        GraphicState graphicState;
+
         int winWidth;
         int winHeight;
         int particleSize;
 
         Shapes shapes;
 
-        public BoardGraphics(Shapes shapes, int winWidth, int winHeight, int particleSize)
+        public BoardGraphics(Shapes shapes)
         {
-            this.winWidth = winWidth;
-            this.winHeight = winHeight;
-            this.particleSize = particleSize;
+            this.graphicState = GraphicState.instance;
+
+            this.winWidth = graphicState.windowWidth;
+            this.winHeight = graphicState.windowHeight;
+            this.particleSize = graphicState.particleSize;
 
             this.shapes = shapes;
         }
@@ -42,7 +46,7 @@ namespace GrainSim_v2
         public void DrawParticles(ParticleMap partMap)
         {
             shapes.Begin();
-            partMap.Render(shapes,particleSize);
+            partMap.Render(shapes, particleSize);
             shapes.End();
         }
 
@@ -50,9 +54,15 @@ namespace GrainSim_v2
         {
             shapes.Begin();
             tempMap.Render(shapes, particleSize);
-
             shapes.End();
         }
+
+        /* public void DrawFluids(FluidMap fluidMap) */
+        /* { */
+        /*     shapes.Begin(); */
+        /*     fluidMap.Render(shapes, particleSize); */
+        /*     shapes.End(); */
+        /* } */
     }
 }
 

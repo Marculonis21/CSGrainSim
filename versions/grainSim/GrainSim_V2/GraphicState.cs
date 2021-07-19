@@ -10,11 +10,18 @@ namespace GrainSim_v2
         public int windowHeight  {get; private set;}
         public int particleSize  {get; private set;}
 
-        public int drawStyle     {get; private set;} 
-        public bool drawBoard    {get; private set;} 
-        public Color cursorColor {get; private set;} 
+        public enum DRAWSTYLES
+        {
+            PARTICLE,
+            TEMPERATURE,
+            LIQUIDS,
+        }
 
-        private GraphicState(int drawStyle, bool drawBoard)
+        public DRAWSTYLES drawStyle  {get; private set;} 
+        public bool drawBoard        {get; private set;} 
+        public Color cursorColor     {get; private set;} 
+
+        private GraphicState(DRAWSTYLES drawStyle, bool drawBoard)
         {
             this.windowWidth  = 800;
             this.windowHeight = 500;
@@ -27,11 +34,10 @@ namespace GrainSim_v2
 
         public static readonly GraphicState instance = new GraphicState(0, false);
 
-        public void SetDrawStyle(int style)
+        public void SetDrawStyle(DRAWSTYLES style)
         {
             this.drawStyle = style;
         }
-
         public void EnableBoard()
         {
             this.drawBoard = true;

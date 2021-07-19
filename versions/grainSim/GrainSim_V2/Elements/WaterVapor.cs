@@ -25,7 +25,7 @@ namespace GrainSim_v2
             this.lowLevelTemp = 95;
             this.lowLevelTempTransition = new Reaction(this.ID,
                                                        ElementID.WATER,
-                                                       1); 
+                                                       0.9f); 
         }
     }
 }

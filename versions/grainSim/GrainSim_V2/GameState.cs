@@ -6,24 +6,31 @@ namespace GrainSim_v2
     class GameState
     {
         /// SINGLETON
-        public ElementID currElement     {get; private set;} 
-        public Vector2 cursorPosition    {get; private set;} 
-        public Point cursorBoardPosition {get; private set;} 
-        public int cursorSize            {get; private set;} 
+        public ElementID currElement      {get; private set;} 
+        public Vector2 cursorPosition     {get; private set;} 
+        public Point cursorBoardPosition  {get; private set;} 
+        public int cursorSize             {get; private set;} 
+        public Point boardBounds          {get; private set;}
 
         private GraphicState graphicState;
+        private int maxCursorSize;
 
         private GameState(ElementID selected, Vector2 position, Point cursorBoardPosition, int cursorSize)
         {
+            this.graphicState = GraphicState.instance;
+
             this.currElement = selected;
             this.cursorPosition = position;
             this.cursorBoardPosition = cursorBoardPosition;
             this.cursorSize = cursorSize;
 
-            this.graphicState = GraphicState.instance;
+            this.boardBounds = new Point(graphicState.windowWidth/graphicState.particleSize,
+                                         graphicState.windowHeight/graphicState.particleSize);
+
+            maxCursorSize = 5;
         }
 
-        public static readonly GameState instance= new GameState(ElementID.SAND, new Vector2(-1,-1), new Point(-1,-1), 1);
+        public static readonly GameState instance = new GameState(ElementID.SAND, new Vector2(-1,-1), new Point(-1,-1), 0);
 
         public void SelectElement(ElementID element)
         {
@@ -46,11 +53,13 @@ namespace GrainSim_v2
 
         public void IncrementCursorSize()
         {
-            this.cursorSize++;
+            if(cursorSize < maxCursorSize)
+                this.cursorSize++;
         }
         public void DecrementCursorSize()
         {
-            this.cursorSize--;
+            if(cursorSize > 0)
+                this.cursorSize--;
         }
     }
 }

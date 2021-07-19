@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GrainSim_v2
 {
@@ -8,6 +10,7 @@ namespace GrainSim_v2
     {
         ParticleMap partMap;
         TemperatureMap tempMap;
+        FluidMap fluidMap;
 
         public int width {get; private set;}
         public int height {get; private set;}
@@ -19,12 +22,14 @@ namespace GrainSim_v2
 
             partMap = new ParticleMap(this, width, height);
             tempMap = new TemperatureMap(this, width, height);
+            /* fluidMap = new FluidMap(this, width, height); */
         }
 
         public void Update()
         {
             partMap.Update();
             tempMap.Update();
+            /* fluidMap.Update(); */
         }
 
         public ParticleMap GetParticleMap()
@@ -36,6 +41,11 @@ namespace GrainSim_v2
         {
             return tempMap;
         }
+
+        /* public FluidMap GetFluidMap() */
+        /* { */
+        /*     return fluidMap; */
+        /* } */
     }
 }
 
