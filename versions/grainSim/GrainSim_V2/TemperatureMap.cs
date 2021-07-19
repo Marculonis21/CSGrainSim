@@ -42,18 +42,72 @@ namespace GrainSim_v2
 
         public void Set(Point position, int size, float value)
         {
-            if(InBounds(position))
-                map[position.X,position.Y] = value;
+            if(size == 0)
+            {
+                if (!InBounds(position)) return;
+                map[position.X, position.Y] = value;
+            }
             else
-                new Exception("Out of bounds exception - tempMap - set");
+            {
+                int offset;
+                if(size < 20)
+                    offset = 4;
+                else if (size < 50)
+                    offset = 6;
+                else
+                    offset = 10;
+
+                for (int y = size; y > -size; y--)
+                {
+                    for (int x = -size; x < size; x++)
+                    {
+                        if(size+offset >= x*x + y*y)
+                        {
+                            int _x = position.X + x;
+                            int _y = position.Y + y;
+                            Point _position = new Point(_x, _y);
+
+                            if (!InBounds(_position)) continue;
+                            map[_position.X, _position.Y] = value;
+                        }
+                    }
+                }
+            }
         }
 
-        public void Change(Point position, int size, float value)
+        public void Increment(Point position, int size, float value)
         {
-            if(InBounds(position))
-                map[position.X,position.Y] += value;
+            if(size == 0)
+            {
+                if (!InBounds(position)) return;
+                map[position.X, position.Y] += value;
+            }
             else
-                new Exception("Out of bounds exception - tempMap - set");
+            {
+                int offset;
+                if(size < 20)
+                    offset = 4;
+                else if (size < 50)
+                    offset = 6;
+                else
+                    offset = 10;
+
+                for (int y = size; y > -size; y--)
+                {
+                    for (int x = -size; x < size; x++)
+                    {
+                        if(size+offset >= x*x + y*y)
+                        {
+                            int _x = position.X + x;
+                            int _y = position.Y + y;
+                            Point _position = new Point(_x, _y);
+
+                            if (!InBounds(_position)) continue;
+                            map[_position.X, _position.Y] += value;
+                        }
+                    }
+                }
+            }
         }
 
         public void Render(Shapes shapes, int particleSize)
@@ -85,7 +139,7 @@ namespace GrainSim_v2
         public void Update()
         {
             Propagate();
-            /* Diffuse(); */
+            Diffuse();
         }
 
         void Propagate()

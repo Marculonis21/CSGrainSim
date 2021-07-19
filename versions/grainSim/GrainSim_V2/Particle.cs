@@ -52,16 +52,8 @@ namespace GrainSim_v2
         {
             Point result = Element.elements[ID].UpdatePosition(pos, partMap);
 
-            if(result.X >= GameState.instance.boardBounds.X || 
-               result.Y >= GameState.instance.boardBounds.Y)
-            {
-                partMap.Delete(this.pos, 0);
-            }
-            else
-            {
-                if(result != this.pos)
-                    partMap.Swap(this.pos, result);
-            }
+            if(result != this.pos)
+                partMap.Swap(this.pos, result);
         }
 
         void UpdateReaction(ParticleMap partMap, TemperatureMap tempMap)
@@ -70,8 +62,15 @@ namespace GrainSim_v2
 
             if(result != this.ID)
             {
-                this.ID = result;
-                this.lifeTime = 0;
+                if(result == ElementID.VOID) // void == deleted
+                {
+                    partMap.Delete(this.pos);
+                }
+                else
+                {
+                    this.ID = result;
+                    this.lifeTime = 0;
+                }
             }
         }
     }

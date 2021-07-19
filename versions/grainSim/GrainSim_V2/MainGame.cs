@@ -96,7 +96,7 @@ namespace GrainSim_v2
             if (state.LeftButton == ButtonState.Pressed) 
             {
                 if(gameState.currElement == ElementID.VOID)
-                    tempMap.Change(gameState.cursorBoardPosition, gameState.cursorSize, 100);
+                    tempMap.Increment(gameState.cursorBoardPosition, gameState.cursorSize, 100);
                     /* fluidMap.Set(gameState.cursorBoardPosition, 0, ElementID.WATER); */
                 else
                     partMap.Spawn(gameState.currElement, gameState.cursorBoardPosition, gameState.cursorSize);
@@ -113,18 +113,18 @@ namespace GrainSim_v2
         float last;
         protected override void Draw(GameTime gameTime)
         {
-            /* Console.Clear(); */
+            Console.Clear();
             Console.WriteLine((gameTime.TotalGameTime.Milliseconds - last).ToString());
             last = gameTime.TotalGameTime.Milliseconds;
 
             GraphicsDevice.Clear(Color.Black);
 
-            /* if(gameState.cursorBoardPosition.X != -1) */
-            /*     Console.WriteLine("Draw style: "+graphicState.drawStyle+ */
-            /*                     "\nSelected: "+gameState.currElement+ */ 
-            /*                     "\nCell "+gameState.cursorBoardPosition.X+";"+gameState.cursorBoardPosition.Y+ */
-            /*                    ")\nParticle: "+partMap.Type(gameState.cursorBoardPosition)+ */
-            /*                     "\nTemperature: "+tempMap.Get(gameState.cursorBoardPosition)); */
+            if(gameState.cursorBoardPosition.X != -1)
+                Console.WriteLine("Draw style: "+graphicState.drawStyle+
+                                "\nSelected: "+gameState.currElement+ 
+                                "\nCell "+gameState.cursorBoardPosition.X+";"+gameState.cursorBoardPosition.Y+
+                               ")\nParticle: "+partMap.Type(gameState.cursorBoardPosition)+
+                                "\nTemperature: "+tempMap.Get(gameState.cursorBoardPosition));
 
             graphics.Render();
             base.Draw(gameTime);

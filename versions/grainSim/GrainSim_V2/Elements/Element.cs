@@ -37,7 +37,8 @@ namespace GrainSim_v2
         protected Reaction lowLevelTempTransition;
         protected float highLevelTemp;
         protected Reaction highLevelTempTransition;
-
+ 
+        // if decay to nothing -> react to ElementID.VOID (particle deleted)
         protected int maxLifeTime;
         protected Reaction endOfLifeTransition;
 
@@ -118,14 +119,14 @@ namespace GrainSim_v2
             if(lowLevelTempTransition != null && tempMap.Get(pos) <= lowLevelTemp)
             {
                 lowLevelTempTransition.Eval(pos, partMap, out ElementID result);
-                tempMap.Set(pos, 0 , tempMap.Get(pos)*1.01f);
+                tempMap.Set(pos, 0 , tempMap.Get(pos)*1.2f);
 
                 return result;
             }
             if(highLevelTempTransition != null && tempMap.Get(pos) >= highLevelTemp)
             {
                 highLevelTempTransition.Eval(pos, partMap, out ElementID result);
-                tempMap.Set(pos, 0 , tempMap.Get(pos)*0.99f);
+                tempMap.Set(pos, 0 , tempMap.Get(pos)*0.8f);
                 return result;
             }
 

@@ -27,7 +27,7 @@ namespace GrainSim_v2
             this.boardBounds = new Point(graphicState.windowWidth/graphicState.particleSize,
                                          graphicState.windowHeight/graphicState.particleSize);
 
-            maxCursorSize = 5;
+            maxCursorSize = 100;
         }
 
         public static readonly GameState instance = new GameState(ElementID.SAND, new Vector2(-1,-1), new Point(-1,-1), 0);
@@ -54,12 +54,12 @@ namespace GrainSim_v2
         public void IncrementCursorSize()
         {
             if(cursorSize < maxCursorSize)
-                this.cursorSize++;
+                this.cursorSize += 2;
         }
         public void DecrementCursorSize()
         {
             if(cursorSize > 0)
-                this.cursorSize--;
+                this.cursorSize -= 2;
         }
     }
 }

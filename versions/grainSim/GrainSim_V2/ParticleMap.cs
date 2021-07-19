@@ -12,6 +12,10 @@ namespace GrainSim_v2
         Particle[,] map;
         List<Particle> particles = new List<Particle>();
         List<Particle> toDelete = new List<Particle>();
+
+        int PINDEX;
+        int[,] _map;
+        Dictionary<int, Particle> _particles = new Dictionary<int, Particle>();
         
         int width;
         int height;
@@ -22,6 +26,8 @@ namespace GrainSim_v2
 
             this.width = width;
             this.height = height;
+
+            PINDEX = 0;
 
             this.map = new Particle[width,height];
             for (int y = 0; y < height; y++)
@@ -37,7 +43,6 @@ namespace GrainSim_v2
             }
             toDelete = new List<Particle>();
 
-            Console.WriteLine("hey");
             foreach(Particle p in particles)
                 p.Update(this.gameMap.GetParticleMap(), this.gameMap.GetTemperatureMap());
         }
@@ -52,10 +57,10 @@ namespace GrainSim_v2
 
         public void Spawn(ElementID element, Point position, int size = 1)
         {
-            if (!InBounds(position)) return;
-
-            if(size == 0)
+            if (size == 0)
             {
+                if (!InBounds(position)) return;
+
                 if (Type(position) == ElementID.AIR)
                 {
                     if(!Element.elements.ContainsKey(element))
@@ -68,61 +73,91 @@ namespace GrainSim_v2
             }
             else
             {
-                double angle = (2*Math.PI)/72;
+                int offset;
+                if(size < 20)
+                    offset = 4;
+                else if (size < 50)
+                    offset = 6;
+                else
+                    offset = 10;
 
-                for (int s = size; s >= 0; s--)
+                for (int y = size; y > -size; y--)
                 {
-                    for (int i = 0; i < 72; i++)
+                    for (int x = -size; x < size; x++)
                     {
-                        int _x = position.X + (int)(Math.Cos(angle*i)*s);
-                        int _y = position.Y + (int)(Math.Sin(angle*i)*s);
-
-                        Point _position = new Point(_x, _y);
-
-                        if (Type(_position) == ElementID.AIR)
+                        if(size+offset >= x*x + y*y)
                         {
-                            if(!Element.elements.ContainsKey(element))
-                                throw new Exception("Element: " + element + " not introduced in the elements dictionary yet.\nTry adding to ElementsSetup first.\n");
+                            int _x = position.X + x;
+                            int _y = position.Y + y;
+                            Point _position = new Point(_x, _y);
 
-                            Particle p = new Particle(element, _position);
-                            particles.Add(p);
-                            map[_position.X, _position.Y] = p;
+                            if (!InBounds(_position)) continue;
+
+                            if (Type(_position) == ElementID.AIR)
+                            {
+                                if(!Element.elements.ContainsKey(element))
+                                    throw new Exception("Element: " + element + " not introduced in the elements dictionary yet.\nTry adding to ElementsSetup first.\n");
+
+                                Particle p = new Particle(element, _position);
+                                particles.Add(p);
+                                map[_position.X, _position.Y] = p;
+                            }
                         }
                     }
                 }
             }
         }
 
-        public void Delete(Point position, int size = 1)
+        public void Delete(Point position, int size = 1) // from mouse
         {
-            if (!InBounds(position)) return;
-
             if(size == 0)
             {
+                if (!InBounds(position)) return;
+
                 Particle p = GetParticle(position);
-                toDelete.Add(p); // deleting on the next update
+                particles.Remove(p);
                 map[position.X,position.Y] = new Particle(ElementID.AIR, position);
             }
             else
             {
-                double angle = (2*Math.PI)/72;
+                int offset;
+                if(size < 20)
+                    offset = 4;
+                else if (size < 50)
+                    offset = 6;
+                else
+                    offset = 10;
 
-                for (int s = size; s >= 0; s--)
+                for (int y = size; y > -size; y--)
                 {
-                    for (int i = 0; i < 72; i++)
+                    for (int x = -size; x < size; x++)
                     {
-                        int _x = position.X + (int)(Math.Cos(angle*i)*s);
-                        int _y = position.Y + (int)(Math.Sin(angle*i)*s);
+                        if(size+offset >= x*x + y*y)
+                        {
+                            int _x = position.X + x;
+                            int _y = position.Y + y;
+                            Point _position = new Point(_x, _y);
 
-                        Point _position = new Point(_x, _y);
+                            if (!InBounds(_position)) continue;
 
-                        Particle p = GetParticle(_position);
-                        toDelete.Add(p); // deleting on the next update
-                        map[_position.X,_position.Y] = new Particle(ElementID.AIR, _position);
+                            Particle p = GetParticle(_position);
+                            particles.Remove(p);
+                            map[_position.X,_position.Y] = new Particle(ElementID.AIR, _position);
+                        }
                     }
                 }
             }
         }
+
+        public void Delete(Point position)
+        {
+            if (!InBounds(position)) return;
+
+            Particle p = GetParticle(position);
+            toDelete.Add(p); // deleting on the next update
+            map[position.X,position.Y] = new Particle(ElementID.AIR, position);
+        }
+
         
         public void Swap(Point position1, Point position2)
         {
