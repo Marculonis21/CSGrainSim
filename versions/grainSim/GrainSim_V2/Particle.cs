@@ -22,10 +22,9 @@ namespace GrainSim_v2
 
         public void Update(ParticleMap partMap, TemperatureMap tempMap)
         {
+            UpdateReaction(partMap, tempMap);
             if(!stable)
                 UpdatePosition(partMap);
-
-            UpdateReaction(partMap, tempMap);
 
             if(Element.elements[ID].MaxLifeTime > 0) lifeTime++;
         }
@@ -68,9 +67,7 @@ namespace GrainSim_v2
                 partMap.Swap(this.pos, result);
             }
             else
-            {
-                this.stable = true;
-            }
+                SetStable(true);
         }
 
         void UpdateReaction(ParticleMap partMap, TemperatureMap tempMap)
@@ -79,6 +76,9 @@ namespace GrainSim_v2
 
             if(result != this.ID)
             {
+                SetStable(false);
+                partMap.UnstableSurroundingParticles(this.pos);
+
                 if(result == ElementID.VOID) // void == deleted
                 {
                     partMap.Delete(this.pos);

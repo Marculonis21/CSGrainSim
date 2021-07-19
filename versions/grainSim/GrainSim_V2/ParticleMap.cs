@@ -10,11 +10,11 @@ namespace GrainSim_v2
 
         /* Particle[,] map; */
         /* List<Particle> particles = new List<Particle>(); */
-        /* List<Particle> toDelete = new List<Particle>(); */
 
         int PINDEX;
         int[,] _map;
         Dictionary<int, Particle> _particles = new Dictionary<int, Particle>();
+        List<Point> toDelete = new List<Point>();
         
         int width;
         int height;
@@ -37,7 +37,6 @@ namespace GrainSim_v2
                     _map[x,y] = PINDEX;
                     PINDEX++;
                 }
-                    
         }
 
         public void Update()
@@ -47,6 +46,14 @@ namespace GrainSim_v2
                 if(p.Type() == ElementID.AIR) continue;
                 p.Update(this.gameMap.GetParticleMap(), this.gameMap.GetTemperatureMap());
             }
+
+            int id;
+            foreach(Point point in toDelete)
+            {
+                id = _map[point.X, point.Y];
+                _particles[id] = new Particle(ElementID.AIR, new Point(point.X, point.Y));
+            }
+            toDelete.Clear();
         }
 
         public void Render(Shapes shapes, int particleSize)
@@ -155,9 +162,7 @@ namespace GrainSim_v2
         public void Delete(Point position)
         {
             if (!InBounds(position)) return;
-
-            int id = _map[position.X, position.Y];
-            _particles[id] = new Particle(ElementID.AIR, new Point(position.X, position.Y));
+            toDelete.Add(position);
         }
 
         public void Swap(Point position1, Point position2)

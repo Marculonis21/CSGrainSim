@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
@@ -37,7 +36,7 @@ namespace GrainSim_v2
         protected Reaction lowLevelTempTransition;
         protected float highLevelTemp;
         protected Reaction highLevelTempTransition;
- 
+
         // if decay to nothing -> react to ElementID.VOID (particle deleted)
         protected int maxLifeTime;
         protected Reaction endOfLifeTransition;
@@ -50,57 +49,124 @@ namespace GrainSim_v2
 
             if(state == 0) // solids
             {
-                if((partMap.InBounds(new Point(pos.X,pos.Y+1)) && partMap.Type(new Point(pos.X,pos.Y+1)) == ElementID.AIR) ||
-                   (partMap.InBounds(new Point(pos.X,pos.Y+1)) && Element.elements[partMap.Type(new Point(pos.X,pos.Y+1))].weight < this.weight)) // heavier sinks
-                    return new Point(pos.X,pos.Y+1);
+                if((partMap.Type(new Point(pos.X,pos.Y+1)) == ElementID.AIR) ||
+                   (Element.elements[partMap.Type(new Point(pos.X,pos.Y+1))].weight < this.weight)) // heavier sinks
+                {
+                    if(MainGame.random.NextDouble() <= 0.9f) // random sideways movement
+                        return new Point(pos.X,pos.Y+1);
+                    else
+                    {
+                        Point l = new Point(pos.X-1, pos.Y+1); 
+                        l = partMap.Type(l) == ElementID.AIR ? l : new Point(-1, -1); 
+                        Point r = new Point(pos.X+1, pos.Y+1);
+                        r = partMap.Type(r) == ElementID.AIR ? r : new Point(-1, -1); 
+
+                        if(l.X == -1 && r.X == -1)
+                            return new Point(pos.X,pos.Y+1);
+                        else if(l.X != -1 && r.X != -1)
+                        {
+                            if(MainGame.random.NextDouble() <= 0.5f)
+                                return l;
+                            else
+                                return r;
+                        }
+                        else if(l.X != -1)
+                            return l;
+                        else
+                            return r;
+                    }
+                }
 
                 for (int _y = 1; _y < 2; _y++)
                     for (int _x = -1; _x < 2; _x++)
-                    {
-                        if(partMap.InBounds(new Point(pos.X+_x,pos.Y+_y)))
+                        if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
+                           (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight < this.weight))
                         {
-                            if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
-                               (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight < this.weight))
-                                possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
+                            possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
                         }
-                    }
+
             }
             else if(state == 1) // LIQUID
             {
-                if((partMap.InBounds(new Point(pos.X,pos.Y+1)) && partMap.Type(new Point(pos.X,pos.Y+1)) == ElementID.AIR) ||
-                   (partMap.InBounds(new Point(pos.X,pos.Y+1)) && Element.elements[partMap.Type(new Point(pos.X,pos.Y+1))].weight < this.weight)) // heavier sinks
-                    return new Point(pos.X,pos.Y+1);
+                if((partMap.Type(new Point(pos.X,pos.Y+1)) == ElementID.AIR) ||
+                   (Element.elements[partMap.Type(new Point(pos.X,pos.Y+1))].weight < this.weight)) // heavier sinks
+                {
+                    if(MainGame.random.NextDouble() <= 0.9f) // random sideways movement
+                        return new Point(pos.X,pos.Y+1);
+                    else
+                    {
+                        Point l = new Point(pos.X-1, pos.Y+1); 
+                        l = partMap.Type(l) == ElementID.AIR ? l : new Point(-1, -1); 
+                        Point r = new Point(pos.X+1, pos.Y+1);
+                        r = partMap.Type(r) == ElementID.AIR ? r : new Point(-1, -1); 
+
+                        if(l.X == -1 && r.X == -1)
+                            return new Point(pos.X,pos.Y+1);
+                        else if(l.X != -1 && r.X != -1)
+                        {
+                            if(MainGame.random.NextDouble() <= 0.5f)
+                                return l;
+                            else
+                                return r;
+                        }
+                        else if(l.X != -1)
+                            return l;
+                        else
+                            return r;
+                    }
+                }
 
                 for (int _y = 0; _y < 2; _y++)
                     for (int _x = -1; _x < 2; _x++)
-                    {
-                        if(partMap.InBounds(new Point(pos.X+_x,pos.Y+_y)))
+                        if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
+                           (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight < this.weight))
                         {
-                            if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
-                               (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight < this.weight))
-                                possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
+                            possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
                         }
-                    }
+
             }
             else if(state == 2) // GAS
             {
-                if((partMap.InBounds(new Point(pos.X,pos.Y-1)) && partMap.Type(new Point(pos.X,pos.Y-1)) == ElementID.AIR) ||
-                   (partMap.InBounds(new Point(pos.X,pos.Y-1)) && Element.elements[partMap.Type(new Point(pos.X,pos.Y-1))].weight < this.weight)) // lighter sinks
-                    return new Point(pos.X,pos.Y-1);
+                if((partMap.Type(new Point(pos.X,pos.Y-1)) == ElementID.AIR) ||
+                   (Element.elements[partMap.Type(new Point(pos.X,pos.Y-1))].weight < this.weight)) // lighter sinks
+                {
+
+                    if(MainGame.random.NextDouble() <= 0.8f) // random sideways movement
+                        return new Point(pos.X,pos.Y-1);
+                    else
+                    {
+                        Point l = new Point(pos.X-1, pos.Y-1); 
+                        l = partMap.Type(l) == ElementID.AIR ? l : new Point(-1, -1); 
+                        Point r = new Point(pos.X+1, pos.Y-1);
+                        r = partMap.Type(r) == ElementID.AIR ? r : new Point(-1, -1); 
+
+                        if(l.X == -1 && r.X == -1)
+                            return new Point(pos.X,pos.Y-1);
+                        else if(l.X != -1 && r.X != -1)
+                        {
+                            if(MainGame.random.NextDouble() <= 0.5f)
+                                return l;
+                            else
+                                return r;
+                        }
+                        else if(l.X != -1)
+                            return l;
+                        else
+                            return r;
+                    }
+                }
 
                 for (int _y = 0; _y > -2; _y--)
                     for (int _x = -1; _x < 2; _x++)
-                    {
-                        if(partMap.InBounds(new Point(pos.X+_x,pos.Y+_y)))
+                        if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
+                           (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight < this.weight))
                         {
-                            if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
-                               (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight < this.weight))
-                                possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
+                            possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
                         }
-                    }
+
             }
 
-            if(possiblePos.Count != 0)
+            if(possiblePos.Count != 0) // choose random from possible positions
                 return possiblePos[MainGame.random.Next(0,possiblePos.Count)];
             else
                 return pos;
@@ -108,7 +174,7 @@ namespace GrainSim_v2
 
         public ElementID UpdateReaction(Point pos, int lifeTime, ParticleMap partMap, TemperatureMap tempMap)
         {
-            foreach (Reaction r in this.reactions)
+            foreach (Reaction r in this.reactions) // evaluate all possible reactions
             {
                 if(r.Eval(pos, partMap, out ElementID result))
                 {
@@ -116,39 +182,43 @@ namespace GrainSim_v2
                 }
             }
 
+            // evaluate preset transitional reactons
             if(lowLevelTempTransition != null && tempMap.Get(pos) <= lowLevelTemp)
             {
-                lowLevelTempTransition.Eval(pos, partMap, out ElementID result);
-                tempMap.Set(pos, 0 , tempMap.Get(pos)*1.2f);
-
-                return result;
+                if(lowLevelTempTransition.Eval(pos, partMap, out ElementID result))
+                {
+                    tempMap.Set(pos, 0, tempMap.Get(pos)*1.05f);
+                    return result;
+                }
             }
             if(highLevelTempTransition != null && tempMap.Get(pos) >= highLevelTemp)
             {
-                highLevelTempTransition.Eval(pos, partMap, out ElementID result);
-                tempMap.Set(pos, 0 , tempMap.Get(pos)*0.8f);
-                return result;
+                if(highLevelTempTransition.Eval(pos, partMap, out ElementID result))
+                {
+                    tempMap.Set(pos, 0, tempMap.Get(pos)*0.95f);
+                    return result;
+                }
             }
 
             if(endOfLifeTransition != null && lifeTime > this.maxLifeTime)
             {
-                endOfLifeTransition.Eval(pos, partMap, out ElementID result);
-                return result;
+                if(endOfLifeTransition.Eval(pos, partMap, out ElementID result))
+                    return result;
             }
 
             return this.ID;
         }
 
-        // Vars
+        // Public get vars
         public ElementID id    { get{ return this.ID; } }
 
-        public string Name  { get{ return this.name;      } }
-        public string Short { get{ return this.nameShort; } }
-        public Color Color  { get{ return this.color;     } }
+        public string Name     { get{ return this.name;      } }
+        public string Short    { get{ return this.nameShort; } }
+        public Color Color     { get{ return this.color;     } }
 
-        public int State     { get{ return this.state;  }  }
-        public float Weight  { get{ return this.weight; }  }
-        public float STemp   { get{ return this.spawnTemperature; }  }
+        public int State       { get{ return this.state;  }  }
+        public float Weight    { get{ return this.weight; }  }
+        public float STemp     { get{ return this.spawnTemperature; }  }
 
         public float Flamable  { get{ return this.flameable;    } }
         public float Explosive { get{ return this.explosive;    } }

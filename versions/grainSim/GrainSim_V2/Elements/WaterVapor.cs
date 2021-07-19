@@ -13,7 +13,7 @@ namespace GrainSim_v2
             this.color = Color.SkyBlue;
 
             this.state = 2;           
-            this.weight = 1;         
+            this.weight = 0;         
             this.move = true;
             this.spawnTemperature = 120;
 

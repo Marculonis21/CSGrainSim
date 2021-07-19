@@ -29,12 +29,14 @@ namespace GrainSim_v2
             elements = new Dictionary<ElementID, Element>();
 
             elements.Add(ElementID.AIR, new Air());
+            elements.Add(ElementID.COPPER, new Copper());
+            elements.Add(ElementID.COPPERMELT, new CopperMelt());
+            elements.Add(ElementID.FIRE, new Fire());
             elements.Add(ElementID.SAND, new Sand());
+            elements.Add(ElementID.SMOKE, new Smoke());
             elements.Add(ElementID.WALL, new Wall());
             elements.Add(ElementID.WATER, new Water());
             elements.Add(ElementID.WATERVAPOR, new WaterVapor());
-            elements.Add(ElementID.COPPER, new Copper());
-            elements.Add(ElementID.COPPERMELT, new CopperMelt());
         }
     }
 }

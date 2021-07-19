@@ -75,10 +75,14 @@ namespace GrainSim_v2
                 gameState.SelectElement(ElementID.WATER);
             if (Keyboard.GetState().IsKeyDown(Keys.D4)) // 4
                 gameState.SelectElement(ElementID.COPPER);
+            if (Keyboard.GetState().IsKeyDown(Keys.D5)) // 5
+                gameState.SelectElement(ElementID.FIRE);
+            if (Keyboard.GetState().IsKeyDown(Keys.D6)) // 6
+                gameState.SelectElement(ElementID.SMOKE);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up)) // 4
+            if (Keyboard.GetState().IsKeyDown(Keys.Up)) // UP
                 gameState.IncrementCursorSize();
-            if (Keyboard.GetState().IsKeyDown(Keys.Down)) // 4
+            if (Keyboard.GetState().IsKeyDown(Keys.Down)) // DOWN
                 gameState.DecrementCursorSize();
 
             // MouseEvents 
@@ -96,7 +100,7 @@ namespace GrainSim_v2
             if (state.LeftButton == ButtonState.Pressed) 
             {
                 if(gameState.currElement == ElementID.VOID)
-                    tempMap.Increment(gameState.cursorBoardPosition, gameState.cursorSize, 100);
+                    tempMap.Increment(gameState.cursorBoardPosition, gameState.cursorSize, 10);
                     /* fluidMap.Set(gameState.cursorBoardPosition, 0, ElementID.WATER); */
                 else
                     partMap.Spawn(gameState.currElement, gameState.cursorBoardPosition, gameState.cursorSize);
