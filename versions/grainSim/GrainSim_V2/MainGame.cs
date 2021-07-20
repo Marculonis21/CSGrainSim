@@ -22,7 +22,10 @@ namespace GrainSim_v2
 
         GraphicState graphicState = GraphicState.instance;
         GameState gameState = GameState.instance;
-        
+
+
+        SpriteFont mainFont;
+
         public MainGame()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -53,6 +56,8 @@ namespace GrainSim_v2
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            mainFont = Content.Load<SpriteFont>("Fonts/MainFont");
         }
 
         protected override void Update(GameTime gameTime)
