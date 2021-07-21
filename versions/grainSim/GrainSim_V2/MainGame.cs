@@ -135,6 +135,9 @@ namespace GrainSim_v2
                                ")\nParticle: "+partMap.Type(gameState.cursorBoardPosition)+
                                 "\nTemperature: "+tempMap.Get(gameState.cursorBoardPosition));
 
+            _spriteBatch.Begin();
+            _spriteBatch.DrawString(mainFont, "Fire Smoke Mdfkas", new Vector2(100,100), Color.Red);
+            _spriteBatch.End();
             graphics.Render();
             base.Draw(gameTime);
         }
