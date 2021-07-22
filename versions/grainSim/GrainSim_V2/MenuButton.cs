@@ -6,8 +6,9 @@ namespace GrainSim_v2
     class MenuButton : UIItem
     {
         List<UIItem> toActivate;
+        string group;
 
-        public MenuButton(List<UIItem> toActivate,
+        public MenuButton(List<UIItem> toActivate, string group,
                           string text, 
                           string font, 
                           Vector2 position, 
@@ -15,15 +16,22 @@ namespace GrainSim_v2
                           int height, 
                           int borderWidth, 
                           Color textColor, 
-                          Color borderColor) : base(text, font, position, width, height, borderWidth, textColor, borderColor)
+                          Color borderColor,
+                          string info="") : base(text, font, position, width, height, borderWidth, textColor, borderColor, info)
         {
             this.toActivate = toActivate;
+            this.group = group;
         }
 
         public override void Click()
         {
-            UIManager.instance.SetActiveElements(toActivate);
-            
+            if(group == "menu")
+            {
+                UIManager.instance.SetMenuElements(toActivate);
+                UIManager.instance.SetActiveElements(new List<UIItem>());
+            }
+            else if(group == "active")
+                UIManager.instance.SetActiveElements(toActivate);
         }
     }
 }

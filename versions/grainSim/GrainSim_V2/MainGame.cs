@@ -13,6 +13,10 @@ namespace GrainSim_v2
 
         public static Random random = new Random();
 
+        bool clickEnabled = true;
+        int clickTimeout = 20;
+        int timer;
+
         GameMap gameMap;
         ParticleMap partMap;
         TemperatureMap tempMap;
@@ -52,7 +56,7 @@ namespace GrainSim_v2
             // custom graphics class setup
             graphics = new Graphics(this, gameMap, spriteBatch);
 
-            uiManager.Setup();
+            uiManager.Setup(this, partMap, tempMap);
         }
 
         protected override void LoadContent()
@@ -71,10 +75,10 @@ namespace GrainSim_v2
             if (Keyboard.GetState().IsKeyDown(Keys.Escape)) // ESCAPE - QUIT
                 Exit();
 
-            /* if (Keyboard.GetState().IsKeyDown(Keys.F1)) // F1 - change draw style */
-            /*     graphicState.SetDrawStyle(GraphicState.DRAWSTYLES.PARTICLE); */
-            /* if (Keyboard.GetState().IsKeyDown(Keys.F2)) // F2 - change draw style */
-            /*     graphicState.SetDrawStyle(GraphicState.DRAWSTYLES.TEMPERATURE); */
+            if (Keyboard.GetState().IsKeyDown(Keys.F1)) // F1 - change draw style
+                graphicState.SetDrawStyle(GraphicState.DRAWSTYLES.PARTICLE); 
+            if (Keyboard.GetState().IsKeyDown(Keys.F2)) // F2 - change draw style
+                graphicState.SetDrawStyle(GraphicState.DRAWSTYLES.TEMPERATURE);
 
             /* if (Keyboard.GetState().IsKeyDown(Keys.D0)) // 0 - change element */
             /*     gameState.SelectElement(ElementID.WALL); */
@@ -109,7 +113,9 @@ namespace GrainSim_v2
 
             if (state.LeftButton == ButtonState.Pressed) 
             {
-                if(!uiManager.CheckClick())
+                if(clickEnabled && uiManager.CheckClick())
+                    clickEnabled = false;
+                else
                 {
                     switch (gameState.currElement)
                     {
@@ -137,6 +143,13 @@ namespace GrainSim_v2
                 partMap.Delete(gameState.cursorBoardPosition, gameState.cursorSize, walls: false);
             }
 
+            if(!clickEnabled)
+                timer++;
+            if(timer >= clickTimeout)
+            {
+                clickEnabled = true;
+                timer = 0;
+            }
 
             gameMap.Update();
             base.Update(gameTime);
@@ -151,12 +164,6 @@ namespace GrainSim_v2
 
             GraphicsDevice.Clear(Color.Black);
 
-            if(gameState.cursorBoardPosition.X != -1)
-                Console.WriteLine("Draw style: "+graphicState.drawStyle+
-                                "\nSelected: "+gameState.currElement+ 
-                                "\nCell "+gameState.cursorBoardPosition.X+";"+gameState.cursorBoardPosition.Y+
-                               ")\nParticle: "+partMap.Type(gameState.cursorBoardPosition)+
-                                "\nTemperature: "+tempMap.Get(gameState.cursorBoardPosition));
 
             graphics.Render();
             base.Draw(gameTime);
@@ -165,10 +172,12 @@ namespace GrainSim_v2
         public void SaveGame()
         {
 
+            Console.WriteLine("saved");
         }
 
         public void LoadGame()
         {
+            Console.WriteLine("load");
         }
     }
 }

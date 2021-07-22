@@ -7,7 +7,7 @@ namespace GrainSim_v2
     class TemperatureMap
     {
         const float flowConstant = 0.2f;
-        const float diffuseRate = 0.0005f;
+        const float diffuseRate = 0.0003f;
 
         GameMap gameMap;
 
@@ -130,7 +130,7 @@ namespace GrainSim_v2
                         shapes.DrawRectangle(new Point(pos.X*particleSize,
                                                        pos.Y*particleSize),
                                              particleSize,particleSize,
-                                             new Color(0,0,(int)(-temp/2)));
+                                             new Color(0,0,(int)(-temp/1)));
                     }
                 }
             }
@@ -257,8 +257,11 @@ namespace GrainSim_v2
 
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
-                    /* if(partMap.Type(new Point(x,y)) == ElementID.AIR) */
+                {
                     map[x,y] -= (map[x,y] - Element.elements[ElementID.AIR].STemp)*diffuseRate;
+                    if(map[x,y] <= -273.15f)
+                        map[x,y] = -273.15f;
+                }
         }
     }
 }

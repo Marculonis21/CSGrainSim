@@ -236,20 +236,27 @@ namespace GrainSim_v2
             this.shapeCount++;
         }
 
-        public void DrawText(string text, string fontKey, Vector2 position, Color color, int anchor = 1)
+        public void DrawText(string text, string fontKey, Vector2 position, Color color, int anchorX = 1, int anchorY = 1)
         {
             //anchor = 0 left, 1 center, 2 right
             
             SpriteFont sf = graphicState.fonts[fontKey];
             Vector2 stringSize = sf.MeasureString(text); // center alligned texts
-            Vector2 allignedPosition;
+            Vector2 allignedPosition = new Vector2();
 
-            if(anchor == 0)
-                allignedPosition = new Vector2(0, position.Y - stringSize.Y/2);
-            else if(anchor == 1)
-                allignedPosition = new Vector2(position.X - stringSize.X/2, position.Y - stringSize.Y/2);
+            if(anchorX == 0)
+                allignedPosition.X = 0;
+            else if(anchorX == 1)
+                allignedPosition.X = position.X - stringSize.X/2;
             else
-                allignedPosition = new Vector2(position.X - stringSize.X, position.Y - stringSize.Y/2);
+                allignedPosition.X = position.X - stringSize.X;
+
+            if(anchorY == 0)
+                allignedPosition.Y = 0;
+            else if(anchorY == 1)
+                allignedPosition.Y = position.Y - stringSize.Y/2;
+            else
+                allignedPosition.Y = position.Y - stringSize.Y;
             
 
             spriteBatch.Begin();

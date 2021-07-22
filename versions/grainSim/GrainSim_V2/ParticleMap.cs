@@ -7,7 +7,7 @@ namespace GrainSim_v2
     class ParticleMap
     {
         GameMap gameMap;
-
+        TemperatureMap tempMap;
         /* Particle[,] map; */
         /* List<Particle> particles = new List<Particle>(); */
 
@@ -67,6 +67,8 @@ namespace GrainSim_v2
 
         public void Spawn(ElementID element, Point position, int size = 1)
         {
+            tempMap = gameMap.GetTemperatureMap();
+
             if (size == 0)
             {
                 if (!InBounds(position)) return;
@@ -78,7 +80,7 @@ namespace GrainSim_v2
 
                     Particle p = new Particle(element, position);
                     _particles[GetParticleID(position)] = p;
-                    gameMap.GetTemperatureMap().Set(position, 0, Element.elements[element].STemp);
+                    tempMap.Set(position, 0, Element.elements[element].STemp);
                 }
             }
             else
@@ -110,7 +112,7 @@ namespace GrainSim_v2
 
                                 Particle p = new Particle(element, _position);
                                 _particles[GetParticleID(_position)] = p;
-                                gameMap.GetTemperatureMap().Set(_position, 0, Element.elements[element].STemp);
+                                tempMap.Set(_position, 0, Element.elements[element].STemp);
                             }
                         }
                     }
@@ -205,7 +207,7 @@ namespace GrainSim_v2
             if(InBounds(position))
                 return _particles[_map[position.X, position.Y]];
 
-            return null;
+            return new Particle(ElementID.VOID, new Point(-1,-1));
         }
 
         public bool InBounds(Point position)

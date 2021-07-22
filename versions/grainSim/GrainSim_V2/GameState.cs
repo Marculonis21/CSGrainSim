@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
@@ -11,6 +12,8 @@ namespace GrainSim_v2
         public Point cursorBoardPosition  {get; private set;} 
         public int cursorSize             {get; private set;} 
         public Point boardBounds          {get; private set;}
+
+        public Dictionary<string, bool> simDescriptors = new Dictionary<string, bool>();
 
         GraphicState graphicState;
         int maxCursorSize;
@@ -28,9 +31,15 @@ namespace GrainSim_v2
                                          graphicState.windowHeight/graphicState.particleSize);
 
             maxCursorSize = 150;
+
+            simDescriptors.Add("drawStyle",false);
+            simDescriptors.Add("selectedId",false);
+            simDescriptors.Add("cellPos",false);
+            simDescriptors.Add("cellId",false);
+            simDescriptors.Add("cellTemp",false);
         }
 
-        public static readonly GameState instance = new GameState(ElementID.VOID, new Vector2(-1,-1), new Point(-1,-1), 0);
+        public static readonly GameState instance = new GameState(ElementID.SAND, new Vector2(-1,-1), new Point(-1,-1), 0);
 
         public void SelectElement(ElementID element)
         {
@@ -60,6 +69,11 @@ namespace GrainSim_v2
         {
             if(cursorSize > 0)
                 this.cursorSize -= 2;
+        }
+
+        public void SetDescriptor(string desc, bool value)
+        {
+            simDescriptors[desc] = value;
         }
     }
 }

@@ -4,18 +4,20 @@ namespace GrainSim_v2
 {
     abstract class UIItem
     {
-        string text;
-        string font;
-        Vector2 position;
-        int width;
-        int height;
-        int borderWidth;
-        int startBorderWidth;
+        protected string text;
+        protected string font;
+        protected Vector2 position;
+        protected int width;
+        protected int height;
+        protected int borderWidth;
+        protected int startBorderWidth;
 
-        Color textColor;
-        Color borderColor;
+        protected Color textColor;
+        protected Color borderColor;
 
-        public UIItem(string text, string font, Vector2 position, int width, int height, int borderWidth, Color textColor, Color borderColor)
+        public string info {get; protected set;}
+
+        public UIItem(string text, string font, Vector2 position, int width, int height, int borderWidth, Color textColor, Color borderColor, string info="")
         {
             this.text = text;
             this.font = font;
@@ -25,6 +27,7 @@ namespace GrainSim_v2
             this.borderWidth = borderWidth;
             this.textColor = textColor;
             this.borderColor = borderColor;
+            this.info = info;
 
             this.startBorderWidth = borderWidth;
         }
@@ -38,15 +41,20 @@ namespace GrainSim_v2
                     mousePos.Y < this.position.Y + height);
         }
 
-        public void Hover(Vector2 mousePos)
+        public bool Hover(Vector2 mousePos)
         {
             if(Collide(mousePos))
+            {
                 borderWidth = 2*startBorderWidth;
+                return true;
+            }
             else
                 borderWidth = startBorderWidth;
+
+            return false;
         }
         
-        public void Draw(Shapes shapes)
+        public virtual void Draw(Shapes shapes)
         {
             Hover(GameState.instance.cursorPosition);
 
