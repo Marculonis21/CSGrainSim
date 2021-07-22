@@ -8,14 +8,15 @@ namespace GrainSim_v2
         {
             this.ID = ElementID.FIRE;
 
-            this.name = "Fire particles";      
-            this.nameShort = "Fire";
+            this.name = "Fire";      
+            this.nameShort = "FIRE";
+            this.description = $"Oh man that's {name}!";
             this.color = Color.OrangeRed;
 
             this.state = 2;           
             this.weight = 0;         
             this.move = true;
-            this.spawnTemperature = 500;
+            this.spawnTemperature = 700;
 
             this.heatTransfer = 1;
 

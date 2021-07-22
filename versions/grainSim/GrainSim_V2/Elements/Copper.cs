@@ -10,6 +10,7 @@ namespace GrainSim_v2
 
             this.name = "Copper";      
             this.nameShort = "COPR";
+            this.description = $"{name}: Meltable solid material";
             this.color = Color.Peru;
 
             this.state = 0;           

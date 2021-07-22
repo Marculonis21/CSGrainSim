@@ -7,7 +7,9 @@ namespace GrainSim_v2
     public class Shapes : IDisposable
     {
         Game game;
+        GraphicState graphicState = GraphicState.instance;
 
+        //rects drawing
         Point origin;
 
         BasicEffect effect;
@@ -22,10 +24,14 @@ namespace GrainSim_v2
 
         bool isStarted;
 
-        public Shapes(Game game, Point originTranslate)
+        //text drawing
+        SpriteBatch spriteBatch;
+
+        public Shapes(Game game, Point originTranslate, SpriteBatch spriteBatch)
         {
             this.game = game;
             this.origin = originTranslate;
+            this.spriteBatch = spriteBatch;
 
             this.isDisposed = false;
 
@@ -45,8 +51,7 @@ namespace GrainSim_v2
             this.indeces = new int[MaxIndexCount];
 
             this.shapeCount = 0;
-            this.vertexCount = 0;
-            this.indexCount = 0;
+            this.vertexCount = 0; this.indexCount = 0;
 
             this.isStarted = false;
         }
@@ -166,6 +171,28 @@ namespace GrainSim_v2
             this.shapeCount++;
         }
 
+        public void DrawBorderRectangle(Point position, int width, int height, int borderWidth, Color bgColor, Color borderColor)
+        {
+            // drawBorder
+            DrawRectangle(new Point(position.X-borderWidth, position.Y-borderWidth), width+2*borderWidth, height+2*borderWidth, borderColor);
+            
+            // drawFill
+            DrawRectangle(position, width, height, bgColor);
+        }
+
+        public void DrawBorder(Point position, int width, int height, int borderWidth, Color borderColor)
+        {
+            Point a = position;
+            Point b = new Point(position.X, position.Y + height);
+            Point c = new Point(position.X + width, position.Y + height);
+            Point d = new Point(position.X + width, position.Y);
+
+            DrawLine(a, b, borderWidth, borderColor);
+            DrawLine(b, c, borderWidth, borderColor);
+            DrawLine(c, d, borderWidth, borderColor);
+            DrawLine(d, a, borderWidth, borderColor);
+        }
+
         public void DrawLine(Point from, Point to, float thickness, Color color)
         {
             this.TestStarted();
@@ -207,6 +234,27 @@ namespace GrainSim_v2
             this.vertices[this.vertexCount++] = new VertexPositionColor(new Vector3(q3, 0f), color);
             this.vertices[this.vertexCount++] = new VertexPositionColor(new Vector3(q4, 0f), color);
             this.shapeCount++;
+        }
+
+        public void DrawText(string text, string fontKey, Vector2 position, Color color, int anchor = 1)
+        {
+            //anchor = 0 left, 1 center, 2 right
+            
+            SpriteFont sf = graphicState.fonts[fontKey];
+            Vector2 stringSize = sf.MeasureString(text); // center alligned texts
+            Vector2 allignedPosition;
+
+            if(anchor == 0)
+                allignedPosition = new Vector2(0, position.Y - stringSize.Y/2);
+            else if(anchor == 1)
+                allignedPosition = new Vector2(position.X - stringSize.X/2, position.Y - stringSize.Y/2);
+            else
+                allignedPosition = new Vector2(position.X - stringSize.X, position.Y - stringSize.Y/2);
+            
+
+            spriteBatch.Begin();
+            spriteBatch.DrawString(graphicState.fonts[fontKey], text, allignedPosition, color);
+            spriteBatch.End();
         }
     }
 }

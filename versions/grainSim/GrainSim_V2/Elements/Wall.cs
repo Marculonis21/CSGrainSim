@@ -11,7 +11,8 @@ namespace GrainSim_v2
             this.ID = ElementID.WALL;
 
             this.name = "Wall";      
-            this.nameShort = "Wall";
+            this.nameShort = "WALL";
+            this.description = $"{name}: Indestructible material";
             this.color = Color.Gray;
 
             this.state = 0;           

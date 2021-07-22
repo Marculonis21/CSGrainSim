@@ -78,6 +78,7 @@ namespace GrainSim_v2
 
                     Particle p = new Particle(element, position);
                     _particles[GetParticleID(position)] = p;
+                    gameMap.GetTemperatureMap().Set(position, 0, Element.elements[element].STemp);
                 }
             }
             else
@@ -109,6 +110,7 @@ namespace GrainSim_v2
 
                                 Particle p = new Particle(element, _position);
                                 _particles[GetParticleID(_position)] = p;
+                                gameMap.GetTemperatureMap().Set(_position, 0, Element.elements[element].STemp);
                             }
                         }
                     }
@@ -116,13 +118,15 @@ namespace GrainSim_v2
             }
         }
 
-        public void Delete(Point position, int size = 1) // from mouse
+        public void Delete(Point position, int size = 1, bool walls = true) // from mouse
         {
             if(size == 0)
             {
                 if (!InBounds(position)) return;
 
                 int id = _map[position.X, position.Y];
+                if(!walls && _particles[id].Type() == ElementID.WALL) return;
+
                 _particles[id] = new Particle(ElementID.AIR, new Point(position.X, position.Y));
 
                 UnstableSurroundingParticles(position);
@@ -150,6 +154,8 @@ namespace GrainSim_v2
                             if (!InBounds(_position)) continue;
 
                             int id = _map[_position.X, _position.Y];
+
+                            if(!walls && _particles[id].Type() == ElementID.WALL) continue;
                             _particles[id] = new Particle(ElementID.AIR, new Point(_position.X, _position.Y));
                             
                             UnstableSurroundingParticles(_position);

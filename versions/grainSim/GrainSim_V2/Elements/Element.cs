@@ -17,6 +17,7 @@ namespace GrainSim_v2
 
         protected string name;            // full name
         protected string nameShort;       // short abbreviated name
+        protected string description;     // short description (few words PLS)
         protected Color color;            // element color
 
         protected int state;              // 0 - solid, particles; 1 - liquids; 2 - gasses
@@ -210,21 +211,22 @@ namespace GrainSim_v2
         }
 
         // Public get vars
-        public ElementID id    { get{ return this.ID; } }
+        public ElementID id       { get{ return this.ID; } }
 
-        public string Name     { get{ return this.name;      } }
-        public string Short    { get{ return this.nameShort; } }
-        public Color Color     { get{ return this.color;     } }
+        public string Name        { get{ return this.name;        } }
+        public string Short       { get{ return this.nameShort;   } }
+        public string Description { get{ return this.description; } }
+        public Color Color        { get{ return this.color;       } }
 
-        public int State       { get{ return this.state;  }  }
-        public float Weight    { get{ return this.weight; }  }
-        public float STemp     { get{ return this.spawnTemperature; }  }
+        public int State          { get{ return this.state;  }  }
+        public float Weight       { get{ return this.weight; }  }
+        public float STemp        { get{ return this.spawnTemperature; }  }
 
-        public float Flamable  { get{ return this.flameable;    } }
-        public float Explosive { get{ return this.explosive;    } }
-        public float HeatTrans { get{ return this.heatTransfer; } }
+        public float Flamable     { get{ return this.flameable;    } }
+        public float Explosive    { get{ return this.explosive;    } }
+        public float HeatTrans    { get{ return this.heatTransfer; } }
 
-        public int MaxLifeTime { get{ return this.maxLifeTime; } }
+        public int MaxLifeTime    { get{ return this.maxLifeTime; } }
         
     }
 }

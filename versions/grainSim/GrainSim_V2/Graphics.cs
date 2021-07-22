@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrainSim_v2
 {
@@ -14,10 +15,10 @@ namespace GrainSim_v2
         GameMap gameMap;
         Shapes shapes;
 
-        public Graphics(Game game, GameMap gameMap)
+        public Graphics(Game game, GameMap gameMap, SpriteBatch sb)
         {
             this.gameMap = gameMap;
-            this.shapes = new Shapes(game, new Point(0, graphicState.windowHeight));
+            this.shapes = new Shapes(game, new Point(0, graphicState.windowHeight), sb);
 
             this.boardGraphics = new BoardGraphics(shapes);
             this.ui = new UIGraphics(shapes);
@@ -45,6 +46,7 @@ namespace GrainSim_v2
         void DrawUI()
         {
             ui.DrawCursor();
+            ui.DrawUIElements();
         }
     }
 }

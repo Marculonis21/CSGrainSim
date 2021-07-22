@@ -1,2 +1,3 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
 "/home/marculonis/Desktop/Projects/Csharp/CSGrainSim/versions/grainSim/GrainSim_V2/Content/Fonts/MainFont.spritefont","/home/marculonis/Desktop/Projects/Csharp/CSGrainSim/versions/grainSim/GrainSim_V2/Content/bin/DesktopGL/Content/Fonts/MainFont.xnb","FontDescriptionProcessor","SpriteFontContent",2013,21538,0.1966795
+"/home/marculonis/Desktop/Projects/Csharp/CSGrainSim/versions/grainSim/GrainSim_V2/Content/Fonts/SecondaryFont.spritefont","/home/marculonis/Desktop/Projects/Csharp/CSGrainSim/versions/grainSim/GrainSim_V2/Content/bin/DesktopGL/Content/Fonts/SecondaryFont.xnb","FontDescriptionProcessor","SpriteFontContent",2013,21538,0.1971931

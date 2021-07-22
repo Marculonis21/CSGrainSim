@@ -11,13 +11,13 @@ namespace GrainSim_v2
             this.ID = ElementID.ICE;
 
             this.name = "Ice";      
-            this.nameShort = "Ice";
+            this.nameShort = "ICE";
             this.color = Color.LightBlue;
 
             this.state = 0;           
             this.weight = 999;         
             this.move = false;
-            this.spawnTemperature = -10;
+            this.spawnTemperature = -60;
 
             this.flameable = 0;
             this.explosive = 0;   

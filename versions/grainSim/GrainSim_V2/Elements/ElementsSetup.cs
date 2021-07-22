@@ -6,10 +6,13 @@ namespace GrainSim_v2
     public enum ElementID
     {
         AIR,
+        COLD,
         COPPER,
         COPPERMELT,
-        DUST,
+        ERASE,
+        ERASEP,
         FIRE,
+        HOT,
         ICE,
         OIL,
         SAND,
@@ -30,6 +33,10 @@ namespace GrainSim_v2
 
             elements.Add(ElementID.AIR, new Air());
             elements.Add(ElementID.COPPER, new Copper());
+            elements.Add(ElementID.HOT, new Hot());
+            elements.Add(ElementID.COLD, new Cold());
+            elements.Add(ElementID.ERASE, new Erase());
+            elements.Add(ElementID.ERASEP, new EraseP());
             elements.Add(ElementID.COPPERMELT, new CopperMelt());
             elements.Add(ElementID.FIRE, new Fire());
             elements.Add(ElementID.SAND, new Sand());

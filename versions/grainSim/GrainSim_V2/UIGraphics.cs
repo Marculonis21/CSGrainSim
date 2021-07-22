@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrainSim_v2
 {
@@ -9,6 +10,7 @@ namespace GrainSim_v2
 
         GraphicState graphicState = GraphicState.instance;
         GameState gameState = GameState.instance;
+        UIManager uiManager = UIManager.instance;
 
         public UIGraphics(Shapes shapes)
         {
@@ -63,6 +65,11 @@ namespace GrainSim_v2
                 }
                 shapes.End();
             }
+        }
+
+        public void DrawUIElements()
+        {
+            uiManager.DrawUI(shapes);
         }
     }
 }

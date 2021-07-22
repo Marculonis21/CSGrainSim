@@ -9,13 +9,14 @@ namespace GrainSim_v2
             this.ID = ElementID.WATERVAPOR;
 
             this.name = "Water Vapor";      
-            this.nameShort = "V-Watr";
+            this.nameShort = "WATRV";
+            this.description = $"{name}: Produced by boiling water";
             this.color = Color.SkyBlue;
 
             this.state = 2;           
             this.weight = 0;         
             this.move = true;
-            this.spawnTemperature = 120;
+            this.spawnTemperature = 150;
 
             this.flameable = 0;
             this.explosive = 0;   

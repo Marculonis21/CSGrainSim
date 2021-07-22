@@ -12,8 +12,8 @@ namespace GrainSim_v2
         public int cursorSize             {get; private set;} 
         public Point boardBounds          {get; private set;}
 
-        private GraphicState graphicState;
-        private int maxCursorSize;
+        GraphicState graphicState;
+        int maxCursorSize;
 
         private GameState(ElementID selected, Vector2 position, Point cursorBoardPosition, int cursorSize)
         {
@@ -30,7 +30,7 @@ namespace GrainSim_v2
             maxCursorSize = 150;
         }
 
-        public static readonly GameState instance = new GameState(ElementID.SAND, new Vector2(-1,-1), new Point(-1,-1), 0);
+        public static readonly GameState instance = new GameState(ElementID.VOID, new Vector2(-1,-1), new Point(-1,-1), 0);
 
         public void SelectElement(ElementID element)
         {

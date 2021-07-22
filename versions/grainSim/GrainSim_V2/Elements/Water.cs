@@ -11,13 +11,14 @@ namespace GrainSim_v2
             this.ID = ElementID.WATER;
 
             this.name = "Water";      
-            this.nameShort = "Watr";
+            this.nameShort = "WATER";
+            this.description = $"{name}: Pure liquid";
             this.color = Color.DeepSkyBlue;
 
             this.state = 1;           
             this.weight = 1;         
             this.move = true;
-            this.spawnTemperature = 15;
+            this.spawnTemperature = 20;
 
             this.flameable = 0;
             this.explosive = 0;   

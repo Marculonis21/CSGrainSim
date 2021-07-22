@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrainSim_v2
 {
@@ -21,18 +23,22 @@ namespace GrainSim_v2
         public bool drawBoard        {get; private set;} 
         public Color cursorColor     {get; private set;} 
 
-        private GraphicState(DRAWSTYLES drawStyle, bool drawBoard)
+        public Dictionary<string, SpriteFont> fonts {get; private set;} 
+
+        private GraphicState()
         {
             this.windowWidth  = 800;
-            this.windowHeight = 500;
+            this.windowHeight = 600;
             this.particleSize = 5;
 
-            this.drawStyle = drawStyle;
-            this.drawBoard = drawBoard;
+            this.drawStyle = DRAWSTYLES.PARTICLE;
+            this.drawBoard = false;
             this.cursorColor = Color.Red;
+
+            fonts = new Dictionary<string, SpriteFont>();
         }
 
-        public static readonly GraphicState instance = new GraphicState(0, false);
+        public static readonly GraphicState instance = new GraphicState();
 
         public void SetDrawStyle(DRAWSTYLES style)
         {
@@ -45,6 +51,11 @@ namespace GrainSim_v2
         public void DisableBoard()
         {
             this.drawBoard = false;
+        }
+
+        public void AddFont(string key, SpriteFont font)
+        {
+            fonts.Add(key, font);
         }
     }
 }

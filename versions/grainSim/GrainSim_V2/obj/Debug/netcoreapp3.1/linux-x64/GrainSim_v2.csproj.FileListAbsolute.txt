@@ -202,3 +202,4 @@
 /home/marculonis/Desktop/Projects/Csharp/CSGrainSim/versions/grainSim/GrainSim_V2/obj/Debug/netcoreapp3.1/linux-x64/GrainSim_v2.genruntimeconfig.cache
 /home/marculonis/Desktop/Projects/Csharp/CSGrainSim/versions/grainSim/GrainSim_V2/obj/Debug/netcoreapp3.1/linux-x64/GrainSim_v2.csproj.AssemblyReference.cache
 /home/marculonis/Desktop/Projects/Csharp/CSGrainSim/versions/grainSim/GrainSim_V2/bin/Debug/netcoreapp3.1/linux-x64/Content/Fonts/MainFont.xnb
+/home/marculonis/Desktop/Projects/Csharp/CSGrainSim/versions/grainSim/GrainSim_V2/bin/Debug/netcoreapp3.1/linux-x64/Content/Fonts/SecondaryFont.xnb

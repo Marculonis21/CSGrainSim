@@ -8,14 +8,15 @@ namespace GrainSim_v2
         {
             this.ID = ElementID.COPPERMELT;
 
-            this.name = "CopperMelt";      
-            this.nameShort = "M-COPR";
+            this.name = "Copper Melt";      
+            this.nameShort = "MCOPR";
+            this.description = $"{name}: Melted copper";
             this.color = Color.Orange;
 
             this.state = 1;           
             this.weight = 998;         
             this.move = true;
-            this.spawnTemperature = 1100f;
+            this.spawnTemperature = 2000f;
 
             this.flameable = 0;
             this.explosive = 0;   

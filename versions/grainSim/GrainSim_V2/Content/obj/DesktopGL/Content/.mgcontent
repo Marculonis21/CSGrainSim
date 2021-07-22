@@ -5,8 +5,10 @@
   <Config />
   <SourceFiles>
     <File>/home/marculonis/Desktop/Projects/Csharp/CSGrainSim/versions/grainSim/GrainSim_V2/Content/Fonts/MainFont.spritefont</File>
+    <File>/home/marculonis/Desktop/Projects/Csharp/CSGrainSim/versions/grainSim/GrainSim_V2/Content/Fonts/SecondaryFont.spritefont</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>
