@@ -33,6 +33,7 @@ namespace GrainSim_v2
             maxCursorSize = 150;
 
             simDescriptors.Add("drawStyle",false);
+            simDescriptors.Add("drawBoard",false);
             simDescriptors.Add("selectedId",false);
             simDescriptors.Add("cellPos",false);
             simDescriptors.Add("cellId",false);

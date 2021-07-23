@@ -9,6 +9,7 @@ namespace GrainSim_v2
         Point pos;
         int lifeTime;
 
+        int stableTimout;
         bool stable;
 
         public Particle(ElementID ID, Point position)
@@ -16,6 +17,7 @@ namespace GrainSim_v2
             this.ID = ID;
             this.pos = position;
             this.stable = false;
+            this.stableTimout = 0;
 
             this.lifeTime = 0;
         }
@@ -65,6 +67,7 @@ namespace GrainSim_v2
             {
                 partMap.UnstableSurroundingParticles(this.pos);
                 partMap.Swap(this.pos, result);
+                stableTimout = 0;
             }
             else
                 SetStable(true);

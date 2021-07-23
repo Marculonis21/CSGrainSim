@@ -1,6 +1,4 @@
 using Microsoft.Xna.Framework;
-/* using Microsoft.Xna.Framework.Graphics; */
-/* using Microsoft.Xna.Framework.Input; */
 
 namespace GrainSim_v2
 {
@@ -28,11 +26,13 @@ namespace GrainSim_v2
             this.lowLevelTemp = 0;
             this.lowLevelTempTransition = new Reaction(this.ID,
                                                        ElementID.ICE,
-                                                       0.9f); 
+                                                       0.5f); 
             this.highLevelTemp = 100;
             this.highLevelTempTransition = new Reaction(this.ID,
                                                         ElementID.WATERVAPOR,
-                                                        0.9f); 
+                                                        0.5f); 
+
+            DefaultReactions(this);
         }
     }
 }

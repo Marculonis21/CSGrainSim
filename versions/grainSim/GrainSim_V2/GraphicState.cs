@@ -20,7 +20,7 @@ namespace GrainSim_v2
         }
 
         public DRAWSTYLES drawStyle  {get; private set;} 
-        public bool drawBoard        {get; private set;} 
+        public bool drawBoard        {get; set;} 
         public Color cursorColor     {get; private set;} 
 
         public Dictionary<string, SpriteFont> fonts {get; private set;} 

@@ -124,6 +124,8 @@ namespace GrainSim_v2
             if(gameState.simDescriptors["cellTemp"])
                 output += $"Cell temperature: {tempMap.Get(gameState.cursorBoardPosition).ToString()}\n";
 
+            graphicState.drawBoard = gameState.simDescriptors["drawBoard"];
+
             shapes.DrawText(output, 
                             "smallButtonFont", 
                             new Vector2(100, 100),
@@ -181,7 +183,6 @@ namespace GrainSim_v2
             Vector2 butOffset = new Vector2(butWidth + 6, 0);
             foreach (ElementID id in specialCategory)
             {
-                
                 if(Element.elements.ContainsKey(id))
                 {
                     Element elem = Element.elements[id];
@@ -201,6 +202,7 @@ namespace GrainSim_v2
                 if(Element.elements.ContainsKey(id) && id != ElementID.AIR && id != ElementID.VOID)
                 {
                     Element elem = Element.elements[id];
+                    if(elem.UIExclude) continue;
 
                     if(!specialCategory.Contains(id))
                     {
@@ -293,14 +295,15 @@ namespace GrainSim_v2
             startPosition = new Vector2(45, graphicState.windowHeight - 67);
 
             settingsMenu.Add(new RadioButton(gameState.SetDescriptor, 
-                                             "drawStyle",
+                                             "drawBoard",
                                              false,
-                                             "Show draw style",
+                                             "Show map board",
                                              "smallButtonFont",
                                              startPosition,
                                              185, 34, borderWidth,
                                              Color.White,
                                              Color.DimGray));
+
 
             settingsMenu.Add(new RadioButton(gameState.SetDescriptor, 
                                              "selectedId",
@@ -341,6 +344,8 @@ namespace GrainSim_v2
                                              110, 34, borderWidth,
                                              Color.White,
                                              Color.DimGray));
+
+
 
             // FILE FUNCTIONALITIES MENU
             startPosition = new Vector2(graphicState.windowWidth - 180, graphicState.windowHeight - 87);

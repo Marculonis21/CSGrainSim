@@ -59,8 +59,10 @@ namespace GrainSim_v2
                 if(occurence >= minNEEDAmount)
                 {
                     if(random.NextDouble() <= probability)
+                    {
                         result = TO;
                         return true;
+                    }
                 }
             }
 

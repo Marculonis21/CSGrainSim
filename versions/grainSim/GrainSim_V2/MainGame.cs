@@ -124,7 +124,7 @@ namespace GrainSim_v2
                             tempMap.Increment(gameState.cursorBoardPosition, gameState.cursorSize, 10);
                             break;
                         case ElementID.COLD:
-                            tempMap.Increment(gameState.cursorBoardPosition, gameState.cursorSize, -10);
+                            tempMap.Increment(gameState.cursorBoardPosition, gameState.cursorSize, -5);
                             break;
                         case ElementID.ERASE:
                             partMap.Delete(gameState.cursorBoardPosition, gameState.cursorSize);

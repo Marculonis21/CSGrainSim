@@ -29,7 +29,9 @@ namespace GrainSim_v2
                                             ElementID.VOID,
                                             ElementID.SMOKE,
                                             8,
-                                            0.9f));
+                                            0.5f));
+
+            DefaultReactions(this);
         }
     }
 }

@@ -24,6 +24,8 @@ namespace GrainSim_v2
             this.endOfLifeTransition = new Reaction(this.ID, 
                                                     ElementID.VOID, 
                                                     0.05f);
+
+            DefaultReactions(this);
         }
     }
 }

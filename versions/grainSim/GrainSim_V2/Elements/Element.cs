@@ -25,10 +25,16 @@ namespace GrainSim_v2
         protected bool move;              // if it should be stationary
         protected float spawnTemperature; // start(spawn) temperature
 
-        protected float flameable;        // burn 0 no / else how fast
-        protected float explosive;        // explode no/yes
+        protected float flameable;        // chance to produce fire when touched by fire (0.0-1.0) 
+        protected int burnSpeed;          // the time needed to burn the particle 
+        protected float explosive;        // chance to explode (0.0-1.0)
+        protected float explosivePower;   // the size of the flame ball produced
+        protected bool destroyedByMolten; // destroyed on contact with molten stuff
+        protected ElementID burnElement;  // to which element should the burn transfer
 
         protected float heatTransfer;     // heat transfer speed
+
+        protected bool uiExclude;         // if it shouldn't be visible in UI for select
 
         // TRANSITIONS
         protected List<Reaction> reactions = new List<Reaction>();  
@@ -211,22 +217,28 @@ namespace GrainSim_v2
         }
 
         // Public get vars
-        public ElementID id       { get{ return this.ID; } }
+        public ElementID id          { get{ return this.ID; } }
 
-        public string Name        { get{ return this.name;        } }
-        public string Short       { get{ return this.nameShort;   } }
-        public string Description { get{ return this.description; } }
-        public Color Color        { get{ return this.color;       } }
+        public string Name           { get{ return this.name;        } }
+        public string Short          { get{ return this.nameShort;   } }
+        public string Description    { get{ return this.description; } }
+        public Color Color           { get{ return this.color;       } }
 
-        public int State          { get{ return this.state;  }  }
-        public float Weight       { get{ return this.weight; }  }
-        public float STemp        { get{ return this.spawnTemperature; }  }
+        public int State             { get{ return this.state;  }  }
+        public bool Move             { get{ return this.move;  }  }
+        public float Weight          { get{ return this.weight; }  }
+        public float STemp           { get{ return this.spawnTemperature; }  }
 
-        public float Flamable     { get{ return this.flameable;    } }
-        public float Explosive    { get{ return this.explosive;    } }
-        public float HeatTrans    { get{ return this.heatTransfer; } }
+        public float Flamable        { get{ return this.flameable;      } }
+        public int BurnSpeed         { get{ return this.burnSpeed;      } }
+        public float Explosive       { get{ return this.explosive;      } }
+        public float ExplosivePwr    { get{ return this.explosivePower; } }
+        public ElementID BurnElement { get{ return this.burnElement; } }
 
-        public int MaxLifeTime    { get{ return this.maxLifeTime; } }
-        
+        public float HeatTrans       { get{ return this.heatTransfer;   } }
+
+        public int MaxLifeTime       { get{ return this.maxLifeTime; } }
+
+        public bool UIExclude        { get{ return this.uiExclude; } }
     }
 }

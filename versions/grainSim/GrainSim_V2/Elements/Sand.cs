@@ -18,10 +18,11 @@ namespace GrainSim_v2
             this.move = true;
             this.spawnTemperature = 20;
 
-            this.flameable = 0;
-            this.explosive = 0;   
+            this.destroyedByMolten = true;
 
             this.heatTransfer = 10;
+
+            DefaultReactions(this);
         }
     }
 }
