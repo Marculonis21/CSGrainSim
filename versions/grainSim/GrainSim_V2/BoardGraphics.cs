@@ -57,12 +57,12 @@ namespace GrainSim_v2
             shapes.End();
         }
 
-        /* public void DrawFluids(FluidMap fluidMap) */
-        /* { */
-        /*     shapes.Begin(); */
-        /*     fluidMap.Render(shapes, particleSize); */
-        /*     shapes.End(); */
-        /* } */
+        public void DrawFluids(FluidMap fluidMap)
+        {
+            shapes.Begin();
+            fluidMap.Render(shapes, particleSize);
+            shapes.End();
+        }
     }
 }
 

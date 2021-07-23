@@ -53,6 +53,7 @@ namespace GrainSim_v2
                                   graphicState.windowHeight/graphicState.particleSize - 20);
             partMap = gameMap.GetParticleMap();
             tempMap = gameMap.GetTemperatureMap();
+            /* fluidMap = gameMap.GetFluidMap(); */
 
             // custom graphics class setup
             graphics = new Graphics(this, gameMap, spriteBatch);
@@ -136,6 +137,12 @@ namespace GrainSim_v2
                         default:
                             partMap.Spawn(gameState.currElement, gameState.cursorBoardPosition, gameState.cursorSize);
                             break;
+
+                            /* if(gameState.currElement == ElementID.WATER) */
+                            /*     fluidMap.Set(gameState.cursorBoardPosition, gameState.cursorSize, ElementID.WATER); */
+                            /* else */
+                            /*     partMap.Spawn(gameState.currElement, gameState.cursorBoardPosition, gameState.cursorSize); */
+                            /* break */
                     }
                 }
             }

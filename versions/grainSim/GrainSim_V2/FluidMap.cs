@@ -8,8 +8,7 @@ namespace GrainSim_v2
     {
         const float MaxMass = 1f;
         const float MinMass = 0.005f;
-        /* const float MaxCompression = 0.01f; */
-        const float MaxCompression = 0.25f;
+        const float MaxCompression = 0.5f;
         const float MinFlow = 0.01f;
 
         GameMap gameMap;
@@ -79,14 +78,14 @@ namespace GrainSim_v2
                 {
                     Point pos = new Point(x,y);
                     if(map[x,y] > MinMass)
-                        shapes.DrawRectangle(new Point(pos.X*particleSize,
-                                                       pos.Y*particleSize),
-                                             particleSize,particleSize,
-                                             new Color(0,0,255));
                         /* shapes.DrawRectangle(new Point(pos.X*particleSize, */
                         /*                                pos.Y*particleSize), */
                         /*                      particleSize,particleSize, */
-                        /*                      new Color(0,0,(int)MathF.Pow(5,map[x,y]))); */
+                        /*                      new Color(0,0,255)); */
+                        shapes.DrawRectangle(new Point(pos.X*particleSize,
+                                                       pos.Y*particleSize),
+                                             particleSize,particleSize,
+                                             new Color(0,0,(int)MathF.Pow(5,map[x,y])));
                 }
             }
         }

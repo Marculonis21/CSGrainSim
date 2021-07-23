@@ -10,7 +10,7 @@ namespace GrainSim_v2
     {
         ParticleMap partMap;
         TemperatureMap tempMap;
-        FluidMap fluidMap;
+        /* FluidMap fluidMap; */
 
         public int width {get; private set;}
         public int height {get; private set;}
