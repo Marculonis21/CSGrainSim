@@ -18,7 +18,9 @@ namespace GrainSim_v2
             this.move = true;
             this.spawnTemperature = 20;
 
-            this.flameable = 0.75f;
+            this.flameable = 0.8f;
+            this.burnSpeed = 5;
+            this.burnElement = ElementID.OILBURN;
 
             this.heatTransfer = 1;
 

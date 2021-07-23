@@ -9,15 +9,17 @@ namespace GrainSim_v2
         Point pos;
         int lifeTime;
 
-        int stableTimout;
         bool stable;
+        int unstableTimeout;
+        int stableTime;
 
         public Particle(ElementID ID, Point position)
         {
             this.ID = ID;
             this.pos = position;
             this.stable = false;
-            this.stableTimout = 0;
+            this.unstableTimeout = 0;
+            this.stableTime = 0;
 
             this.lifeTime = 0;
         }
@@ -27,6 +29,9 @@ namespace GrainSim_v2
             UpdateReaction(partMap, tempMap);
             if(!stable)
                 UpdatePosition(partMap);
+            else
+                stableTime++;
+            
 
             if(Element.elements[ID].MaxLifeTime > 0) lifeTime++;
         }
@@ -67,15 +72,30 @@ namespace GrainSim_v2
             {
                 partMap.UnstableSurroundingParticles(this.pos);
                 partMap.Swap(this.pos, result);
-                stableTimout = 0;
             }
             else
-                SetStable(true);
+            {
+                if(unstableTimeout < 50) // wait for a while before making it stable
+                    unstableTimeout++;
+                else
+                {
+                    SetStable(true);
+                    this.stableTime = 0;
+                }
+            }
         }
 
         void UpdateReaction(ParticleMap partMap, TemperatureMap tempMap)
         {
-            ElementID result = Element.elements[ID].UpdateReaction(pos, lifeTime, partMap, tempMap);
+            bool pass;
+            if(!stable)
+                pass = stable;
+            else
+            {
+                // even if stable check for reactions regularly (tanks performance)
+                pass = !(stableTime % 10 == 0);
+            }
+            ElementID result = Element.elements[ID].UpdateReaction(pos, lifeTime, pass, partMap, tempMap);
 
             if(result != this.ID)
             {

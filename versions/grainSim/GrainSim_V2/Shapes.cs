@@ -245,14 +245,14 @@ namespace GrainSim_v2
             Vector2 allignedPosition = new Vector2();
 
             if(anchorX == 0)
-                allignedPosition.X = 0;
+                allignedPosition.X = position.X;
             else if(anchorX == 1)
                 allignedPosition.X = position.X - stringSize.X/2;
             else
                 allignedPosition.X = position.X - stringSize.X;
 
             if(anchorY == 0)
-                allignedPosition.Y = 0;
+                allignedPosition.Y = position.Y;
             else if(anchorY == 1)
                 allignedPosition.Y = position.Y - stringSize.Y/2;
             else

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -151,19 +152,21 @@ namespace GrainSim_v2
                 timer = 0;
             }
 
+            /* Console.Clear(); */
+            /* Stopwatch stopwatch = new Stopwatch(); */
+            /* stopwatch.Start(); */
+
             gameMap.Update();
+
+            /* stopwatch.Stop(); */
+            /* Console.WriteLine(stopwatch.Elapsed.Milliseconds); */
+
             base.Update(gameTime);
         }
 
-        float last;
         protected override void Draw(GameTime gameTime)
         {
-            Console.Clear();
-            Console.WriteLine((gameTime.TotalGameTime.Milliseconds - last).ToString());
-            last = gameTime.TotalGameTime.Milliseconds;
-
             GraphicsDevice.Clear(Color.Black);
-
 
             graphics.Render();
             base.Draw(gameTime);

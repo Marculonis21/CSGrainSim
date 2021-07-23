@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
@@ -43,7 +45,9 @@ namespace GrainSim_v2
         {
             foreach(Particle p in _particles.Values)
             {
+                Point pos = p.GetPosition();
                 if(p.Type() == ElementID.AIR) continue;
+
                 p.Update(this.gameMap.GetParticleMap(), this.gameMap.GetTemperatureMap());
             }
 

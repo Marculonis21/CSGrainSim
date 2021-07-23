@@ -326,7 +326,7 @@ int cursorSize<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mo
     <node id="n17">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="246.0489569298893" width="320.7306727836876" x="-269.7141398081181" y="255.37499999999994"/>
+          <y:Geometry height="246.0489569298893" width="320.7306727836876" x="-269.7141398081181" y="305.6841855943855"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#33CCCC" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="31.9375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="79.287109375" x="120.72178170434381" xml:space="preserve" y="4.0">UIManager
@@ -352,7 +352,7 @@ private: Setup(MainGame)<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelM
     <node id="n18">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="246.0489569298893" width="212.3259534169742" x="-217.58773358306777" y="703.170452723247"/>
+          <y:Geometry height="246.0489569298893" width="212.3259534169742" x="-217.58773358306777" y="753.4796383176325"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="31.9375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="73.626953125" x="69.3495001459871" xml:space="preserve" y="4.0">UIItem
@@ -379,7 +379,7 @@ void Draw()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Model
     <node id="n19">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="77.56217061229063" width="141.91078612546124" x="-570.7793810442386" y="537.9022306677348"/>
+          <y:Geometry height="77.56217061229063" width="141.91078612546124" x="-570.7793810442386" y="588.2114162621203"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="93.876953125" x="24.01691650023065" xml:space="preserve" y="4.0">ElementButton</y:NodeLabel>
@@ -393,7 +393,7 @@ void Draw()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Model
     <node id="n20">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="77.56217061229063" width="212.3259534169742" x="-412.3051077195572" y="537.9022306677348"/>
+          <y:Geometry height="77.56217061229063" width="212.3259534169742" x="-412.3051077195572" y="588.2114162621203"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="77.142578125" x="67.5916876459871" xml:space="preserve" y="4.0">MenuButton</y:NodeLabel>
@@ -407,7 +407,7 @@ void Draw()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Model
     <node id="n21">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="77.56217061229063" width="143.9818204575646" x="-183.41566710336298" y="537.9022306677348"/>
+          <y:Geometry height="77.56217061229063" width="143.9818204575646" x="-183.41566710336298" y="588.2114162621203"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="105.677734375" x="19.152043041282298" xml:space="preserve" y="4.0">DrawStyleButton</y:NodeLabel>
@@ -421,7 +421,7 @@ void Draw()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Model
     <node id="n22">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="77.56217061229063" width="181.5193177269373" x="-22.870359446578334" y="537.9022306677348"/>
+          <y:Geometry height="77.56217061229063" width="181.5193177269373" x="-22.870359446578334" y="588.2114162621203"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="102.6484375" x="39.435440113468644" xml:space="preserve" y="4.0">LoadSaveButton</y:NodeLabel>
@@ -435,7 +435,7 @@ void Draw()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Model
     <node id="n23">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="77.56217061229063" width="181.5193177269373" x="175.212445479579" y="537.9022306677348"/>
+          <y:Geometry height="77.56217061229063" width="181.5193177269373" x="175.212445479579" y="588.2114162621203"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="78.1796875" x="51.669815113468644" xml:space="preserve" y="4.0">RadioButton</y:NodeLabel>

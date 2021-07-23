@@ -15,6 +15,7 @@ namespace GrainSim_v2
         HOT,
         ICE,
         OIL,
+        OILBURN,
         SAND,
         SMOKE,
         VOID,
@@ -45,6 +46,7 @@ namespace GrainSim_v2
             elements.Add(ElementID.HOT,        new Hot());
             elements.Add(ElementID.ICE,        new Ice());
             elements.Add(ElementID.OIL,        new Oil());
+            elements.Add(ElementID.OILBURN,    new OilBurn());
             elements.Add(ElementID.SAND,       new Sand());
             elements.Add(ElementID.SMOKE,      new Smoke());
             elements.Add(ElementID.WALL,       new Wall());

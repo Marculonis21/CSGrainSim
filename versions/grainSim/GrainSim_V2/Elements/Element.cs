@@ -179,13 +179,16 @@ namespace GrainSim_v2
                 return pos;
         }
 
-        public ElementID UpdateReaction(Point pos, int lifeTime, ParticleMap partMap, TemperatureMap tempMap)
+        public ElementID UpdateReaction(Point pos, int lifeTime, bool stable, ParticleMap partMap, TemperatureMap tempMap)
         {
-            foreach (Reaction r in this.reactions) // evaluate all possible reactions
+            if(!stable)
             {
-                if(r.Eval(pos, partMap, out ElementID result))
+                foreach (Reaction r in this.reactions) // evaluate all possible reactions
                 {
-                    return result;
+                    if(r.Eval(pos, partMap, out ElementID result))
+                    {
+                        return result;
+                    }
                 }
             }
 

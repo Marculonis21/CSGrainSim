@@ -128,7 +128,11 @@ namespace GrainSim_v2
 
             shapes.DrawText(output, 
                             "smallButtonFont", 
-                            new Vector2(100, 100),
+                            new Vector2(6, 6),
+                            Color.Gray, anchorX: 0, anchorY: 0);
+            shapes.DrawText(output, 
+                            "smallButtonFont", 
+                            new Vector2(5, 5),
                             Color.LightGray, anchorX: 0, anchorY: 0);
         }
 
