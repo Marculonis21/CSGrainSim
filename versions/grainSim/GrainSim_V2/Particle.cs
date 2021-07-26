@@ -8,7 +8,6 @@ namespace GrainSim_v2
         ElementID ID;
         Point pos;
         int lifeTime;
-        bool alive;
 
         bool stable;
         int unstableTimeout;
@@ -23,14 +22,10 @@ namespace GrainSim_v2
             this.stableTime = 0;
 
             this.lifeTime = 0;
-
-            this.alive = true;
         }
 
         public void Update(ParticleMap partMap, TemperatureMap tempMap)
         {
-            if(!alive) return;
-
             UpdateReaction(partMap, tempMap);
 
             if(!stable)
@@ -58,11 +53,6 @@ namespace GrainSim_v2
         public Point GetPosition()
         {
             return this.pos;
-        }
-
-        public void Kill() // kill set by delete from other source
-        {
-            this.alive = false;
         }
 
         public void SetPosition(Point position)

@@ -12,10 +12,10 @@ namespace GrainSim_v2
             this.name = "Copper Melt";      
             this.nameShort = "MCOPR";
             this.description = $"{name}: Melted copper";
-            this.color = Color.Orange;
+            this.color = new Color(235, 167, 70);
 
             this.state = 1;           
-            this.weight = 998;         
+            this.weight = 990;         
             this.move = true;
             this.spawnTemperature = 2000f;
 
@@ -28,6 +28,13 @@ namespace GrainSim_v2
             this.lowLevelTempTransition = new Reaction(this.ID, 
                                                        new List<ElementID>() {ElementID.COPPER},
                                                        1);
+            
+            this.reactions.Add(new Reaction(this.id,
+                                            new List<ElementID>() {ElementID.BRONZEMELT},
+                                            ElementID.TINMELT,
+                                            1,
+                                            0.03f,
+                                            true));
 
             DefaultReactions(this);
         }

@@ -19,7 +19,7 @@ namespace GrainSim_v2
             this.move = true;
             this.spawnTemperature = 20;
 
-            this.heatTransfer = 1;
+            this.heatTransfer = 0.6f;
 
             this.lowLevelTemp = -5;
             this.lowLevelTempTransition = new Reaction(this.ID,

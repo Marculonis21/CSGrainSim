@@ -195,8 +195,6 @@ namespace GrainSim_v2
         {
             if(!InBounds(position)) return;
 
-            GetParticle(position).Kill();
-
             toDelete_pos.Add(position);
             toDelete_size.Add(size);
         }

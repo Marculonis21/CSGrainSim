@@ -6,6 +6,8 @@ namespace GrainSim_v2
     public enum ElementID
     {
         AIR,
+        BRONZE,
+        BRONZEMELT,
         C4,
         C4BURN,
         COLD,
@@ -27,6 +29,8 @@ namespace GrainSim_v2
         SALTWATER,
         SAND,
         SMOKE,
+        TIN,
+        TINMELT,
         VOID,
         WALL,
         WATER,
@@ -46,11 +50,13 @@ namespace GrainSim_v2
             elements = new Dictionary<ElementID, Element>();
 
             elements.Add(ElementID.AIR,           new Air());
+            elements.Add(ElementID.BRONZE,        new Bronze());
+            elements.Add(ElementID.BRONZEMELT,    new BronzeMelt());
+            elements.Add(ElementID.C4,            new C4());
+            elements.Add(ElementID.C4BURN,        new C4Burn());
             elements.Add(ElementID.COLD,          new Cold());
             elements.Add(ElementID.COPPER,        new Copper());
             elements.Add(ElementID.COPPERMELT,    new CopperMelt());
-            elements.Add(ElementID.C4,            new C4());
-            elements.Add(ElementID.C4BURN,        new C4Burn());
             elements.Add(ElementID.ERASE,         new Erase());
             elements.Add(ElementID.ERASEP,        new EraseP());
             elements.Add(ElementID.FIRE,          new Fire());
@@ -62,11 +68,13 @@ namespace GrainSim_v2
             elements.Add(ElementID.ICE,           new Ice());
             elements.Add(ElementID.OIL,           new Oil());
             elements.Add(ElementID.OILBURN,       new OilBurn());
-            elements.Add(ElementID.SAND,          new Sand());
             elements.Add(ElementID.SALT,          new Salt());
-            elements.Add(ElementID.SALTWATER,     new SaltWater());
             elements.Add(ElementID.SALTICE,       new SaltIce());
+            elements.Add(ElementID.SALTWATER,     new SaltWater());
+            elements.Add(ElementID.SAND,          new Sand());
             elements.Add(ElementID.SMOKE,         new Smoke());
+            elements.Add(ElementID.TIN,           new Tin());
+            elements.Add(ElementID.TINMELT,       new TinMelt());
             elements.Add(ElementID.WALL,          new Wall());
             elements.Add(ElementID.WATER,         new Water());
             elements.Add(ElementID.WATERVAPOR,    new WaterVapor());
@@ -100,6 +108,12 @@ namespace GrainSim_v2
             {
                 element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.COPPERMELT}, ElementID.COPPERMELT, 1, 0.15f));
                 element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.VOID}, ElementID.COPPERMELT, 1, 1f));
+
+                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.TINMELT}, ElementID.TINMELT, 1, 0.15f));
+                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.VOID}, ElementID.TINMELT, 1, 1f));
+
+                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.BRONZEMELT}, ElementID.BRONZEMELT, 1, 0.15f));
+                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.VOID}, ElementID.BRONZEMELT, 1, 1f));
             }
         }
     }

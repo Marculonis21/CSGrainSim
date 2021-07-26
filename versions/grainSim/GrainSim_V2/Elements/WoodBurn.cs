@@ -23,11 +23,11 @@ namespace GrainSim_v2
             this.maxLifeTime = orig.BurnSpeed;
             this.endOfLifeTransition = new Reaction(this.id,
                                                     new List<ElementID>() {ElementID.FIRE}, 
-                                                    0.5f);
+                                                    0.6f);
 
             this.reactions.Add(new Reaction(this.id,
                                             new List<ElementID>() {ElementID.WOODBURN, ElementID.FIRE}, 
-                                            0.01f));
+                                            0.02f));
 
             DefaultReactions(this);
         }

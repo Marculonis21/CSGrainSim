@@ -45,7 +45,8 @@ namespace GrainSim_v2
             if(size == 0)
             {
                 if (!InBounds(position)) return;
-                map[position.X, position.Y] = value;
+                if(this.gameMap.GetParticleMap().Type(position) != ElementID.WALL)
+                    map[position.X, position.Y] = value;
             }
             else
             {
@@ -68,7 +69,8 @@ namespace GrainSim_v2
                             Point _position = new Point(_x, _y);
 
                             if (!InBounds(_position)) continue;
-                            map[_position.X, _position.Y] = value;
+                            if(this.gameMap.GetParticleMap().Type(position) != ElementID.WALL)
+                                map[position.X, position.Y] = value;
                         }
                     }
                 }
@@ -80,7 +82,8 @@ namespace GrainSim_v2
             if(size == 0)
             {
                 if (!InBounds(position)) return;
-                map[position.X, position.Y] += value;
+                if(this.gameMap.GetParticleMap().Type(position) != ElementID.WALL)
+                    map[position.X, position.Y] += value;
             }
             else
             {
@@ -103,7 +106,8 @@ namespace GrainSim_v2
                             Point _position = new Point(_x, _y);
 
                             if (!InBounds(_position)) continue;
-                            map[_position.X, _position.Y] += value;
+                            if(this.gameMap.GetParticleMap().Type(_position) != ElementID.WALL)
+                                map[_position.X, _position.Y] += value;
                         }
                     }
                 }
