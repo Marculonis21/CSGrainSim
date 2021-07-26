@@ -147,10 +147,9 @@ ParticleMap partMap; TemperatureMap tempMap;
 
             List<UIItem> elementSelectMenu = new List<UIItem>();
             List<UIItem> drawStylesMenu = new List<UIItem>();
-            List<UIItem> settingsMenu = new List<UIItem>(); 
+            List<UIItem> optionsMenu = new List<UIItem>(); 
             List<UIItem> fileFunctionsMenu = new List<UIItem>(); 
             List<UIItem> defaultMenu = new List<UIItem>();
-
 
             // X buttons
             Vector2 backButtonPos = new Vector2(graphicState.windowWidth - 30, graphicState.windowHeight - 95);
@@ -166,15 +165,15 @@ ParticleMap partMap; TemperatureMap tempMap;
                                                  Color.DimGray,
                                                  "default"));
 
-            settingsMenu.Add(new MenuButton(defaultMenu, "menu",
-                                            "X",
-                                            "smallButtonFont",
-                                            backButtonPos,
-                                            backButtonWidth,
-                                            backButtonWidth,
-                                            2,
-                                            Color.White,
-                                            Color.DimGray));
+            optionsMenu.Add(new MenuButton(defaultMenu, "menu",
+                                           "X",
+                                           "smallButtonFont",
+                                           backButtonPos,
+                                           backButtonWidth,
+                                           backButtonWidth,
+                                           2,
+                                           Color.White,
+                                           Color.DimGray));
 
 
             // elementButtons
@@ -294,59 +293,59 @@ ParticleMap partMap; TemperatureMap tempMap;
                                                    Color.White, 
                                                    Color.DarkRed));
 
-            // SETTINGS MENU
+            // OPTIONS MENU
             startPosition = new Vector2(45, graphicState.windowHeight - 67);
 
-            settingsMenu.Add(new RadioButton(gameState.SetDescriptor, 
-                                             "drawBoard",
-                                             false,
-                                             "Show map board",
-                                             "smallButtonFont",
-                                             startPosition,
-                                             185, 34, borderWidth,
-                                             Color.White,
-                                             Color.DimGray));
+            optionsMenu.Add(new RadioButton(gameState.SetDescriptor, 
+                                            "drawBoard",
+                                            false,
+                                            "Show map board",
+                                            "smallButtonFont",
+                                            startPosition,
+                                            185, 34, borderWidth,
+                                            Color.White,
+                                            Color.DimGray));
 
 
-            settingsMenu.Add(new RadioButton(gameState.SetDescriptor, 
-                                             "selectedId",
-                                             false,
-                                             "Show selected",
-                                             "smallButtonFont",
-                                             startPosition + new Vector2(200, 0),
-                                             160, 34, borderWidth,
-                                             Color.White,
-                                             Color.DimGray));
+            optionsMenu.Add(new RadioButton(gameState.SetDescriptor, 
+                                            "selectedId",
+                                            false,
+                                            "Show selected",
+                                            "smallButtonFont",
+                                            startPosition + new Vector2(200, 0),
+                                            160, 34, borderWidth,
+                                            Color.White,
+                                            Color.DimGray));
 
-            settingsMenu.Add(new RadioButton(gameState.SetDescriptor, 
-                                             "cellPos",
-                                             false,
-                                             "Cell pos",
-                                             "smallButtonFont",
-                                             startPosition + new Vector2(375, 0),
-                                             100, 34, borderWidth,
-                                             Color.White,
-                                             Color.DimGray));
+            optionsMenu.Add(new RadioButton(gameState.SetDescriptor, 
+                                            "cellPos",
+                                            false,
+                                            "Cell pos",
+                                            "smallButtonFont",
+                                            startPosition + new Vector2(375, 0),
+                                            100, 34, borderWidth,
+                                            Color.White,
+                                            Color.DimGray));
             
-            settingsMenu.Add(new RadioButton(gameState.SetDescriptor, 
-                                             "cellId",
-                                             false,
-                                             "Cell ID",
-                                             "smallButtonFont",
-                                             startPosition + new Vector2(490, 0),
-                                             90, 34, borderWidth,
-                                             Color.White,
-                                             Color.DimGray));
+            optionsMenu.Add(new RadioButton(gameState.SetDescriptor, 
+                                            "cellId",
+                                            false,
+                                            "Cell ID",
+                                            "smallButtonFont",
+                                            startPosition + new Vector2(490, 0),
+                                            90, 34, borderWidth,
+                                            Color.White,
+                                            Color.DimGray));
 
-            settingsMenu.Add(new RadioButton(gameState.SetDescriptor, 
-                                             "cellTemp",
-                                             false,
-                                             "Cell temp",
-                                             "smallButtonFont",
-                                             startPosition + new Vector2(595, 0),
-                                             110, 34, borderWidth,
-                                             Color.White,
-                                             Color.DimGray));
+            optionsMenu.Add(new RadioButton(gameState.SetDescriptor, 
+                                            "cellTemp",
+                                            false,
+                                            "Cell temp",
+                                            "smallButtonFont",
+                                            startPosition + new Vector2(595, 0),
+                                            110, 34, borderWidth,
+                                            Color.White,
+                                            Color.DimGray));
 
 
 
@@ -387,8 +386,8 @@ ParticleMap partMap; TemperatureMap tempMap;
                                            Color.White, 
                                            Color.DimGray));
 
-            defaultMenu.Add(new MenuButton(settingsMenu, "menu",
-                                           "Settings", 
+            defaultMenu.Add(new MenuButton(optionsMenu, "menu",
+                                           "Options", 
                                            "buttonFont", 
                                            startPosition + new Vector2(280, 0), 
                                            100, 40, borderWidth, 
