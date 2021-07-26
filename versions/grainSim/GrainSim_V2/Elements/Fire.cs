@@ -30,7 +30,7 @@ namespace GrainSim_v2
                                             new List<ElementID>() {ElementID.VOID},
                                             ElementID.SMOKE,
                                             8,
-                                            0.5f));
+                                            0.25f));
 
             this.reactions.Add(new Reaction(this.ID,
                                             new List<ElementID>() {ElementID.FIRE, ElementID.SMOKE},

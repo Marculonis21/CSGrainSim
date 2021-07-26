@@ -32,6 +32,17 @@ namespace GrainSim_v2
             /* fluidMap.Update(); */
         }
 
+        public void Save(out ElementID[,] saveP, out float[,] saveT)
+        {
+            saveP = partMap.Save();
+            saveT = tempMap.Save();
+        }
+        public void Load(ElementID[,] saveP, float[,] saveT)
+        {
+            partMap.Load(saveP);
+            tempMap.Load(saveT);
+        }
+
         public ParticleMap GetParticleMap()
         {
             return partMap;

@@ -44,6 +44,34 @@ namespace GrainSim_v2
                     PINDEX++;
                 }
         }
+        
+        public ElementID[,] Save()
+        {
+            ElementID[,] save = new ElementID[width,height];
+
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                {
+                    save[x,y] = Type(new Point(x,y));
+                }
+
+            return save;
+        }
+                
+        public void Load(ElementID[,] save)
+        {
+            _particles.Clear();
+
+            PINDEX = 0;
+            this._map = new int[width,height];
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                {
+                    _particles.Add(PINDEX, new Particle(save[x,y], new Point(x,y)));
+                    _map[x,y] = PINDEX;
+                    PINDEX++;
+                }
+        }
 
         public void Update()
         {

@@ -31,6 +31,16 @@ namespace GrainSim_v2
                     map[x,y] = Element.elements[ElementID.AIR].STemp;
         }
 
+        public float[,] Save()
+        {
+            return this.map;
+        }
+
+        public void Load(float[,] save)
+        {
+            this.map = save;
+        }
+
         public float Get(Point position)
         {
             if(InBounds(position))

@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -167,14 +172,29 @@ namespace GrainSim_v2
             base.Draw(gameTime);
         }
 
+        SaveContainer saveContainer;
         public void SaveGame()
         {
+            gameMap.Save(out ElementID[,] saveP, out float[,] saveT);
+            saveContainer = new SaveContainer(saveP, saveT);
 
-            Console.WriteLine("saved");
+            IFormatter formatter = new BinaryFormatter();  
+            Stream stream = new FileStream("MyFile.bin", FileMode.Create, FileAccess.Write, FileShare.None);  
+            formatter.Serialize(stream, saveContainer);  
+            stream.Close();  
+
+            Console.WriteLine("save");
         }
 
         public void LoadGame()
         {
+            IFormatter formatter = new BinaryFormatter();  
+            Stream stream = new FileStream("MyFile.bin", FileMode.Open, FileAccess.Read, FileShare.Read);  
+            SaveContainer saveContainer = (SaveContainer)formatter.Deserialize(stream);  
+            stream.Close(); 
+
+            this.gameMap.Load(saveContainer.saveParticles, saveContainer.saveTemps);
+
             Console.WriteLine("load");
         }
     }
