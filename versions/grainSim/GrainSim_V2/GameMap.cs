@@ -1,9 +1,3 @@
-using System;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace GrainSim_v2
 {
     class GameMap

@@ -52,7 +52,7 @@ namespace GrainSim_v2
                     return true;
                 }
             }
-            else // element based reactions
+            else if(NEED != ElementID.MOLTEN) // element based reactions
             {
                 int occurence = 0;
 
@@ -74,6 +74,39 @@ namespace GrainSim_v2
                     if(random.NextDouble() <= probability)
                     {
                         result = TO;
+                        return true;
+                    }
+                }
+            }
+            else // special reaction with molten elements
+            {
+                ElementID moltenElement = ElementID.VOID;
+
+                int occurence = 0;
+
+                for (int y = -1; y < 2; y++)
+                    for (int x = -1; x < 2; x++)
+                    {
+                        ElementID type = partMap.Type(new Point(pos.X+x,pos.Y+y));
+                        if(type == ElementID.COPPERMELT || type == ElementID.TINMELT || type == ElementID.BRONZEMELT)
+                        {
+                            occurence++;
+                            moltenElement = type;
+
+                            if(destroyOther)
+                                destroy = new Point(pos.X+x, pos.Y+y);
+                        }
+                    }
+
+                if(occurence >= minNEEDAmount)
+                {
+                    if(random.NextDouble() <= probability)
+                    {
+                        if(TO[0] == ElementID.MOLTEN)
+                            result = new List<ElementID>() {moltenElement};
+                        else
+                            result = TO;
+
                         return true;
                     }
                 }

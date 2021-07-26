@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2

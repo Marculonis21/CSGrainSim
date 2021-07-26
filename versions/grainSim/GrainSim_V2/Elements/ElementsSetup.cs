@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace GrainSim_v2
@@ -38,6 +37,7 @@ namespace GrainSim_v2
         WOOD,
         WOODBURN,
 
+        MOLTEN, // used for destructive reactions with molten stuff (performance) 
         EXPLOSION //(not a special element) used as result of explosive reactions 
     }
 
@@ -106,14 +106,8 @@ namespace GrainSim_v2
 
             if(element.destroyedByMolten)
             {
-                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.COPPERMELT}, ElementID.COPPERMELT, 1, 0.15f));
-                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.VOID}, ElementID.COPPERMELT, 1, 1f));
-
-                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.TINMELT}, ElementID.TINMELT, 1, 0.15f));
-                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.VOID}, ElementID.TINMELT, 1, 1f));
-
-                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.BRONZEMELT}, ElementID.BRONZEMELT, 1, 0.15f));
-                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.VOID}, ElementID.BRONZEMELT, 1, 1f));
+                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.MOLTEN}, ElementID.MOLTEN, 1, 0.15f));
+                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.VOID}, ElementID.MOLTEN, 1, 1f));
             }
         }
     }
