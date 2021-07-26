@@ -1,4 +1,0 @@
-/home/marculonis/Desktop/Projects/Csharp/monogameTest/TestProject/obj/Debug/netcoreapp3.1/TestProject.csprojAssemblyReference.cache
-/home/marculonis/Desktop/Projects/Csharp/monogameTest/TestProject/obj/Debug/netcoreapp3.1/TestProject.AssemblyInfoInputs.cache
-/home/marculonis/Desktop/Projects/Csharp/monogameTest/TestProject/obj/Debug/netcoreapp3.1/TestProject.AssemblyInfo.cs
-/home/marculonis/Desktop/Projects/Csharp/monogameTest/TestProject/obj/Debug/netcoreapp3.1/TestProject.csproj.CoreCompileInputs.cache
