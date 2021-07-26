@@ -18,6 +18,8 @@ namespace GrainSim_v2
         int clickTimeout = 20;
         int timer;
 
+        int prevScrollWheelValue = 0; 
+
         GameMap gameMap;
         ParticleMap partMap;
         TemperatureMap tempMap;
@@ -44,6 +46,7 @@ namespace GrainSim_v2
             _graphics.ApplyChanges();
 
             base.Initialize();
+            this.Window.AllowUserResizing = false;
 
             // elements setup
             Element.SetupElements();
@@ -81,21 +84,6 @@ namespace GrainSim_v2
                 graphicState.SetDrawStyle(GraphicState.DRAWSTYLES.PARTICLE); 
             if (Keyboard.GetState().IsKeyDown(Keys.F2)) // F2 - change draw style
                 graphicState.SetDrawStyle(GraphicState.DRAWSTYLES.TEMPERATURE);
-
-            /* if (Keyboard.GetState().IsKeyDown(Keys.D0)) // 0 - change element */
-            /*     gameState.SelectElement(ElementID.WALL); */
-            /* if (Keyboard.GetState().IsKeyDown(Keys.D1)) // 1 */
-            /*     gameState.SelectElement(ElementID.VOID); */
-            /* if (Keyboard.GetState().IsKeyDown(Keys.D2)) // 2 */
-            /*     gameState.SelectElement(ElementID.SAND); */
-            /* if (Keyboard.GetState().IsKeyDown(Keys.D3)) // 3 */
-            /*     gameState.SelectElement(ElementID.WATER); */
-            /* if (Keyboard.GetState().IsKeyDown(Keys.D4)) // 4 */
-            /*     gameState.SelectElement(ElementID.COPPER); */
-            /* if (Keyboard.GetState().IsKeyDown(Keys.D5)) // 5 */
-            /*     gameState.SelectElement(ElementID.FIRE); */
-            /* if (Keyboard.GetState().IsKeyDown(Keys.D6)) // 6 */
-            /*     gameState.SelectElement(ElementID.SMOKE); */
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up)) // UP
                 gameState.IncrementCursorSize();
@@ -151,6 +139,14 @@ namespace GrainSim_v2
                 partMap.Delete(gameState.cursorBoardPosition, gameState.cursorSize, walls: false);
             }
 
+            // MOUSE WHEEL
+            if(state.ScrollWheelValue > prevScrollWheelValue)
+                gameState.IncrementCursorSize();
+            else if (state.ScrollWheelValue < prevScrollWheelValue)
+                gameState.DecrementCursorSize();
+            prevScrollWheelValue = state.ScrollWheelValue;
+
+
             if(!clickEnabled)
                 timer++;
             if(timer >= clickTimeout)
@@ -159,15 +155,7 @@ namespace GrainSim_v2
                 timer = 0;
             }
 
-            /* Console.Clear(); */
-            /* Stopwatch stopwatch = new Stopwatch(); */
-            /* stopwatch.Start(); */
-
             gameMap.Update();
-
-            /* stopwatch.Stop(); */
-            /* Console.WriteLine(stopwatch.Elapsed.Milliseconds); */
-
             base.Update(gameTime);
         }
 

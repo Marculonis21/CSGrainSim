@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
@@ -11,7 +12,7 @@ namespace GrainSim_v2
             this.name = "Ice";      
             this.nameShort = "ICE";
             this.description = $"{name}: frozen water";
-            this.color = Color.SkyBlue;
+            this.color = Color.LightBlue;
 
             this.state = 0;           
             this.weight = 999;         
@@ -22,7 +23,7 @@ namespace GrainSim_v2
 
             this.highLevelTemp = 0;
             this.highLevelTempTransition = new Reaction(this.ID,
-                                                        ElementID.WATER,
+                                                        new List<ElementID>() {ElementID.WATER},
                                                         0.5f); 
 
             DefaultReactions(this);

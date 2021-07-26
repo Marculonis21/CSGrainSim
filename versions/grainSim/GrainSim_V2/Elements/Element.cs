@@ -28,9 +28,10 @@ namespace GrainSim_v2
         protected float flameable;        // chance to produce fire when touched by fire (0.0-1.0) 
         protected int burnSpeed;          // the time needed to burn the particle 
         protected float explosive;        // chance to explode (0.0-1.0)
-        protected float explosivePower;   // the size of the flame ball produced
-        protected bool destroyedByMolten; // destroyed on contact with molten stuff
+        protected int explosivePower;     // the size of the flame ball produced
         protected ElementID burnElement;  // to which element should the burn transfer
+
+        protected bool destroyedByMolten; // destroyed on contact with molten stuff
 
         protected float heatTransfer;     // heat transfer speed
 
@@ -185,9 +186,28 @@ namespace GrainSim_v2
             {
                 foreach (Reaction r in this.reactions) // evaluate all possible reactions
                 {
-                    if(r.Eval(pos, partMap, out ElementID result))
+                    if(r.Eval(pos, partMap, out List<ElementID> result, out Point destroy))
                     {
-                        return result;
+                        //spawn other results around this particle
+                        for(int i = 1; i < result.Count; i++)
+                        {
+                            if(partMap.Type(new Point(pos.X, pos.Y-1)) == ElementID.AIR)
+                                partMap.SpawnLater(result[i], new Point(pos.X, pos.Y-1), 1);
+
+                            else if(partMap.Type(new Point(pos.X, pos.Y+1)) == ElementID.AIR)
+                                partMap.SpawnLater(result[i], new Point(pos.X, pos.Y+1), 1);
+
+                            else if(partMap.Type(new Point(pos.X-1, pos.Y)) == ElementID.AIR)
+                                partMap.SpawnLater(result[i], new Point(pos.X-1, pos.Y), 1);
+
+                            else if(partMap.Type(new Point(pos.X+1, pos.Y)) == ElementID.AIR)
+                                partMap.SpawnLater(result[i], new Point(pos.X+1, pos.Y), 1);
+                        }
+
+                        if(partMap.InBounds(destroy))
+                            partMap.DeleteLater(destroy, 0);
+
+                        return result[0];
                     }
                 }
             }
@@ -195,25 +215,25 @@ namespace GrainSim_v2
             // evaluate preset transitional reactons
             if(lowLevelTempTransition != null && tempMap.Get(pos) <= lowLevelTemp)
             {
-                if(lowLevelTempTransition.Eval(pos, partMap, out ElementID result))
+                if(lowLevelTempTransition.Eval(pos, partMap, out List<ElementID> result, out Point destroy))
                 {
                     tempMap.Set(pos, 0, tempMap.Get(pos)*1.05f);
-                    return result;
+                    return result[0];
                 }
             }
             if(highLevelTempTransition != null && tempMap.Get(pos) >= highLevelTemp)
             {
-                if(highLevelTempTransition.Eval(pos, partMap, out ElementID result))
+                if(highLevelTempTransition.Eval(pos, partMap, out List<ElementID> result, out Point destroy))
                 {
                     tempMap.Set(pos, 0, tempMap.Get(pos)*0.95f);
-                    return result;
+                    return result[0];
                 }
             }
 
             if(endOfLifeTransition != null && lifeTime > this.maxLifeTime)
             {
-                if(endOfLifeTransition.Eval(pos, partMap, out ElementID result))
-                    return result;
+                if(endOfLifeTransition.Eval(pos, partMap, out List<ElementID> result, out Point destroy))
+                    return result[0];
             }
 
             return this.ID;
@@ -235,7 +255,7 @@ namespace GrainSim_v2
         public float Flamable        { get{ return this.flameable;      } }
         public int BurnSpeed         { get{ return this.burnSpeed;      } }
         public float Explosive       { get{ return this.explosive;      } }
-        public float ExplosivePwr    { get{ return this.explosivePower; } }
+        public int ExplosivePwr      { get{ return this.explosivePower; } }
         public ElementID BurnElement { get{ return this.burnElement; } }
 
         public float HeatTrans       { get{ return this.heatTransfer;   } }

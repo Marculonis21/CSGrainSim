@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
@@ -20,7 +21,13 @@ namespace GrainSim_v2
             this.heatTransfer = orig.HeatTrans;
 
             this.maxLifeTime = orig.BurnSpeed;
-            this.endOfLifeTransition = new Reaction(this.id, ElementID.FIRE, 0.5f);
+            this.endOfLifeTransition = new Reaction(this.id,
+                                                    new List<ElementID>() {ElementID.FIRE}, 
+                                                    0.5f);
+
+            this.reactions.Add(new Reaction(this.id,
+                                            new List<ElementID>() {ElementID.WOODBURN, ElementID.FIRE}, 
+                                            0.01f));
 
             DefaultReactions(this);
         }

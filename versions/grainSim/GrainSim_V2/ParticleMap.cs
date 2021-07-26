@@ -10,13 +10,17 @@ namespace GrainSim_v2
     {
         GameMap gameMap;
         TemperatureMap tempMap;
-        /* Particle[,] map; */
-        /* List<Particle> particles = new List<Particle>(); */
 
         int PINDEX;
         int[,] _map;
         Dictionary<int, Particle> _particles = new Dictionary<int, Particle>();
-        List<Point> toDelete = new List<Point>();
+
+        List<Point> toSpawn_pos = new List<Point>();
+        List<ElementID> toSpawn_elem = new List<ElementID>();
+        List<int> toSpawn_size = new List<int>();
+
+        List<Point> toDelete_pos = new List<Point>();
+        List<int> toDelete_size = new List<int>();
         
         int width;
         int height;
@@ -51,13 +55,18 @@ namespace GrainSim_v2
                 p.Update(this.gameMap.GetParticleMap(), this.gameMap.GetTemperatureMap());
             }
 
-            int id;
-            foreach(Point point in toDelete)
-            {
-                id = _map[point.X, point.Y];
-                _particles[id] = new Particle(ElementID.AIR, new Point(point.X, point.Y));
-            }
-            toDelete.Clear();
+            for(int i = 0; i < toSpawn_elem.Count; i++)
+                Spawn(toSpawn_elem[i], toSpawn_pos[i], toSpawn_size[i]);
+
+            for(int i = 0; i < toDelete_pos.Count; i++)
+                Delete(toDelete_pos[i], toDelete_size[i]);
+
+            toSpawn_elem.Clear();
+            toSpawn_pos.Clear();
+            toSpawn_size.Clear();
+
+            toDelete_pos.Clear();
+            toDelete_size.Clear();
         }
 
         public void Render(Shapes shapes, int particleSize)
@@ -71,6 +80,8 @@ namespace GrainSim_v2
 
         public void Spawn(ElementID element, Point position, int size = 1)
         {
+            if(!InBounds(position)) return;
+
             tempMap = gameMap.GetTemperatureMap();
 
             if (size == 0)
@@ -126,6 +137,8 @@ namespace GrainSim_v2
 
         public void Delete(Point position, int size = 1, bool walls = true) // from mouse
         {
+            if(!InBounds(position)) return;
+
             if(size == 0)
             {
                 if (!InBounds(position)) return;
@@ -171,10 +184,21 @@ namespace GrainSim_v2
             }
         }
 
-        public void Delete(Point position)
+        public void SpawnLater(ElementID element, Point position, int size = 1)
         {
-            if (!InBounds(position)) return;
-            toDelete.Add(position);
+            toSpawn_elem.Add(element);
+            toSpawn_pos.Add(position);
+            toSpawn_size.Add(size);
+        }
+
+        public void DeleteLater(Point position, int size)
+        {
+            if(!InBounds(position)) return;
+
+            GetParticle(position).Kill();
+
+            toDelete_pos.Add(position);
+            toDelete_size.Add(size);
         }
 
         public void Swap(Point position1, Point position2)

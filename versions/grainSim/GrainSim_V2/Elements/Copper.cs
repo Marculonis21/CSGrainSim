@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
@@ -24,7 +25,9 @@ namespace GrainSim_v2
             this.heatTransfer = 400;
 
             this.highLevelTemp = 1100f;
-            this.highLevelTempTransition = new Reaction(this.ID, ElementID.COPPERMELT, 1);
+            this.highLevelTempTransition = new Reaction(this.ID, 
+                                                        new List<ElementID>() {ElementID.COPPERMELT},
+                                                        1);
 
             DefaultReactions(this);
         }

@@ -10,9 +10,7 @@ namespace GrainSim_v2
         /// SINGLETON
         public List<UIItem> menuElements   {get; private set;} 
         public List<UIItem> activeElements {get; private set;} 
-
-        ParticleMap partMap;
-        TemperatureMap tempMap;
+ParticleMap partMap; TemperatureMap tempMap;
         GameState gameState = GameState.instance;
         GraphicState graphicState = GraphicState.instance;
 
@@ -129,11 +127,11 @@ namespace GrainSim_v2
             shapes.DrawText(output, 
                             "smallButtonFont", 
                             new Vector2(6, 6),
-                            Color.Gray, anchorX: 0, anchorY: 0);
+                            Color.DarkRed, anchorX: 0, anchorY: 0);
             shapes.DrawText(output, 
                             "smallButtonFont", 
                             new Vector2(5, 5),
-                            Color.LightGray, anchorX: 0, anchorY: 0);
+                            Color.Red, anchorX: 0, anchorY: 0);
         }
 
         public void Setup(MainGame game, ParticleMap partMap, TemperatureMap tempMap)
@@ -184,7 +182,8 @@ namespace GrainSim_v2
             int butWidth = 70;
             int butHeight = 25;
             int borderWidth = 2;
-            Vector2 butOffset = new Vector2(butWidth + 6, 0);
+            Vector2 butXOffset = new Vector2(butWidth + 6, 0);
+            Vector2 butYOffset = new Vector2(0, butHeight + 6);
             foreach (ElementID id in specialCategory)
             {
                 if(Element.elements.ContainsKey(id))
@@ -194,7 +193,7 @@ namespace GrainSim_v2
                     specials.Add(new ElementButton(id,
                                                    elem.Short,
                                                    "smallButtonFont",
-                                                   startPosition + specials.Count*butOffset,
+                                                   startPosition + specials.Count*butXOffset,
                                                    butWidth, butHeight, borderWidth, 
                                                    elem.Color, 
                                                    elem.Color));
@@ -216,7 +215,7 @@ namespace GrainSim_v2
                                 solids.Add(new ElementButton(id,
                                                              elem.Short,
                                                              "smallButtonFont",
-                                                             startPosition + solids.Count*butOffset,
+                                                             startPosition + (solids.Count%7)*butXOffset + (solids.Count/7)*butYOffset,
                                                              butWidth, butHeight, borderWidth, 
                                                              elem.Color, 
                                                              elem.Color));
@@ -225,7 +224,7 @@ namespace GrainSim_v2
                                 liquids.Add(new ElementButton(id,
                                                               elem.Short,
                                                               "smallButtonFont",
-                                                              startPosition + liquids.Count*butOffset,
+                                                              startPosition + (liquids.Count%7)*butXOffset + (liquids.Count/7)*butYOffset,
                                                               butWidth, butHeight, borderWidth, 
                                                               elem.Color, 
                                                               elem.Color));
@@ -234,7 +233,7 @@ namespace GrainSim_v2
                                 gasses.Add(new ElementButton(id,
                                                              elem.Short,
                                                              "smallButtonFont",
-                                                             startPosition + gasses.Count*butOffset,
+                                                             startPosition + (gasses.Count%7)*butXOffset + (gasses.Count/7)*butYOffset,
                                                              butWidth, butHeight, borderWidth, 
                                                              elem.Color, 
                                                              elem.Color));

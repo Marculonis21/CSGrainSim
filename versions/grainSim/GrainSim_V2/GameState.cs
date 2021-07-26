@@ -30,7 +30,7 @@ namespace GrainSim_v2
             this.boardBounds = new Point(graphicState.windowWidth/graphicState.particleSize,
                                          graphicState.windowHeight/graphicState.particleSize);
 
-            maxCursorSize = 150;
+            maxCursorSize = 100;
 
             simDescriptors.Add("drawStyle",false);
             simDescriptors.Add("drawBoard",false);
@@ -64,12 +64,12 @@ namespace GrainSim_v2
         public void IncrementCursorSize()
         {
             if(cursorSize < maxCursorSize)
-                this.cursorSize += 2;
+                this.cursorSize += 3;
         }
         public void DecrementCursorSize()
         {
             if(cursorSize > 0)
-                this.cursorSize -= 2;
+                this.cursorSize -= 3;
         }
 
         public void SetDescriptor(string desc, bool value)

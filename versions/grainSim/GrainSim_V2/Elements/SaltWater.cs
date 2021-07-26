@@ -3,42 +3,38 @@ using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
 {
-    class Water : Element
+    class SaltWater : Element
     {
-        public Water()
+        public SaltWater()
         {
-            this.ID = ElementID.WATER;
+            this.ID = ElementID.SALTWATER;
 
-            this.name = "Water";      
-            this.nameShort = "WATER";
-            this.description = $"{name}: Pure liquid";
-            this.color = Color.DeepSkyBlue;
+            this.name = "Salt Water";      
+            this.nameShort = "SWATR";
+            this.description = $"{name}: Water with salt dissolved in it";
+            this.color = Color.SkyBlue;
 
             this.state = 1;           
-            this.weight = 1;         
+            this.weight = 1.01f; // fresh water is less dense than see water         
             this.move = true;
             this.spawnTemperature = 20;
 
-            this.flameable = 0;
-            this.explosive = 0;   
-
             this.heatTransfer = 1;
 
-            this.lowLevelTemp = 0;
+            this.lowLevelTemp = -5;
             this.lowLevelTempTransition = new Reaction(this.ID,
                                                        new List<ElementID>() {ElementID.ICE},
                                                        0.5f); 
-            this.highLevelTemp = 100;
+            this.highLevelTemp = 104;
             this.highLevelTempTransition = new Reaction(this.ID,
                                                         new List<ElementID>() {ElementID.WATERVAPOR},
                                                         0.5f); 
 
             this.reactions.Add(new Reaction(this.ID,
-                                            new List<ElementID>() {ElementID.SALTWATER},
-                                            ElementID.SALT,
+                                            new List<ElementID>() {ElementID.SALT, ElementID.WATERVAPOR},
+                                            ElementID.WATERVAPOR,
                                             1,
-                                            0.03f,
-                                            true));
+                                            0.2f));
 
             DefaultReactions(this);
         }

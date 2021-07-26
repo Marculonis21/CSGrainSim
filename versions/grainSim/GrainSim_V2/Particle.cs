@@ -8,6 +8,7 @@ namespace GrainSim_v2
         ElementID ID;
         Point pos;
         int lifeTime;
+        bool alive;
 
         bool stable;
         int unstableTimeout;
@@ -22,11 +23,16 @@ namespace GrainSim_v2
             this.stableTime = 0;
 
             this.lifeTime = 0;
+
+            this.alive = true;
         }
 
         public void Update(ParticleMap partMap, TemperatureMap tempMap)
         {
+            if(!alive) return;
+
             UpdateReaction(partMap, tempMap);
+
             if(!stable)
                 UpdatePosition(partMap);
             else
@@ -52,6 +58,11 @@ namespace GrainSim_v2
         public Point GetPosition()
         {
             return this.pos;
+        }
+
+        public void Kill() // kill set by delete from other source
+        {
+            this.alive = false;
         }
 
         public void SetPosition(Point position)
@@ -104,7 +115,14 @@ namespace GrainSim_v2
 
                 if(result == ElementID.VOID) // void == deleted
                 {
-                    partMap.Delete(this.pos);
+                    partMap.DeleteLater(this.pos, 0);
+                    SetStable(true); //dont update pos after deleting
+                }
+                else if(result == ElementID.EXPLOSION)
+                {
+                    partMap.DeleteLater(this.pos, 0);
+                    partMap.SpawnLater(ElementID.FIRE, this.pos, Element.elements[ID].ExplosivePwr);
+                    SetStable(true); //dont update pos after deleting
                 }
                 else
                 {

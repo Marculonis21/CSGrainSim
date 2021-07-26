@@ -3,16 +3,16 @@ using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
 {
-    class OilBurn : Element
+    class GasBurn : Element
     {
-        public OilBurn()
+        public GasBurn()
         {
             this.uiExclude = true;
-            Element orig = elements[ElementID.OIL];
+            Element orig = elements[ElementID.GAS];
 
-            this.ID = ElementID.OILBURN;
+            this.ID = ElementID.GASBURN;
 
-            this.color = Color.Goldenrod;
+            this.color = Color.Gold;
 
             this.state = orig.State;           
             this.weight = orig.Weight;         
@@ -20,10 +20,12 @@ namespace GrainSim_v2
 
             this.heatTransfer = orig.HeatTrans;
 
+            this.explosivePower = orig.ExplosivePwr;
             this.maxLifeTime = orig.BurnSpeed;
+
             this.endOfLifeTransition = new Reaction(this.id, 
-                                                    new List<ElementID>() {ElementID.FIRE}, 
-                                                    0.8f);
+                                                    new List<ElementID>() {ElementID.EXPLOSION}, 
+                                                    0.9f);
 
             DefaultReactions(this);
         }

@@ -20,7 +20,7 @@ namespace GrainSim_v2
 
             this.destroyedByMolten = true;
 
-            this.heatTransfer = 10;
+            this.heatTransfer = 5;
 
             DefaultReactions(this);
         }

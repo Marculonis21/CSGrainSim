@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
@@ -22,8 +23,8 @@ namespace GrainSim_v2
 
             this.maxLifeTime = 300;
             this.endOfLifeTransition = new Reaction(this.ID, 
-                                                    ElementID.VOID, 
-                                                    0.02f);
+                                                    new List<ElementID>() {ElementID.VOID}, 
+                                                    0.008f);
 
             DefaultReactions(this);
         }

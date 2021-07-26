@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace GrainSim_v2
@@ -25,7 +26,7 @@ namespace GrainSim_v2
 
             this.lowLevelTemp = 95;
             this.lowLevelTempTransition = new Reaction(this.ID,
-                                                       ElementID.WATER,
+                                                       new List<ElementID>() {ElementID.WATER},
                                                        0.5f); 
 
             DefaultReactions(this);
