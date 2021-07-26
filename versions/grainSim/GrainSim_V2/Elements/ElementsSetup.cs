@@ -91,7 +91,7 @@ namespace GrainSim_v2
                 element.reactions.Add(new Reaction(element.id, new List<ElementID>() {element.burnElement}, element.burnElement, 1, flameable/10));
 
                 //react with * molten things
-                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.FIRE}, ElementID.COPPERMELT, 1, 1));
+                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.FIRE}, ElementID.MOLTEN, 1, 1));
             }
 
             if(explosive > 0)
@@ -101,7 +101,7 @@ namespace GrainSim_v2
                 element.reactions.Add(new Reaction(element.id, new List<ElementID>() {element.burnElement}, element.burnElement, 1, explosive/10));
 
                 //react with * molten things
-                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.EXPLOSION}, ElementID.COPPERMELT, 1, 1));
+                element.reactions.Add(new Reaction(element.id, new List<ElementID>() {ElementID.EXPLOSION}, ElementID.MOLTEN, 1, 1));
             }
 
             if(element.destroyedByMolten)

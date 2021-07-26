@@ -56,16 +56,21 @@ namespace GrainSim_v2
             {
                 int occurence = 0;
 
+                Point testPos = new Point();
+                ElementID type;
                 for (int y = -1; y < 2; y++)
                     for (int x = -1; x < 2; x++)
                     {
-                        ElementID type = partMap.Type(new Point(pos.X+x,pos.Y+y));
+                        testPos.X = pos.X+x;
+                        testPos.Y = pos.Y+y;
+                        type = partMap.Type(testPos);
+
                         if(type == NEED)
                         {
                             occurence++;
 
                             if(destroyOther)
-                                destroy = new Point(pos.X+x, pos.Y+y);
+                                destroy = testPos;
                         }
                     }
 
@@ -84,17 +89,22 @@ namespace GrainSim_v2
 
                 int occurence = 0;
 
+                Point testPos = new Point();
+                ElementID type;
                 for (int y = -1; y < 2; y++)
                     for (int x = -1; x < 2; x++)
                     {
-                        ElementID type = partMap.Type(new Point(pos.X+x,pos.Y+y));
+                        testPos.X = pos.X+x;
+                        testPos.Y = pos.Y+y;
+                        type = partMap.Type(testPos);
+
                         if(type == ElementID.COPPERMELT || type == ElementID.TINMELT || type == ElementID.BRONZEMELT)
                         {
                             occurence++;
                             moltenElement = type;
 
                             if(destroyOther)
-                                destroy = new Point(pos.X+x, pos.Y+y);
+                                destroy = testPos;
                         }
                     }
 

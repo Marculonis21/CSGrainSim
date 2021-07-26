@@ -53,125 +53,157 @@ namespace GrainSim_v2
         {
             if(!this.move) return pos;
 
+            Point INVALID = new Point(-1, -1);
             List<Point> possiblePos = new List<Point>();
 
             if(state == 0) // solids
             {
-                if((partMap.Type(new Point(pos.X,pos.Y+1)) == ElementID.AIR) ||
-                   (Element.elements[partMap.Type(new Point(pos.X,pos.Y+1))].weight < this.weight)) // heavier sinks
+                Point DOWN = new Point(pos.X, pos.Y+1);
+                ElementID typeDOWN = partMap.Type(DOWN);
+
+                if((typeDOWN == ElementID.AIR) ||
+                   (Element.elements[typeDOWN].weight < this.weight)) // heavier sinks
                 {
                     if(MainGame.random.NextDouble() <= 0.9f) // random sideways movement
-                        return new Point(pos.X,pos.Y+1);
+                        return DOWN;
                     else
                     {
-                        Point l = new Point(pos.X-1, pos.Y+1); 
-                        l = partMap.Type(l) == ElementID.AIR ? l : new Point(-1, -1); 
-                        Point r = new Point(pos.X+1, pos.Y+1);
-                        r = partMap.Type(r) == ElementID.AIR ? r : new Point(-1, -1); 
+                        Point DOWNLEFT = new Point(pos.X-1, pos.Y+1); 
+                        DOWNLEFT = (partMap.Type(DOWNLEFT) == ElementID.AIR) ? DOWNLEFT : INVALID; 
 
-                        if(l.X == -1 && r.X == -1)
-                            return new Point(pos.X,pos.Y+1);
-                        else if(l.X != -1 && r.X != -1)
+                        Point DOWNRIGHT = new Point(pos.X+1, pos.Y+1);
+                        DOWNRIGHT = (partMap.Type(DOWNRIGHT) == ElementID.AIR) ? DOWNRIGHT : INVALID; 
+
+                        if(DOWNLEFT == INVALID && DOWNRIGHT == INVALID)
+                            return DOWN;
+                        else if(DOWNLEFT != INVALID && DOWNRIGHT != INVALID)
                         {
                             if(MainGame.random.NextDouble() <= 0.5f)
-                                return l;
+                                return DOWNLEFT;
                             else
-                                return r;
+                                return DOWNRIGHT;
                         }
-                        else if(l.X != -1)
-                            return l;
+                        else if(DOWNLEFT != INVALID)
+                            return DOWNLEFT;
                         else
-                            return r;
+                            return DOWNRIGHT;
                     }
                 }
 
+                Point testPos = new Point();
+                ElementID typeTestPos;
                 for (int _y = 1; _y < 2; _y++)
                     for (int _x = -1; _x < 2; _x++)
-                        if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
-                           (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight < this.weight))
-                        {
-                            possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
-                        }
+                    {
+                        testPos.X = pos.X+_x;
+                        testPos.Y = pos.Y+_y;
+                        typeTestPos = partMap.Type(testPos);
+
+                        if((typeTestPos == ElementID.AIR) || 
+                           (Element.elements[typeTestPos].weight < this.weight))
+                            possiblePos.Add(testPos);
+                    }
 
             }
             else if(state == 1) // LIQUID
             {
-                if((partMap.Type(new Point(pos.X,pos.Y+1)) == ElementID.AIR) ||
-                   (Element.elements[partMap.Type(new Point(pos.X,pos.Y+1))].weight < this.weight)) // heavier sinks
+                Point DOWN = new Point(pos.X, pos.Y+1);
+                ElementID typeDOWN = partMap.Type(DOWN);
+
+                if((typeDOWN == ElementID.AIR) ||
+                   (Element.elements[typeDOWN].weight < this.weight)) // heavier sinks
                 {
                     if(MainGame.random.NextDouble() <= 0.9f) // random sideways movement
-                        return new Point(pos.X,pos.Y+1);
+                        return DOWN;
                     else
                     {
-                        Point l = new Point(pos.X-1, pos.Y+1); 
-                        l = partMap.Type(l) == ElementID.AIR ? l : new Point(-1, -1); 
-                        Point r = new Point(pos.X+1, pos.Y+1);
-                        r = partMap.Type(r) == ElementID.AIR ? r : new Point(-1, -1); 
+                        Point DOWNLEFT = new Point(pos.X-1, pos.Y+1); 
+                        DOWNLEFT = (partMap.Type(DOWNLEFT) == ElementID.AIR) ? DOWNLEFT : INVALID; 
 
-                        if(l.X == -1 && r.X == -1)
-                            return new Point(pos.X,pos.Y+1);
-                        else if(l.X != -1 && r.X != -1)
+                        Point DOWNRIGHT = new Point(pos.X+1, pos.Y+1);
+                        DOWNRIGHT = (partMap.Type(DOWNRIGHT) == ElementID.AIR) ? DOWNRIGHT : INVALID; 
+
+                        if(DOWNLEFT == INVALID && DOWNRIGHT == INVALID)
+                            return DOWN;
+                        else if(DOWNLEFT != INVALID && DOWNRIGHT != INVALID)
                         {
                             if(MainGame.random.NextDouble() <= 0.5f)
-                                return l;
+                                return DOWNLEFT;
                             else
-                                return r;
+                                return DOWNRIGHT;
                         }
-                        else if(l.X != -1)
-                            return l;
+                        else if(DOWNLEFT != INVALID)
+                            return DOWNLEFT;
                         else
-                            return r;
+                            return DOWNRIGHT;
                     }
                 }
 
+                Point testPos = new Point();
+                ElementID typeTestPos;
                 for (int _y = 0; _y < 2; _y++)
                     for (int _x = -1; _x < 2; _x++)
-                        if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
-                           (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight < this.weight))
-                        {
-                            possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
-                        }
+                    {
+                        testPos.X = pos.X+_x;
+                        testPos.Y = pos.Y+_y;
+                        typeTestPos = partMap.Type(testPos);
+
+                        if((typeTestPos == ElementID.AIR) || 
+                           (Element.elements[typeTestPos].weight < this.weight))
+                            possiblePos.Add(testPos);
+                    }
 
             }
             else if(state == 2) // GAS
             {
-                if((partMap.Type(new Point(pos.X,pos.Y-1)) == ElementID.AIR) ||
-                   (Element.elements[partMap.Type(new Point(pos.X,pos.Y-1))].weight < this.weight)) // lighter sinks
+                Point UP = new Point(pos.X, pos.Y-1);
+                ElementID typeUP = partMap.Type(UP);
+
+                if((typeUP == ElementID.AIR) ||
+                   (Element.elements[typeUP].weight < this.weight)) // lighter sinks
                 {
 
                     if(MainGame.random.NextDouble() <= 0.8f) // random sideways movement
-                        return new Point(pos.X,pos.Y-1);
+                        return UP;
                     else
                     {
-                        Point l = new Point(pos.X-1, pos.Y-1); 
-                        l = partMap.Type(l) == ElementID.AIR ? l : new Point(-1, -1); 
-                        Point r = new Point(pos.X+1, pos.Y-1);
-                        r = partMap.Type(r) == ElementID.AIR ? r : new Point(-1, -1); 
+                        Point UPLEFT = new Point(pos.X-1, pos.Y-1); 
+                        UPLEFT = (partMap.Type(UPLEFT) == ElementID.AIR) ? UPLEFT : INVALID; 
 
-                        if(l.X == -1 && r.X == -1)
-                            return new Point(pos.X,pos.Y-1);
-                        else if(l.X != -1 && r.X != -1)
+                        Point UPRIGHT = new Point(pos.X+1, pos.Y-1);
+                        UPRIGHT = (partMap.Type(UPRIGHT) == ElementID.AIR) ? UPRIGHT : INVALID;
+
+                        if(UPLEFT == INVALID && UPRIGHT == INVALID)
+                            return UP;
+                        else if(UPLEFT != INVALID && UPRIGHT != INVALID)
                         {
                             if(MainGame.random.NextDouble() <= 0.5f)
-                                return l;
+                                return UPLEFT;
                             else
-                                return r;
+                                return UPRIGHT;
                         }
-                        else if(l.X != -1)
-                            return l;
+                        else if(UPLEFT != INVALID)
+                            return UPLEFT;
                         else
-                            return r;
+                            return UPRIGHT;
                     }
                 }
 
+                Point testPos = new Point();
+                ElementID typeTestPos;
                 for (int _y = 0; _y > -2; _y--)
                     for (int _x = -1; _x < 2; _x++)
-                        if((partMap.Type(new Point(pos.X+_x,pos.Y+_y)) == ElementID.AIR) || 
-                           (Element.elements[partMap.Type(new Point(pos.X+_x,pos.Y+_y))].weight < this.weight))
-                        {
-                            possiblePos.Add(new Point(pos.X+_x,pos.Y+_y));
-                        }
+                    {
+                        testPos.X = pos.X+_x;
+                        testPos.Y = pos.Y+_y;
+                        typeTestPos = partMap.Type(testPos);
 
+                        if((typeTestPos == ElementID.AIR) || 
+                           (Element.elements[typeTestPos].weight < this.weight))
+                        {
+                            possiblePos.Add(testPos);
+                        }
+                    }
             }
 
             if(possiblePos.Count != 0) // choose random from possible positions

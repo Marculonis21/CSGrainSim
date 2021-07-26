@@ -31,7 +31,6 @@ namespace GrainSim_v2
                 UpdatePosition(partMap);
             else
                 stableTime++;
-            
 
             if(Element.elements[ID].MaxLifeTime > 0) lifeTime++;
         }
