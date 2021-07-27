@@ -36,6 +36,12 @@ namespace GrainSim
                                             1,
                                             0.2f));
 
+            this.reactions.Add(new Reaction(this.ID,
+                                            new List<ElementID>() {ElementID.PLANT},
+                                            ElementID.PLANT,
+                                            2,
+                                            0.025f));
+
             DefaultReactions(this);
         }
     }

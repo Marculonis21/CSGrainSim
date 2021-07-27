@@ -23,6 +23,8 @@ namespace GrainSim
         ICE,
         OIL,
         OILBURN,
+        PLANT,
+        PLANTBURN,
         SALT,
         SALTICE,
         SALTWATER,
@@ -68,6 +70,8 @@ namespace GrainSim
             elements.Add(ElementID.ICE,           new Ice());
             elements.Add(ElementID.OIL,           new Oil());
             elements.Add(ElementID.OILBURN,       new OilBurn());
+            elements.Add(ElementID.PLANT,         new Plant());
+            elements.Add(ElementID.PLANTBURN,     new PlantBurn());
             elements.Add(ElementID.SALT,          new Salt());
             elements.Add(ElementID.SALTICE,       new SaltIce());
             elements.Add(ElementID.SALTWATER,     new SaltWater());
