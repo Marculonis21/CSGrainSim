@@ -1,0 +1,23 @@
+\contentsline {section}{\numberline {I}Rozbor specifikací}{3}{section.1}%
+\contentsline {subsection}{\numberline {i}Popis}{3}{subsection.1.1}%
+\contentsline {paragraph}{}{3}{paragraph*.1}%
+\contentsline {subsection}{\numberline {ii}Funkční požadavky}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {II}Architektura/Design}{4}{section.2}%
+\contentsline {paragraph}{Rozdělení}{4}{paragraph*.2}%
+\contentsline {subsection}{\numberline {i}High-level}{5}{subsection.2.1}%
+\contentsline {paragraph}{Prvky/Teploty}{5}{paragraph*.3}%
+\contentsline {paragraph}{Vykreslování}{5}{paragraph*.4}%
+\contentsline {paragraph}{UIManager}{5}{paragraph*.5}%
+\contentsline {paragraph}{State singletons}{5}{paragraph*.6}%
+\contentsline {subsubsection}{\numberline {i.i}Mapování na funkční požadavky}{6}{subsubsection.2.1.1}%
+\contentsline {section}{\numberline {III}Rozdělení do funkcí a procedur}{6}{section.3}%
+\contentsline {paragraph}{Update}{6}{paragraph*.7}%
+\contentsline {paragraph}{Input handle}{6}{paragraph*.8}%
+\contentsline {paragraph}{Draw}{6}{paragraph*.9}%
+\contentsline {section}{\numberline {IV}Implementované datové struktury}{7}{section.4}%
+\contentsline {paragraph}{}{7}{paragraph*.10}%
+\contentsline {paragraph}{Víceúrovňové pole}{7}{paragraph*.11}%
+\contentsline {paragraph}{List}{7}{paragraph*.12}%
+\contentsline {paragraph}{Dictionary}{7}{paragraph*.13}%
+\contentsline {section}{\numberline {V}Závěr}{8}{section.5}%
+\contentsline {paragraph}{}{8}{paragraph*.14}%
