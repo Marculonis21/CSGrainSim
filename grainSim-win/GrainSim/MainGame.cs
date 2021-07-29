@@ -91,6 +91,11 @@ namespace GrainSim
             if (Keyboard.GetState().IsKeyDown(Keys.Down)) // DOWN
                 gameState.DecrementCursorSize();
 
+            if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.LeftControl)) // SAVE GAME
+                SaveGame();
+            if (Keyboard.GetState().IsKeyDown(Keys.O) && Keyboard.GetState().IsKeyDown(Keys.LeftControl)) // LOAD GAME
+                LoadGame();
+
             // MouseEvents 
             MouseState state = Mouse.GetState();
             if(state.X >= 0 && state.X <= graphicState.windowWidth &&
@@ -173,7 +178,7 @@ namespace GrainSim
         {
             using (System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog())
             {
-                fileDialog.InitialDirectory = Content.RootDirectory;
+                fileDialog.InitialDirectory = Path.GetFullPath("Content\\");
                 fileDialog.Filter = "grain sim (*.grain)|*.grain";
                 fileDialog.RestoreDirectory = true;
 
@@ -197,7 +202,7 @@ namespace GrainSim
         {
             using (System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog())
             {
-                fileDialog.InitialDirectory = Content.RootDirectory;
+                fileDialog.InitialDirectory = Path.GetFullPath("Content\\");
                 fileDialog.Filter = "grain sim (*.grain)|*.grain";
                 fileDialog.RestoreDirectory = true;
 

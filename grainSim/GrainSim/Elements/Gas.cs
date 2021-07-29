@@ -26,7 +26,7 @@ namespace GrainSim
 
             this.heatTransfer = 1;
 
-            this.maxLifeTime = 150;
+            this.maxLifeTime = 250;
             this.endOfLifeTransition = new Reaction(this.id,
                                                     new List<ElementID>() {ElementID.VOID},
                                                     0.005f);
