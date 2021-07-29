@@ -9,15 +9,18 @@
 \contentsline {paragraph}{Vykreslování}{5}{paragraph*.4}%
 \contentsline {paragraph}{UIManager}{5}{paragraph*.5}%
 \contentsline {paragraph}{State singletons}{5}{paragraph*.6}%
+\contentsline {paragraph}{Save Container}{5}{paragraph*.7}%
 \contentsline {subsubsection}{\numberline {i.i}Mapování na funkční požadavky}{6}{subsubsection.2.1.1}%
-\contentsline {section}{\numberline {III}Rozdělení do funkcí a procedur}{6}{section.3}%
-\contentsline {paragraph}{Update}{6}{paragraph*.7}%
-\contentsline {paragraph}{Input handle}{6}{paragraph*.8}%
-\contentsline {paragraph}{Draw}{6}{paragraph*.9}%
-\contentsline {section}{\numberline {IV}Implementované datové struktury}{7}{section.4}%
-\contentsline {paragraph}{}{7}{paragraph*.10}%
-\contentsline {paragraph}{Víceúrovňové pole}{7}{paragraph*.11}%
-\contentsline {paragraph}{List}{7}{paragraph*.12}%
-\contentsline {paragraph}{Dictionary}{7}{paragraph*.13}%
-\contentsline {section}{\numberline {V}Závěr}{8}{section.5}%
-\contentsline {paragraph}{}{8}{paragraph*.14}%
+\contentsline {subsection}{\numberline {ii}Rozdělení do funkcí a procedur}{6}{subsection.2.2}%
+\contentsline {paragraph}{Update}{6}{paragraph*.8}%
+\contentsline {paragraph}{Input handle}{6}{paragraph*.9}%
+\contentsline {paragraph}{Draw}{6}{paragraph*.10}%
+\contentsline {subsection}{\numberline {iii}Implementované datové struktury}{7}{subsection.2.3}%
+\contentsline {paragraph}{}{7}{paragraph*.11}%
+\contentsline {paragraph}{Víceúrovňové pole}{7}{paragraph*.12}%
+\contentsline {paragraph}{List}{7}{paragraph*.13}%
+\contentsline {paragraph}{Dictionary}{7}{paragraph*.14}%
+\contentsline {subsection}{\numberline {iv}Zpracování vstupu}{8}{subsection.2.4}%
+\contentsline {paragraph}{}{8}{paragraph*.15}%
+\contentsline {section}{\numberline {III}Závěr}{9}{section.3}%
+\contentsline {paragraph}{}{9}{paragraph*.16}%

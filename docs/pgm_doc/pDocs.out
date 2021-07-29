@@ -4,6 +4,7 @@
 \BOOKMARK [1][-]{section.2}{Architektura/Design}{}% 4
 \BOOKMARK [2][-]{subsection.2.1}{High-level}{section.2}% 5
 \BOOKMARK [3][-]{subsubsection.2.1.1}{Mapov\341n\355 na funkcn\355 po\236adavky}{subsection.2.1}% 6
-\BOOKMARK [1][-]{section.3}{Rozdelen\355 do funkc\355 a procedur}{}% 7
-\BOOKMARK [1][-]{section.4}{Implementovan\351 datov\351 struktury}{}% 8
-\BOOKMARK [1][-]{section.5}{Z\341ver}{}% 9
+\BOOKMARK [2][-]{subsection.2.2}{Rozdelen\355 do funkc\355 a procedur}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.3}{Implementovan\351 datov\351 struktury}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.4}{Zpracov\341n\355 vstupu}{section.2}% 9
+\BOOKMARK [1][-]{section.3}{Z\341ver}{}% 10

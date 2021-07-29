@@ -153,6 +153,13 @@ sítě, barvu kurzoru a list načtených fontů) a \texttt{GameState} (právě z
 element, pozice myši na obrazovce, přepočet pozice myši do čtverečkované plochy
 a aktuální velikost kurzoru).
 
+\paragraph{Save Container}
+Samostatná malá třída \texttt{SaveContainer} používaná jen pro uložení dvou 2D polí. 
+Tato třída slouží jako kontejner pro serializaci. Je prakticky nemožné serializovat 
+složité Monogame struktury jako Vector2 (\emph{alespoň se to zdá 
+nepodporované}). Tato dvě pole ale úplně popisují celý potřebný stav simulace v 
+daném okamžiku tak, že po opětovném načtení se v simulačním prostředí nic nezmění.
+
 \newpage
 \subsubsection{Mapování na funkční požadavky}
 \begin{itemize}
@@ -171,7 +178,7 @@ a aktuální velikost kurzoru).
         \end{itemize}
 \end{itemize}
 
-\section{Rozdělení do funkcí a procedur}
+\subsection{Rozdělení do funkcí a procedur}
 \paragraph{Update}
 Všechna volání procedur vychází opět z hlavní třídy \texttt{MainGame}.
 Zde se nachází dvě procedure základem v Monogame frameworku \texttt{Update} a
@@ -207,7 +214,7 @@ jednotlivých map, které mají vlastní logiku vykreslování ve svých
 \texttt{Render} funkcích.
 
 \newpage
-\section{Implementované datové struktury}
+\subsection{Implementované datové struktury}
 \paragraph{}
 Program nemá žádné speciální datové struktury. Užitečnými byly struktury
 \textbf{dictionary}, \textbf{list} a \textbf{víceúrovňové pole}.
@@ -254,6 +261,18 @@ je zvladatelné a simulace nebude mít s daným počtem částic žádné probl�
 Posledním místem, kde je tato struktura využita je v \texttt{GraphicState} jako
 kontejner na použitelné fonty textu inicializované v \texttt{MainGame}. Klíčem
 k nim jsou v kódu zvolené proměnné, popisující využití těchto fontů.
+
+\newpage
+\subsection{Zpracování vstupu}
+\paragraph{} 
+O samotné zachycení vstupu se stará funkcionalita frameworku Monogame. S ní je
+možno zachytávat stisky klávesnice a sledovat stavy na myši (stisknutá
+tlačítka, pohyb, kolečko myši). V třídě \texttt{MainGame}, kam tyto vstupy
+přichází je filtruji podle typu. Některé se řeší přímo na místě, jako třeba
+kolečko myši. Jiné (stisknutí klávesy) se podle typu klávesy předávají daným
+třídám. Stavy stisknutí myši se nejprve posílají do \texttt{UIManager}, zda-li
+se nejednalo o interakci s menu objekty, a pokud ne, tak se klik posílá podle
+vybraného materiálu do mapy částic/teplo.
 
 
 \newpage
