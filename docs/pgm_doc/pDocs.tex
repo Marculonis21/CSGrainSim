@@ -245,18 +245,19 @@ se dostat k vlastnostem jednotlivých elementů bez potřeby všude předávat v
 odkazy na celé třídy prvků}).
 
 Dále je dictionary využita v mapě částic pro udržení a spravování aktivních
-částic. Zde je klíčem index pozice v mapě, na kterém se prvek nachází (\emph{při
-pohybu se částice vyměňují na pozicích, index pozice mapy je po celou dobu
-stejný}). Původní implementace využívala list, ale udělal jsem přechod k 
-dictionary z důvodu rychlostní převahy. V simulaci se obvykle nachází okolo
-5000 částic a při potřebe odebrat z takového listu třeba 100 položek (při
-dostatečně velkém kurzoru možné) na úplně neznámých indexech, je rychlostně
-naprosto nezvladatelné. Proto bylo zvolené dictionary. Zjistit klíče, se kterým
-chci pracovat je jednoduché (z pozic v mapě - díky pozici kurzoru znám).
-Indexování pomocí klíče by poté bylo to nejrychlejší co může program nabídnout.
-Zároveň, dictionary je celé vytvořené a zaplněné při inicializaci, tudíž už
-nedochází k žádnému opakovanému vytváření. Stačí zvolit množstvím částic, které
-je zvladatelné a simulace nebude mít s daným počtem částic žádné problémy.
+částic. Zde je klíčem celočíselná hodnota (= id) částice uložená v 2D mapě na pozici, 
+na kterém se prvek nachází (\emph{při pohybu se vyměňují na pozicích pouze indexy 
+a částicím se jen předá jejich nová poloha}). Původní implementace využívala 
+list, ale udělal jsem přechod k dictionary z důvodu rychlostní převahy. 
+V simulaci se obvykle nachází okolo 5000 částic a při potřebe odebrat z 
+takového listu třeba 100 položek (při dostatečně velkém kurzoru možné) na úplně 
+neznámých indexech, je rychlostně naprosto nezvladatelné. Proto bylo zvolené 
+dictionary. Zjistit klíče, se kterým chci pracovat je jednoduché (z pozic 
+v mapě - díky pozici kurzoru znám). Indexování pomocí klíče by poté bylo to 
+nejrychlejší co může program nabídnout. Zároveň, dictionary je celé vytvořené 
+a zaplněné při inicializaci, tudíž už nedochází k žádnému opakovanému vytváření. 
+Stačí zvolit množstvím částic, které je zvladatelné a simulace nebude mít s 
+daným počtem částic žádné problémy.
 
 Posledním místem, kde je tato struktura využita je v \texttt{GraphicState} jako
 kontejner na použitelné fonty textu inicializované v \texttt{MainGame}. Klíčem
@@ -265,14 +266,210 @@ k nim jsou v kódu zvolené proměnné, popisující využití těchto fontů.
 \newpage
 \subsection{Zpracování vstupu}
 \paragraph{} 
-O samotné zachycení vstupu se stará funkcionalita frameworku Monogame. S ní je
+O samotné zachycení vstupu se stará funkcionalita frameworku Monogame. \\S ní je
 možno zachytávat stisky klávesnice a sledovat stavy na myši (stisknutá
 tlačítka, pohyb, kolečko myši). V třídě \texttt{MainGame}, kam tyto vstupy
 přichází je filtruji podle typu. Některé se řeší přímo na místě, jako třeba
 kolečko myši. Jiné (stisknutí klávesy) se podle typu klávesy předávají daným
 třídám. Stavy stisknutí myši se nejprve posílají do \texttt{UIManager}, zda-li
-se nejednalo o interakci s menu objekty, a pokud ne, tak se klik posílá podle
-vybraného materiálu do mapy částic/teplo.
+se nejednalo o interakci s menu objekty a pokud ne, tak se event posílá podle
+vybraného materiálu do mapy částic/teplot.
+
+\section{Technická dokumentace}
+\subsection{Výčet a popis funkcí a procedur}
+
+\subsubsection{MainGame}
+\paragraph{Initialize}
+Metoda z frameworku Monogame, využita pro inicializaci grafického rozhraní a u
+tohoto projektu i všech elementů, map částic a teplot, vlastní třídy pro vykreslování
+grafiky a třídy starající se o UI.
+
+\paragraph{LoadContent}
+Opět metoda z Monogame, využívána pro načtení dat z externích zdrojů. Zde
+využita pro načtení předem připravených fontů.
+
+\paragraph{Update}
+Metoda Monogame starající se o aktualizaci logiky a zachytávání vstupů. Volají
+se odtud \emph{update} metody map a testování na kliknutí do
+\texttt{UIManager}.
+
+\paragraph{Draw}
+Metoda Monogame, starající se o vykreslování. Volá \emph{render} funkci
+grafické třídy.
+
+\paragraph{SaveGame}
+Vlastní public metoda volaná z tlačítek \texttt{UIManager} nebo z klávesové
+kombinace pro ukládání. Otevírá file explorer a stará se o případné volání
+speciálních metod třídy \texttt{GameMap} pro ukládání map prostředí.
+
+\paragraph{LoadGame}
+Opak \texttt{SaveGame}, opět otevírá file explorer, umožňuje vyhledat uložené
+simulace a pak se stará o volání \emph{load} metod.
+
+\subsubsection{GameMap}
+\paragraph{Update}
+Funkce sloužící pro předání volání \emph{update} do jednotlivých map částic a
+teplot.
+
+\paragraph{Save/Load}
+Obě funkce předávající volání z \texttt{MainGame} pro uložení/načtení map
+prostředí. Funkci \texttt{Load} se pak ještě jako parametry předávají mapy k
+načtení.
+
+\paragraph{GetParticleMap/GetTemperatureMap}
+Třída \texttt{GameMap} je jediná, která drží vlastní odkazy na jednotlivé mapy.
+Jelikož jsou ale jejich data často potřebná i jinde (vykreslování, reakce,
+atd.), tak tyto dvě funkce umožňují získat vlastní odkaz na tyto třídy.
+
+\subsubsection{TemperatureMap}
+\paragraph{Save/Load}
+Tyto dvě funkce jsou velmi jednoduché, jelikož už samotné teploty jsou ukládány
+jako dvourozměrné pole floatů, které jde lehce serializovat. S ukládáním a
+načítáním tedy zde není velký problém.
+
+\paragraph{Get}
+Všechny funkce pracující s nějakou pozicí v mapě si vždy přes privátní funkce
+\texttt{InBounds} kontrolují, jestli je pozice v mapě validní. Pokud je pak
+tato funkce vrací teplotu na pozici z mapy teplot.
+
+\paragraph{Set/Increment}
+Tyto funkce na základě pozice v mapě a velikosti kurzoru změní teplotu v celé
+oblasti pod kurzorem uživatele. Rozdíl mezi těmito funkcemi je, že \texttt{Set}
+nastaví teplotu v mapě na parametrem předanou hodnotu (parametr
+\texttt{value}). Funkce \texttt{Increment} tuto hodnotu k teplotě v mapě
+přičtě. V běhu aplikace je aktuálně využívána jen jedna možnost.
+
+\paragraph{Render}
+Funkce volaná z třídy \texttt{BoardGraphics}. Díky tomuto je i vykreslování
+zařízené z kódu starající se o mapu teplot. Stejně to tak má i mapa částic.
+
+\paragraph{Update}
+Metoda starající se o \emph{update} teplot. To je rozdělené do dvou částí -
+propagace teploty prostředím a rozptýlení tepla v prostředí. Obě dvě činnosti
+řeší následující dvě \texttt{privátní} funkce.
+
+\paragraph{Propagate}
+Propagace tepla v simulaci je velmi zjednodušené, ale i tak dostatečně funkční.
+Propagace projde všechna místa v mapě, která nejsou zeď a u každého koukne na
+jeho čtyři sousedy (pouze sousedé přes zeď). Zjištění sousedů zajišťuje 
+další privátní funkce \texttt{FindNeighbor}, která vrací pole pozic, kde se
+sousedé nacházejí. Mezi původní pozicí a sousedy se potom dle rozdílu teplot a
+vlastnosti rychlosti přenosu tepla materiálu na dané pozici spočte \emph{flow}
+tepla, které je potřeba přenést. Toto množství je pak ještě upravováno pro
+rychlost simulace a dále externí hodnotou, která chování tepla upravuje do
+podoby, kdy se teplo směrem vzhůru šíří rychleji než jinam (\emph{takto jde
+lehce obejít jinak velmi složité stoupání teplého vzduchu}).
+
+\paragraph{Diffuse}
+Jelikož se herní mapa chová jako uzavřený nepropustný box, který nemá moc velké tepelné
+kapacity, po chvíli hraní by se vždy stalo, že teplota vzroste na nepoužitelné
+hodnoty a pak by už nešlo v prosředí nic dělat. Proto je implementovan tento
+vnější zásah do chování tepla. Každý materiál má tedy umělou tendenci se dostat
+do své startovní teploty, která je popsána pro každý materiál. Rychlost
+rozptylování pak samozřejmě závisí na vzdálenosti aktuálního tepla materiálu od
+startovní teploty. Takto je ale docíleno i po velkém zahřátí celého prostředí
+postupného ochlazení.
+
+\paragraph{InBounds}
+Již zmíněná funkce kontrolující na základě předané pozice v mapě, zda-li je
+pozice validní a vrací výsledek.
+
+\paragraph{FindNeighbors}
+Taky již zmíněná funkce, opět na základě pozice v mapě vrací list validních pozic
+sousedů.
+
+\subsubsection{ParticleMap}
+\paragraph{Save/Load}
+Funkce podobné dříve zmíněným. Pouze převádí částice uložené v
+\texttt{dictionary} částic, indexovaných pomocí indexů pozic v 2D mapě na 2D
+pole typu \texttt{ElementID}. Toto pole lze poté už lehce uložit. Pro načtení
+potom stačí na správné indexy vložit uložené typy elementů.
+
+\paragraph{Update}
+Update funkce, která prochází všechny uložené částice typu \texttt{particle} v 
+\texttt{dictionary} a na každé částici, která není vzduchem, volá její vlastní
+\texttt{Update} metodu. Dále tato funkce vytváří a odebírá částice, které byly
+označeny k přidání/odebrání během tohoto updatu částic (dictionary se nesmí
+změnit v průběhu procházení, proto je nutné toto udělat až po dokončení
+procházení všech částic).
+
+\paragraph{Render}
+Vlastní vykreslovací funkce volaná opět z třídy \texttt{BoardGraphics}. I tato
+funkce prochází všehcny částice a předává odpovědnost za vykreslování do částic
+samotných.
+
+\paragraph{Spawn/Delete}
+Obě funkce fungují velmi podobně. Na základě pozice kurzoru v mapě, velikosti
+kurzoru a zvoleného elementu projdou všechny pozice pod kurzorem a (\emph{tam,
+kde je vzduch - částice se nepřepisují}) vloží na ně zvolený element/odstraní z
+této pozice libovolný prvek (\emph{existuje toggle v podobě speciálního
+elementu, který povoluje/zakazuje odstranit stěny - ve hře ERASE=erase
+all/ERASEP=erase particle}). Zároveň \texttt{Spawn} funkce při přidávání volá
+\texttt{TemperatureMap.Set} pro nastavení dané polohy v mapě na startovní
+teplotu částice.
+
+\paragraph{SpawnLater/DeleteLater}
+Veřejné funkce volané částicemi, když potřebují být odstraneni, nebo potřebují
+odstranit nějaké jiné. Tyto funkce přidají tyto požadavky do speciálních listů,
+které se vykonají jako obvyklé \texttt{Spawn/Delete} operace na konci 
+\texttt{Update} cyklu.
+
+\paragraph{Swap}
+Funkce, volaná z třídy \texttt{Particle} při pohybu částic. Vyměňuje id uložené
+na daných polohách pro jednotlivé částice.
+
+\paragraph{Type}
+Funkce, která vrací typ elementu na dané pozici v mapě, je-li validní.
+
+\paragraph{GetParticle/GetParticleID}
+Téměř totožné funkce vracející buď odkaz na celou třídu částice na dané pozici
+v mapě, nebo jen ID uložené v mapě částic.
+
+\paragraph{InBounds}
+Stejná jako pro třídu \texttt{TemperatureMap}.
+
+\paragraph{UnstableSurroundingParticles}
+Funkce pomáhající optimalizovat běh aplikace. Částice se po chvíli neaktivity
+uspí. Jakmile se ale s nějakou částicí něco stane (pohyb, reakce, ...) zavolá
+tuto funkci pro probuzení i všech okolních částic (\texttt{nehledě na to jestli byly
+uspané}). Celá simulace má tendenci se dostat do nějaké rovnováhy, tudíž
+uspávání částic často šetří velmi drahá volání funkcí pro update polohy a
+reakcí částic.
+
+\subsubsection{Particle}
+\paragraph{Update}
+Funkce volaná třídou \texttt{ParticleMap}. Zde se \emph{update} dělí na dvě
+části a to aktualizace reakcí a polohy (privátní funkce \texttt{UpdateReaction},
+\texttt{UpdatePosition}). 
+
+\paragraph{Render}
+Vlastní funkce pro vykreslování částice do mapy podle své pozice.
+
+\paragraph{Type}
+Funkce umožňující přístup k typu dané částice.
+
+\paragraph{GetPositon/SetPosition}
+Nastavení a získání pozice částice v mapě.
+
+\paragraph{SetStable}
+Nastavení \emph{stability} částice (uspání částice). Používané jak vnitřními
+funkcemi, tak funkcí \texttt{ParticleMap.UnstableSurroundingParticles}.
+
+\paragraph{UpdatePosition/UpdateReaction}
+Obě privátní funkce aktualizující stav (= polohu/element) částice.
+\texttt{UpdatePosition} volá funkci \texttt{UpdatePosition} daného typu
+elementu a očekává návrat nějaké pozice v mapě. Pokud se jedná o tu samou jako
+na které právě je, neproběhl žádný přesun a prvku se odpočítává daný počet
+cyklů, dokud nebude uspán. Pokud není, použije funkci \texttt{Swap} z \texttt{ParticleMap} 
+aby si vyměnil pozice s prvkem, na který se přesouvá a poté probudí 
+všechny prvky v okolí.
+
+\texttt{UpdateReaction} také volá funkci \texttt{UpdateReaction} pro daný
+element a podobně jako u pozice čeká jestli se ID jeho materiálu změní nebo
+Dále zde platí, že pokud je jako výsledek reakce zvolen
+\texttt{ElementID.VOID}, prvek zaniká a pokud \texttt{ElementID.EXPLOSION}, tak
+prvek prochází jinou sadu kroků vytvářející explozi v prostředí podle
+vlastností svého materiálu.
 
 
 \newpage
@@ -281,4 +478,3 @@ vybraného materiálu do mapy částic/teplo.
 Projekt byl vytvoření jako záverečná semestrální práce pro předmět
 \\\emph{Programování 2} - Letní semestr 2021 - UK Matfyz.
 \end{document}
-

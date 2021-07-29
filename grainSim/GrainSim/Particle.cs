@@ -71,6 +71,7 @@ namespace GrainSim
             {
                 partMap.UnstableSurroundingParticles(this.pos);
                 partMap.Swap(this.pos, result);
+                this.unstableTimeout = 0;
             }
             else
             {
@@ -100,6 +101,7 @@ namespace GrainSim
             {
                 SetStable(false);
                 partMap.UnstableSurroundingParticles(this.pos);
+                this.unstableTimeout = 0;
 
                 if(result == ElementID.VOID) // void == deleted
                 {

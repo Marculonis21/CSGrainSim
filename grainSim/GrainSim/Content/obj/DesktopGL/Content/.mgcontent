@@ -4,8 +4,8 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Marek/Documents/Github/CSGrainSim/grainSim/GrainSim/Content/Fonts/MainFont.spritefont</File>
-    <File>C:/Users/Marek/Documents/Github/CSGrainSim/grainSim/GrainSim/Content/Fonts/SecondaryFont.spritefont</File>
+    <File>/home/marculonis/Desktop/Projects/Csharp/CSGrainSim/grainSim/GrainSim/Content/Fonts/MainFont.spritefont</File>
+    <File>/home/marculonis/Desktop/Projects/Csharp/CSGrainSim/grainSim/GrainSim/Content/Fonts/SecondaryFont.spritefont</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

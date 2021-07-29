@@ -180,7 +180,7 @@ namespace GrainSim
             saveContainer = new SaveContainer(saveP, saveT);
 
             IFormatter formatter = new BinaryFormatter();  
-            Stream stream = new FileStream("MyFile.bin", FileMode.Create, FileAccess.Write, FileShare.None);  
+            Stream stream = new FileStream("Save.grain", FileMode.Create, FileAccess.Write, FileShare.None);  
             formatter.Serialize(stream, saveContainer);  
             stream.Close();  
 
@@ -189,14 +189,21 @@ namespace GrainSim
 
         public void LoadGame()
         {
-            IFormatter formatter = new BinaryFormatter();  
-            Stream stream = new FileStream("MyFile.bin", FileMode.Open, FileAccess.Read, FileShare.Read);  
-            SaveContainer saveContainer = (SaveContainer)formatter.Deserialize(stream);  
-            stream.Close(); 
+            try
+            {
+                IFormatter formatter = new BinaryFormatter();  
+                Stream stream = new FileStream("Save.grain", FileMode.Open, FileAccess.Read, FileShare.Read);  
+                SaveContainer saveContainer = (SaveContainer)formatter.Deserialize(stream);  
+                stream.Close(); 
 
-            this.gameMap.Load(saveContainer.saveParticles, saveContainer.saveTemps);
+                this.gameMap.Load(saveContainer.saveParticles, saveContainer.saveTemps);
 
-            Console.WriteLine("load");
+                Console.WriteLine("load");
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("unable to load");
+            }
         }
     }
 }

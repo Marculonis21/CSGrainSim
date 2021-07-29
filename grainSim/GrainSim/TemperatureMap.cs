@@ -232,6 +232,19 @@ namespace GrainSim
             }
         }
 
+        void Diffuse()
+        {
+            ParticleMap partMap = gameMap.GetParticleMap();
+
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                {
+                    map[x,y] -= (map[x,y] - Element.elements[ElementID.AIR].STemp)*diffuseRate;
+                    if(map[x,y] <= -273.15f)
+                        map[x,y] = -273.15f;
+                }
+        }
+
         bool InBounds(Point position)
         {
             return (position.X >= 0 && position.X < width) && (position.Y >= 0 && position.Y < height);
@@ -268,17 +281,5 @@ namespace GrainSim
             return neighborPoints;
         }
 
-        private void Diffuse()
-        {
-            ParticleMap partMap = gameMap.GetParticleMap();
-
-            for (int y = 0; y < height; y++)
-                for (int x = 0; x < width; x++)
-                {
-                    map[x,y] -= (map[x,y] - Element.elements[ElementID.AIR].STemp)*diffuseRate;
-                    if(map[x,y] <= -273.15f)
-                        map[x,y] = -273.15f;
-                }
-        }
     }
 }
