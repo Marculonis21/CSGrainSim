@@ -36,7 +36,6 @@ namespace GrainSim
 
         public bool CheckClick()
         {
-            /* if(menuElements != null) */
             foreach(UIItem item in menuElements)
                 if(item.Collide(gameState.cursorPosition))
                 {
@@ -46,7 +45,6 @@ namespace GrainSim
                     return true;
                 }
                     
-            /* if(activeElements != null) */
             foreach(UIItem item in activeElements)
                 if(item.Collide(gameState.cursorPosition))
                 {
@@ -88,7 +86,7 @@ namespace GrainSim
                 foreach(UIItem item in menuElements)
                     item.Draw(shapes);
 
-            if(menuElements != null)
+            if(activeElements != null)
                 foreach(UIItem item in activeElements)
                     item.Draw(shapes);
         }

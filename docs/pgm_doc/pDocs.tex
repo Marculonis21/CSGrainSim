@@ -471,8 +471,168 @@ Dále zde platí, že pokud je jako výsledek reakce zvolen
 prvek prochází jinou sadu kroků vytvářející explozi v prostředí podle
 vlastností svého materiálu.
 
+\subsubsection{Element + ElementsSetup}
+\paragraph{SetupElements}
+Statická funkce, volaná při inicializaci programu, vytvářející instance všech
+materiálů, které ukládá do globálního seznamu (dictionary) všech elementů.
 
-\newpage
+\paragraph{DefaultReactions}
+Protected funkce dostupná jen pro třídy odvozené od této. Na základě zadaného
+elementu mu do jeho seznamu reakcí přidává určité základní reakce (\emph{tyto
+reakce by se pro různé elementy určitého typu, př. hořlaviny/výbušniny, vždy opakovali, proto je toto snazší a
+udržitelnější styl jak problém řešit}).
+
+\paragraph{UpdatePosition}
+Na základě typu elementu provede tato funkce řadu testů, aby našla pozici, kam
+by se částice mohla posunout. Tuto polohu pak vrací.
+
+\paragraph{UpdateReaction}
+Tato funkce opět na základě typu elementu prochází list reakcí daného prvku a
+volá v nich funkci \texttt{Eval}. Pokud jsou podmínky pro reakci splněny,
+\texttt{Eval} vrací bool hodnotu a zároveň výsledek reakce (\emph{reakce může mít za
+výsledek i více než jeden element a zároveň může být i destruktivní - zničí
+prvek se kterým reagovala}). Poté co byl vrácen pozitivní výsledek, vracíme
+navracíme výsledek reakce (nové ID elementu).
+
+\subsubsection{Reaction}
+\emph{(zde jsou zajímavé i dva konstruktory)}
+\paragraph{Reaction}
+Dva konstruktory této třídy. První umožňuje vytvořit reakci založené jen na
+nějaké náhodě. Toto je využito pro přechodové reakce (vlastnosti elementu -
+\texttt{endOfLifeTransition}, \texttt{lowLevelTempTransition},
+\texttt{highLevelTempTransition}).
+
+Druhý konstruktor přijímá i typ a množství nějakého elementu, který musí být v
+okolí, aby reakce mohla proběhnout, hodnotu pravděpodobnosti této reakce, a
+jestli má být prvek, který byl potřebný k této reakci, po reakci zničen.
+
+\paragraph{Eval}
+Evaluační funkce, která vyhodnocuje, jestli jsou splněny všechny podmínky pro
+reakci + pravděpodobnost proběhnutí reakce. Funkce navrací bool hodnotu jestli
+reakce proběhla, popřípadě list elementů k přeměně (\emph{částice se přemění na první 
+element z listu a další jsou spawnuté okolo částice}) a pozici částice ke
+zničení (když je reakce destruktivní).
+
+\subsubsection{Graphics}
+\paragraph{Render}
+Funkce, která pouze dělí volání na vykreslení do dvou na vykreslení herní
+plochy a UI elementů.
+
+\paragraph{DrawBoard}
+Privátní funkce volaná místní \texttt{Render} funkcí. Na základě stavů z
+grafického singletonu volá určité funkce z třídy \texttt{BoardGraphics}.
+
+\paragraph{DrawUI}
+Privátní funkce volaná místní \texttt{Render} funkcí. Předává toto volání do
+třídy \texttt{UIGraphics} k vykreslení kurzoru a menu.
+
+\subsubsection{Shapes}
+
+\paragraph{Dispose, Flush, TestStarted, TestSpace, Begin, End}
+Pomocné funkce grafického rozhraní pro kreslení na obrazovku.
+
+\paragraph{Draw funkce}
+\texttt{DrawRectangle}, \texttt{DrawBorderRectangle} - funkce pro vykreslení
+čtyřúhelníku/ohraničeného čtyřúhelníku.
+\texttt{DrawBorder} - funkce pro vykreslení čtyřúhelníkového ohraničení.
+\texttt{DrawLine} - funkce pro vykreslení čar různé dané tloušťky.
+\texttt{DrawText} - funkce pro vypisování textu zvoleným fontem na obrazovku.
+
+\subsubsection{UIGraphics}
+\paragraph{DrawCursor}
+Funkce, která na základě pozice a velikosti kurzoru vykresluje do čtvercové
+mapy čtyřúhleníky na kružnici jako znázornění umístění kurzoru v plošě.
+
+\paragraph{DrawUIElements}
+Funkce, která opět jen předává volání pro vykreslení UI elementů do třídy
+\texttt{UIManager}.
+
+\subsubsection{BoardGraphics}
+\paragraph{DrawBoard}
+Funkce umožňující vykreslit čtvercovou síť, ve které všechny částice
+žijí.
+
+\paragraph{DrawParticles/DrawTemperature}
+Volání \texttt{Render} funkce třídy \texttt{ParticleMap}/\texttt{TemperatureMap}, umožňující
+vykreslování částic/teplot.
+
+\subsubsection{UIManager}
+\paragraph{SetMenuElements/SetActiveElements}
+Funkce nastavující listy právě zobrazovaných \texttt{UIItem} (tlačítek).
+
+\paragraph{CheckClick}
+Funkce volaná z hlavní třídy \texttt{MainGame}, testující všechna aktuální
+tlačítka na možné stisknutí od uživatele. Vrací bool, který při kladném
+výsledku zabraňuje dalším interakcím uživatele s mapu (klik na tlačítko se
+neprojeví v mapě).
+
+\paragraph{DrawUI}
+Funkce starající o vykreslování všech UI elemetnů (vyčištění menu plochy,
+vykreslení tlačítek, popisu zvoleného elementu a info labelů v rohu obrazovky).
+
+\paragraph{ClearUIArea}
+Funkce pouze překreslující menu sekci obrazovky.
+
+\paragraph{DrawElements}
+Funkce předávající \texttt{Draw} do jednotlivých tlačítek (obou kategorií -
+menu i active).
+
+\paragraph{DrawElementDescription}
+V menu výběru elementů slouží pro vypisování malého info textu pro každý
+element.
+
+\paragraph{DrawSimDescriptors}
+Pokud uživatel tak zvolil, tato funkce vypisuje v levém horním rohu obrazovky
+ifno stringy, které popisují stav simulace, nebo stav částice, na které má
+uživatel kurzor.
+
+\paragraph{Setup}
+Funkce pro inicializaci všech menu tlačítek (\emph{může být nepřehledné}).
+Musí být oddělené protože potřebuje, aby před jejím spuštěním byly všechny
+další části programu připravené, jelikož z nich často čerpá informace.
+
+\subsubsection{UIItem}
+\paragraph{Click}
+Abstraktní funkce, kterou si každý z jednotlivých typů tlačítek definuje sám
+dle vlastních potřeb.
+
+\paragraph{Collide}
+Funkce na testování kolize pozice myši s tělem tlačítka.
+
+\paragraph{Hover}
+Grafická funkce, která upravuje vizuální podobnu tlačíka, pokud je nad ním
+kurzor.
+
+\paragraph{Draw}
+Vlasní vykreslovací funkce, která nejprve kreslí ohraničení tlačítka a poté
+jeho text.
+
+\subsubsection{GraphicState}
+\paragraph{SetDrawStyle}
+Funkce umožňující okolí nastavovat styl vykreslování (PARTICLE, TEMPERATURE).
+
+\paragraph{Enable/DisableBoard}
+Umožňuje toggle vykreslování čtvercové sítě mapy.
+
+\paragraph{AddFont}
+Funkce používaná při inicializaci programu. Vkládá do globálního seznamu fonty
+s danými klíčí (stringy).
+
+\subsubsection{GameState}
+\paragraph{SetupElement}
+Funkce nastavující aktuální zvolený element.
+
+\paragraph{SetCursorPosition}
+Nastavení aktuální polohy kurzoru na obrazovce a zároveň přepočet na pozici
+kurzoru v mapě. Aktualizováno každý update z \texttt{MainGame}.
+
+\paragraph{Increment/DecrementCursorSize}
+Dvě funkce ke zvětšování/zmenšování velikosti kurzoru o pevnou hodnotu.
+
+\paragraph{SetDescriptor}
+Funkce spolupracující s \texttt{UIManager}. Nastavuje toggle pro vypisování
+info textu popisující stav prostředí a položky pod kurzorem. 
+
 \section{Závěr}
 \paragraph{}
 Projekt byl vytvoření jako záverečná semestrální práce pro předmět

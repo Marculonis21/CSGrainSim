@@ -15,7 +15,7 @@ namespace GrainSim
         {
             PARTICLE,
             TEMPERATURE,
-            LIQUIDS,
+            /* LIQUIDS, */
         }
 
         public DRAWSTYLES drawStyle  {get; private set;} 

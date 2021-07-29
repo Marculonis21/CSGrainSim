@@ -88,7 +88,7 @@ namespace GrainSim
                 foreach(UIItem item in menuElements)
                     item.Draw(shapes);
 
-            if(menuElements != null)
+            if(activeElements != null)
                 foreach(UIItem item in activeElements)
                     item.Draw(shapes);
         }
