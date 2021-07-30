@@ -1,9 +1,11 @@
 \contentsline {section}{\numberline {I}O programu}{3}{section.1}%
 \contentsline {paragraph}{}{3}{paragraph*.1}%
+\contentsline {subsection}{\numberline {i}Zdroje}{3}{subsection.1.1}%
 \contentsline {section}{\numberline {II}Spuštění/Kompilace}{3}{section.2}%
 \contentsline {paragraph}{C\#}{3}{paragraph*.2}%
 \contentsline {paragraph}{Spuštění}{3}{paragraph*.3}%
 \contentsline {paragraph}{Kompilace}{3}{paragraph*.4}%
+\contentsline {subsection}{\numberline {i}Systémové požadavky - minimální}{3}{subsection.2.1}%
 \contentsline {section}{\numberline {III}Herní prostředí}{4}{section.3}%
 \contentsline {paragraph}{Spuštění}{4}{paragraph*.5}%
 \contentsline {paragraph}{Menu}{4}{paragraph*.6}%

@@ -101,7 +101,7 @@ daleko dříve, než se k nim vlastně dostane.}}
 
 \begin{center}
     \hspace*{-80px}
-    \includegraphics[width=1.4\linewidth]{GrainSim.jpg}
+    \includegraphics[width=1.4\linewidth]{GrainSim-graph.jpg}
 \end{center}
 
 \paragraph{Rozdělení}
@@ -116,7 +116,7 @@ uživatelských vstupů.
 Centrální třídou kde se inicializují všechny potřebné části je
 \texttt{MainGame}. Práce s prvky a teplotami probíhá ve speciálních mapách,
 tudíž na \texttt{MainGame} navazuje třída \texttt{GameMap}, která v sobě drží
-odkazy na mapu částic (\texttt{ParticleMap}) a mapu teplot
+odkazy na mapu částic \\(\texttt{ParticleMap}) a mapu teplot
 (\texttt{TemperatureMap}). Mapa částic pak v sobě má seznamy všech aktuálně
 simulovaných prvků. Každý takto simulovaný prvek je popsán pomocí vlastní
 instance třídy \texttt{Particle}. Jednou z hlavních vlastností této instance je
@@ -182,7 +182,7 @@ daném okamžiku tak, že po opětovném načtení se v simulačním prostředí
 \paragraph{Update}
 Všechna volání procedur vychází opět z hlavní třídy \texttt{MainGame}.
 Zde se nachází dvě procedure základem v Monogame frameworku \texttt{Update} a
-\texttt{Draw}. V \texttt{Update} se řeší uživatelské inputy (v
+\texttt{Draw}. \\V \texttt{Update} se řeší uživatelské inputy (v
 \texttt{UIManager.CheckClick}) a zároveň se odtud volají update procedury ve třídě
 \texttt{GameMap}, které se dále propagují do updatů tříd jednotlivých map a v
 mapě částic až do jednotlivých částic. V částicích se pak volají funkce třídy
@@ -204,7 +204,7 @@ velikosti kurzoru.
 
 \paragraph{Draw}
 Na druhou stranu \texttt{MainGame} vysílá se zvé \texttt{Draw} procedury volání
-na \texttt{Graphics.Render}, kde se vyhodnocuje, jaké vše vykreslovací metody v
+na \\\texttt{Graphics.Render}, kde se vyhodnocuje, jaké vše vykreslovací metody v
 \texttt{UIGraphics} a \texttt{BoardGraphics} zavolat. \texttt{UIGraphics} toto
 volání poté přesouvá na singleton \texttt{UIManager}, který drží všechna
 tlačítka potřebná k vykreslení a volá jejich vlastní \texttt{Draw} metody
@@ -405,7 +405,7 @@ kde je vzduch - částice se nepřepisují}) vloží na ně zvolený element/ods
 této pozice libovolný prvek (\emph{existuje toggle v podobě speciálního
 elementu, který povoluje/zakazuje odstranit stěny - ve hře ERASE=erase
 all/ERASEP=erase particle}). Zároveň \texttt{Spawn} funkce při přidávání volá
-\texttt{TemperatureMap.Set} pro nastavení dané polohy v mapě na startovní
+\\\texttt{TemperatureMap.Set} pro nastavení dané polohy v mapě na startovní
 teplotu částice.
 
 \paragraph{SpawnLater/DeleteLater}
@@ -467,7 +467,7 @@ všechny prvky v okolí.
 \texttt{UpdateReaction} také volá funkci \texttt{UpdateReaction} pro daný
 element a podobně jako u pozice čeká jestli se ID jeho materiálu změní nebo
 Dále zde platí, že pokud je jako výsledek reakce zvolen
-\texttt{ElementID.VOID}, prvek zaniká a pokud \texttt{ElementID.EXPLOSION}, tak
+\texttt{ElementID.VOID}, prvek zaniká a pokud \\\texttt{ElementID.EXPLOSION}, tak
 prvek prochází jinou sadu kroků vytvářející explozi v prostředí podle
 vlastností svého materiálu.
 
@@ -553,7 +553,7 @@ Funkce umožňující vykreslit čtvercovou síť, ve které všechny částice
 žijí.
 
 \paragraph{DrawParticles/DrawTemperature}
-Volání \texttt{Render} funkce třídy \texttt{ParticleMap}/\texttt{TemperatureMap}, umožňující
+Volání \texttt{Render} funkce třídy \\\texttt{ParticleMap}/\texttt{TemperatureMap}, umožňující
 vykreslování částic/teplot.
 
 \subsubsection{UIManager}
@@ -609,7 +609,7 @@ jeho text.
 
 \subsubsection{GraphicState}
 \paragraph{SetDrawStyle}
-Funkce umožňující okolí nastavovat styl vykreslování (PARTICLE, TEMPERATURE).
+Funkce umožňující okolí nastavovat styl vykreslování \\(PARTICLE, TEMPERATURE).
 
 \paragraph{Enable/DisableBoard}
 Umožňuje toggle vykreslování čtvercové sítě mapy.

@@ -13,22 +13,16 @@
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
-    % filecolor=magenta,
     urlcolor=cyan,
 }
 \urlstyle{same}
 
-\newcommand{\cmark}{\ding{51}}
-\newcommand{\xmark}{\ding{55}}
-
 \renewcommand{\contentsname}{Obsah}
-% \renewcommand{\thesection}{\Roman{section}.}
 \renewcommand{\thesection}{\Roman{section}}
 \renewcommand{\thesubsection}{\roman{subsection}}
 
 \titleformat{\section}
 {\Large\bfseries}
-% {\Roman{section}.}
 {\thesection}
 {0.5em}
 {}
@@ -74,6 +68,14 @@ Uživatel má pak k dispozici herní plochu, do která může vkládat libovoln�
 dostupných prvků a dále i upravovat teplotu prostředí. To celá v 2D interaktivním 
 znázornění herního prostředí.
 
+\subsection{Zdroje}
+V programu je využito fontu \textbf{Simpletown} ze stránky\\
+\url{https://www.1001fonts.com/simpletown-font.html}. 
+Font je zpřístupněn pod licencí: \emph{SIL Open Font License (OFL)}, otevřený
+pro osobní i komerční užití. \\\small{(\emph{Celé znění licence je přiložené ve
+složce Content/Fonts, ze které je font načítán.})}
+
+
 \section{Spuštění/Kompilace}
 \paragraph{C\#}
 Projekt je vytvořen v C\# .NET Core 3.1 s využitím frameworku Monogame verze 3.8.
@@ -91,6 +93,9 @@ Pro kompilování zdrojového kódu je potřeba mít nainstalované NuGet balí�
 Monogame. Kód využívá balíčky \\\textbf{Monogame.Framework.DesktopGL} a
 \\\textbf{Monogame.Content.Builder.Task} - obojí verze \textbf{3.8.0.1614}. 
 Kompilace provedena v IDE Visual Studio 2019 - C\# .NET Core 3.1.
+
+\subsection{Systémové požadavky - minimální}
+CPU: Intel i5 750 @ 2.67Ghz\\RAM: 1GB 
 
 \newpage
 \section{Herní prostředí}
@@ -127,7 +132,7 @@ kurzoru znázorněna vykresleným ukazatelem. Velikost kurzoru může uživatel 
 buď kolečkem myši, nebo šipkami \\(šipka nahoru - zvětší kurzor,
 šipka dolů - zmenší). Dále může uživatel přepínat mezi dvěma režimi vykreslování (zobrazení
 částic/zobrazení teplot). \\To je možno provést přes tlačítka hlavního menu nebo
-přes klávesy \\F1 (= částice) a F2 (= teploty).
+přes klávesy \\\textbf{F1} (= částice) a \textbf{F2} (= teploty).
 
 \paragraph{}
 V herním prostředí (oblast nad menu) je pak vždy levé tlačítko myši přidávání
@@ -143,9 +148,11 @@ ukončení}.
 herního prostředí a to přes tlačítka hlavní sekci menu. Po stisknutí tlačítka
 \textbf{Save Project}/\textbf{Load Project} se otevře prohlížeč souborů, kde
 může uživatel vybrat umístění a jméno kam svoji simulaci uložit/odkud ji
-nahrát. \\
+nahrát. Dále pro ukládání a načítání lze použít klávesových\\ zkratek
+\textbf{Ctrl-S}/\textbf{Ctrl-O}.\\
+
 Soubory (\emph{*.grain}) jsou ukládány jako kolekce dat ze simulačního prostředí převedena do
-binární podoby. Proces ukládání je díky tomu bezztrátový. Po načtení se tedy
+binární podoby. Proces ukládání je díky tomu bezztrátový. \\Po načtení se tedy
 prostředí uvede do podoby totožné s momentem, kdy bylo dříve uloženo.
 
 \paragraph{!}
