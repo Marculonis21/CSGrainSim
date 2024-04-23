@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "PklgwdIdnOG11ZKhcs3wkfsJs67FbFAFdZKq6pxIV5rDXJWqPuTXbFg5K8ViCcBikvBgKwsdFpGU2DTmuI4knA==",
+  "dgSpecHash": "LjGhH3QKbDra1Ro8dRM7fLwBE4NH/FQ0lx5j7VLRQjekAPt+Bn59GI72t8QZtGpVebZgICMUb1VIfxw2nnjhTw==",
   "success": true,
   "projectFilePath": "/home/marculonis/Desktop/Projects/Csharp/CSGrainSim/grainSim/GrainSim/GrainSim.csproj",
   "expectedPackageFiles": [
     "/home/marculonis/.nuget/packages/monogame.content.builder.task/3.8.0.1641/monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
-    "/home/marculonis/.nuget/packages/monogame.framework.desktopgl/3.8.0.1641/monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
+    "/home/marculonis/.nuget/packages/monogame.framework.desktopgl/3.8.0.1641/monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512",
+    "/home/marculonis/.nuget/packages/microsoft.netcore.app.runtime.linux-x64/3.1.32/microsoft.netcore.app.runtime.linux-x64.3.1.32.nupkg.sha512",
+    "/home/marculonis/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-x64/3.1.32/microsoft.aspnetcore.app.runtime.linux-x64.3.1.32.nupkg.sha512"
   ],
   "logs": []
 }

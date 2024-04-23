@@ -203,3 +203,4 @@
 /home/marculonis/Desktop/Projects/Csharp/CSGrainSim/grainSim/GrainSim/obj/Debug/netcoreapp3.1/linux-x64/GrainSim.dll
 /home/marculonis/Desktop/Projects/Csharp/CSGrainSim/grainSim/GrainSim/obj/Debug/netcoreapp3.1/linux-x64/GrainSim.pdb
 /home/marculonis/Desktop/Projects/Csharp/CSGrainSim/grainSim/GrainSim/obj/Debug/netcoreapp3.1/linux-x64/GrainSim.genruntimeconfig.cache
+/home/marculonis/Desktop/Projects/Csharp/CSGrainSim/grainSim/GrainSim/obj/Debug/netcoreapp3.1/linux-x64/GrainSim.GeneratedMSBuildEditorConfig.editorconfig
