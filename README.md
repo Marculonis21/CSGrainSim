@@ -4,8 +4,8 @@
 
 ### 2021 summer semestral project - Programming 2 - MFF UK - C#
 
-![alt text](https://github.com/Marculonis21/CSGrainSim/blob/main/img1.png?raw=true)
+Always loved grain sims so this was a must 
 
-
-
-![alt text](https://github.com/Marculonis21/CSGrainSim/blob/main/img2.png?raw=true)
+![alt text](./imgs/img3.png)
+![alt text](./imgs/img1.png)
+![alt text](./imgs/img2.png)
